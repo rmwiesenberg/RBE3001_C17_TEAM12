@@ -20,6 +20,7 @@ Linker script and memory map
 Address of section .data set to 0x800100
 LOAD /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega644p.o
 LOAD ./USART.o
+LOAD ./readPot.o
 START GROUP
 LOAD /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a
 LOAD /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/libm.a
@@ -202,6 +203,7 @@ END GROUP
                 0x0000000000000090                __vector_18
                 0x0000000000000090                __vector_20
  .text          0x0000000000000094        0x0 ./USART.o
+ .text          0x0000000000000094        0x0 ./readPot.o
  .text          0x0000000000000094        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
                 0x0000000000000094                . = ALIGN (0x2)
  *(.text.*)
@@ -259,6 +261,7 @@ END GROUP
  *(.data)
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega644p.o
  .data          0x0000000000800100        0x0 ./USART.o
+ .data          0x0000000000800100        0x0 ./readPot.o
  .data          0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  *(.data*)
  *(.rodata)
@@ -273,6 +276,7 @@ END GROUP
  *(.bss)
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr5/crtatmega644p.o
  .bss           0x0000000000800100        0x0 ./USART.o
+ .bss           0x0000000000800100        0x0 ./readPot.o
  .bss           0x0000000000800100        0x0 /usr/lib/gcc/avr/4.9.2/avr5/libgcc.a(_exit.o)
  *(.bss*)
  *(COMMON)
@@ -328,6 +332,7 @@ END GROUP
  *(.comment)
  .comment       0x0000000000000000       0x11 ./USART.o
                                          0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 ./readPot.o
 
 .note.gnu.avr.deviceinfo
                 0x0000000000000000       0x40
