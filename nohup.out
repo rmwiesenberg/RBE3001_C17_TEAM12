@@ -1,2 +1,0 @@
-Gtk-Message: GtkDialog mapped without a transient parent. This is discouraged.
-/root/.p2/pool/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.401.v20161122-1740: cannot open shared object file: Permission denied
