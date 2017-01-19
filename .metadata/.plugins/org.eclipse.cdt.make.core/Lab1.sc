@@ -437,7 +437,10 @@
 <definedSymbol symbol="__ELF__=1"/>
 <definedSymbol symbol="__AVR_ATmega16__=1"/>
 <definedSymbol symbol="__AVR_DEVICE_NAME__=atmega16"/>
+<definedSymbol symbol="__AVR_DEVICE_NAME__=atmega644p"/>
 <definedSymbol symbol="F_CPU=1000000UL"/>
+<definedSymbol symbol="F_CPU=18432000UL"/>
+<definedSymbol symbol="__AVR_ATmega644P__=1"/>
 </collector>
 </instance>
 </scannerInfo>

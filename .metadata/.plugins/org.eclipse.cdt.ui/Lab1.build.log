@@ -16,3 +16,6 @@ avr-gcc -Wl,-Map,Lab1.map -mmcu=atmega644p -o "Lab1.elf"  ./USART.o
 makefile:50: recipe for target 'Lab1.elf' failed
 collect2: error: ld returned 1 exit status
 make: *** [Lab1.elf] Error 1
+
+11:09:37 Build Finished (took 68ms)
+
