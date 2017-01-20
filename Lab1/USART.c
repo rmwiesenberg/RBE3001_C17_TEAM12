@@ -20,6 +20,18 @@
  */
 void debugUSARTInit(unsigned long baudrate) {
 
+	//check whether incoming baudrate is a valid baudrate
+	switch (baudrate) {
+	case 2400:   case 4800:    case 9600:   case 14400:
+	case 19200:  case 28800:   case 38400:  case 57600:
+	case 76800:	 case 115200:  case 230400: case 250000:
+	case 500000: case 1000000: break;
+
+	default:
+		baudrate = DEFAULT_BAUD;
+		break;
+	}
+
 	/*Set baud rate */
 	UBRR0H = (unsigned char) (baudrate >> 8);
 	UBRR0L = (unsigned char) baudrate;
