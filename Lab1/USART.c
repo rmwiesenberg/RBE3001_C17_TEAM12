@@ -6,7 +6,7 @@
  */
 
 
-#include "RBELib/RBELib.h"
+#include "../RBELib/RBELib.h"
 #include <avr/io.h>
 
 void debugUSARTInit(unsigned long baudrate) {
