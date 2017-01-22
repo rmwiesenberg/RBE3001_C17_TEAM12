@@ -1,0 +1,3 @@
+[submodule "RBELib"]
+	path = RBELib
+	url = https://github.com/WPIRoboticsEngineering/rbelib
