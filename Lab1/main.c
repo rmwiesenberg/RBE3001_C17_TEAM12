@@ -1,27 +1,27 @@
 #include "RBELib.h"
 #include <stdlib.h>
 
-#define LED_PORT
-#define LED_DIR
-#define LED_NUMPINS
 
-#define BUTTON_PORT
-#define BUTTON_DIR
-#define BUTTON_NUMPINS
+//character for receiving serial data
+int lowADC = 0;
+int highADC=1023;
 
-int main(void){
 
-  //set pins (LED out and Button in)
-  setPinsDir(LED_PORT, LED_DIR, LED_NUMPINS);
-  setPinsDir(BUTTON_PORT, BUTTON_DIR, BUTTON_NUMPINS);
+int main(void)
+{
+	  //Enable printf() and setServo()
+	  initRBELib();
+	  DDRB = 0xFF; //Set Port as output
 
-  while(1){
-    if(getPinsVal(BUTTON_PORT, BUTTON_NUMPINS)){
-      setPinsVal(LED_PORT, 1, LED_NUMPINS);
-    }  else {
-      setPinsVal(LED_PORT, 0, LED_NUMPINS);
-    }
-  }
+	  debugUSARTInit(115200);
 
-  return 0;
+	  	  while(1)
+	  	  {
+
+	  		PORTB = 0xFF; //Turn port on
+	  		_delay_ms(500); //Delay .5 sec
+	  		PORTB = 0x00; //Turn port off
+	  		_delay_ms(500); //Delay .5 sec
+
+	  	  }
 }
