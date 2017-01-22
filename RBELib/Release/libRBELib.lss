@@ -1,0 +1,163 @@
+In archive libRBELib.a:
+
+SetServo.o:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00000000  00000000  00000034  2**0
+                  ALLOC
+  3 .text.initAltCom 00000038  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  4 .text.setCharDebug 0000000e  00000000  00000000  0000006c  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  5 .text.coPrintf 00000018  00000000  00000000  0000007a  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  6 .rodata.str1.1 00000014  00000000  00000000  00000092  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .text.setServo 0000005c  00000000  00000000  000000a6  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  8 .comment      00000012  00000000  00000000  00000102  2**0
+                  CONTENTS, READONLY
+
+Disassembly of section .text.initAltCom:
+
+00000000 <initAltCom>:
+   0:	9b 01       	movw	r18, r22
+   2:	ac 01       	movw	r20, r24
+   4:	84 e0       	ldi	r24, 0x04	; 4
+   6:	22 0f       	add	r18, r18
+   8:	33 1f       	adc	r19, r19
+   a:	44 1f       	adc	r20, r20
+   c:	55 1f       	adc	r21, r21
+   e:	8a 95       	dec	r24
+  10:	01 f4       	brne	.+0      	; 0x12 <initAltCom+0x12>
+  12:	60 e0       	ldi	r22, 0x00	; 0
+  14:	70 e4       	ldi	r23, 0x40	; 64
+  16:	89 e1       	ldi	r24, 0x19	; 25
+  18:	91 e0       	ldi	r25, 0x01	; 1
+  1a:	0e 94 00 00 	call	0	; 0x0 <initAltCom>
+  1e:	21 50       	subi	r18, 0x01	; 1
+  20:	31 09       	sbc	r19, r1
+  22:	30 93 c5 00 	sts	0x00C5, r19
+  26:	20 93 c4 00 	sts	0x00C4, r18
+  2a:	88 e1       	ldi	r24, 0x18	; 24
+  2c:	80 93 c1 00 	sts	0x00C1, r24
+  30:	86 e0       	ldi	r24, 0x06	; 6
+  32:	80 93 c2 00 	sts	0x00C2, r24
+  36:	08 95       	ret
+
+Disassembly of section .text.setCharDebug:
+
+00000038 <setCharDebug>:
+  38:	90 91 c0 00 	lds	r25, 0x00C0
+  3c:	95 ff       	sbrs	r25, 5
+  3e:	00 c0       	rjmp	.+0      	; 0x40 <setCharDebug+0x8>
+  40:	80 93 c6 00 	sts	0x00C6, r24
+  44:	08 95       	ret
+
+Disassembly of section .text.coPrintf:
+
+0000007e <coPrintf>:
+  7e:	cf 93       	push	r28
+  80:	df 93       	push	r29
+  82:	ec 01       	movw	r28, r24
+  84:	89 91       	ld	r24, Y+
+  86:	88 23       	and	r24, r24
+  88:	01 f0       	breq	.+0      	; 0x8a <coPrintf+0xc>
+  8a:	0e 94 00 00 	call	0	; 0x0 <__tmp_reg__>
+  8e:	00 c0       	rjmp	.+0      	; 0x90 <coPrintf+0x12>
+  90:	df 91       	pop	r29
+  92:	cf 91       	pop	r28
+  94:	08 95       	ret
+
+Disassembly of section .text.setServo:
+
+0000023c <setServo>:
+ 23c:	0f 93       	push	r16
+ 23e:	1f 93       	push	r17
+ 240:	cf 93       	push	r28
+ 242:	df 93       	push	r29
+ 244:	cd b7       	in	r28, 0x3d	; 61
+ 246:	de b7       	in	r29, 0x3e	; 62
+ 248:	64 97       	sbiw	r28, 0x14	; 20
+ 24a:	0f b6       	in	r0, 0x3f	; 63
+ 24c:	f8 94       	cli
+ 24e:	de bf       	out	0x3e, r29	; 62
+ 250:	0f be       	out	0x3f, r0	; 63
+ 252:	cd bf       	out	0x3d, r28	; 61
+ 254:	7f 93       	push	r23
+ 256:	6f 93       	push	r22
+ 258:	9f 93       	push	r25
+ 25a:	8f 93       	push	r24
+ 25c:	80 e0       	ldi	r24, 0x00	; 0
+ 25e:	90 e0       	ldi	r25, 0x00	; 0
+ 260:	9f 93       	push	r25
+ 262:	8f 93       	push	r24
+ 264:	8e 01       	movw	r16, r28
+ 266:	0f 5f       	subi	r16, 0xFF	; 255
+ 268:	1f 4f       	sbci	r17, 0xFF	; 255
+ 26a:	1f 93       	push	r17
+ 26c:	0f 93       	push	r16
+ 26e:	0e 94 00 00 	call	0	; 0x0 <__tmp_reg__>
+ 272:	c8 01       	movw	r24, r16
+ 274:	0e 94 00 00 	call	0	; 0x0 <__tmp_reg__>
+ 278:	0f b6       	in	r0, 0x3f	; 63
+ 27a:	f8 94       	cli
+ 27c:	de bf       	out	0x3e, r29	; 62
+ 27e:	0f be       	out	0x3f, r0	; 63
+ 280:	cd bf       	out	0x3d, r28	; 61
+ 282:	64 96       	adiw	r28, 0x14	; 20
+ 284:	0f b6       	in	r0, 0x3f	; 63
+ 286:	f8 94       	cli
+ 288:	de bf       	out	0x3e, r29	; 62
+ 28a:	0f be       	out	0x3f, r0	; 63
+ 28c:	cd bf       	out	0x3d, r28	; 61
+ 28e:	df 91       	pop	r29
+ 290:	cf 91       	pop	r28
+ 292:	1f 91       	pop	r17
+ 294:	0f 91       	pop	r16
+ 296:	08 95       	ret
+
+Debug.o:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00000000  00000000  00000034  2**0
+                  ALLOC
+  3 .text.printfRBE 0000000a  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  4 .text.initRBELib 00000018  00000000  00000000  0000003e  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  5 .data.RBEOut  0000000e  00000000  00000000  00000056  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, DATA
+  6 .comment      00000012  00000000  00000000  00000064  2**0
+                  CONTENTS, READONLY
+
+Disassembly of section .text.printfRBE:
+
+00000000 <printfRBE>:
+   0:	0e 94 00 00 	call	0	; 0x0 <printfRBE>
+   4:	80 e0       	ldi	r24, 0x00	; 0
+   6:	90 e0       	ldi	r25, 0x00	; 0
+   8:	08 95       	ret
+
+Disassembly of section .text.initRBELib:
+
+0000000a <initRBELib>:
+   a:	80 e0       	ldi	r24, 0x00	; 0
+   c:	90 e0       	ldi	r25, 0x00	; 0
+   e:	90 93 00 00 	sts	0x0000, r25
+  12:	80 93 00 00 	sts	0x0000, r24
+  16:	60 e0       	ldi	r22, 0x00	; 0
+  18:	72 ec       	ldi	r23, 0xC2	; 194
+  1a:	81 e0       	ldi	r24, 0x01	; 1
+  1c:	90 e0       	ldi	r25, 0x00	; 0
+  1e:	0c 94 00 00 	jmp	0	; 0x0 <__tmp_reg__>

@@ -1,0 +1,20 @@
+11:15:56 **** Incremental Build of configuration Release for project Lab1 ****
+make all 
+Building file: ../main.c
+Invoking: AVR Compiler
+avr-gcc -I"/home/ryan/RBE3001_C17_TEAM12/RBELib" -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega644p -DF_CPU=18432000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+../main.c: In function ‘main’:
+../main.c:15:22: error: expected expression before ‘,’ token
+   setPinsDir(LED_PORT, LED_DIR, LED_NUMPINS);
+                      ^
+../main.c:16:25: error: expected expression before ‘,’ token
+subdir.mk:21: recipe for target 'main.o' failed
+   setPinsDir(BUTTON_PORT, BUTTON_DIR, BUTTON_NUMPINS);
+                         ^
+../main.c:19:30: error: expected expression before ‘,’ token
+     if(getPinsVal(BUTTON_PORT, BUTTON_NUMPINS)){
+                              ^
+../main.c:22:26: error: expected expression before ‘,’ token
+       setPinsVal(LED_PORT, 0, LED_NUMPINS);
+                          ^
+make: *** [main.o] Error 1
