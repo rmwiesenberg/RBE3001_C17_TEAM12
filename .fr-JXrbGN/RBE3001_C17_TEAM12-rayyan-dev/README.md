@@ -1,2 +1,0 @@
-# RBE3001_C17_TEAM12
-Lab Repo for RBE3001 Team 12
