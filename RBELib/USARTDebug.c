@@ -1,32 +1,48 @@
-#include "../RBELib/RBELib.h"
-#include <avr/io.h>
+/*
+ * USART.c
+ *
+ *  Created on: Jan 21, 2017
+ *      Author: Rayyan Khan, Ben Titus, Ryan Wiesenberg
+ */
+
+
+#include "RBELib/RBELib.h"
+
+#define F_OSC 18432000
+#define CLEAR 0x00
 
 void debugUSARTInit(unsigned long baudrate) {
-	/*Set baud rate */
-	 UBRR0H = (unsigned char)((18432000/(16 * (baudrate))-1)>>8);
-	 UBRR0L = (unsigned char)((18432000/(16 * (baudrate))-1));
+	// baudrate calc on Datasheet pg. 174
+	int ubrr_val = (int) (-1 + (F_OSC/(16 * baudrate)));
 
-	 UCSR0B = (1<<RXEN0)|(1<<TXEN0);
-	 /* Set frame format: 8data, 2stop bit */
-	 UCSR0C = (1<<USBS0)|(3<<UCSZ00);
+	unsigned char hi = (ubrr_val >> 8) & 0x0F; 	// x x x x | b11 b10 b9 b8
+	unsigned char lo = ubrr_val & 0xFF;	// b7 b6 b5 b4 | b3 b2 b1 b0
 
+	// set baud rate registers
+	UBRR1H = hi;
+	UBRR1L = lo;
+
+	// set receive and transmit functionality
+	UCSR1B = (1 << RXEN1) | (1 << TXEN1);
+
+	// set frame size (8-bit data, 1 stop bit)
+	UCSR1C = (1 << UCSZ11) | (1 << UCSZ10);
 }
 
-void putCharDebug(char byteToSend){
-	/* Wait for empty transmit buffer */
-	 while ( !( UCSR0A & (1<<UDRE0)) )
-	 ;
-	 /* Put data into buffer, sends the data */
-	 UDR0 = byteToSend;
 
+void putCharDebug(char byteToSend) {
+	// polling for empty
+	while(!(UCSR1A & (1 << UDRE1)));
 
+	// write byte into buffer
+	UDR1 = byteToSend;
 }
+
 
 unsigned char getCharDebug(void) {
-	/* Wait for data to be received */
-	 while ( !(UCSR0A & (1<<RXC0)) )
-	 ;
-	 /* Get and return received data from buffer */
-	 return UDR0;
+	// polling for buffer
+	while(!(UCSR1A & (1 << RXC1)));
 
+	// read byte from buffer
+	return UDR1;
 }
