@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/home/ryan/RBE3001_C17_TEAM12/RBELib"/>
+		<item value="/home/ryan/RBE3001_C17_TEAM12/RBELib/A16_Example"/>
+		<item value="/home/ryan/RBE3001_C17_TEAM12/RBELib/A16_Example/SRC"/>
 		<item value="/home/ryan/RBE3001_C17_TEAM12"/>
 	</list>
 	<section name="ExternalProjectImportWizard">
@@ -14,5 +17,7 @@
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
 		</list>
+	</section>
+	<section name="NewWizardAction">
 	</section>
 </section>
