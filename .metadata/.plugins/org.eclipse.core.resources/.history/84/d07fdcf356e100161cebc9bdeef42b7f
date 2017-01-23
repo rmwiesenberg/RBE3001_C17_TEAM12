@@ -43,7 +43,7 @@
  * @todo Create a function that initializes the desired timer in a given mode and set the compare value
  * (as appropriate).
  */
-void initTimer(unsigned char timer, int mode, unsigned char comp);
+void initTimer(unsigned char timer, int mode, unsigned int comp);
 
 /**
  * @brief Only used when the specified timer is in CTC mode. Changes
@@ -54,6 +54,6 @@ void initTimer(unsigned char timer, int mode, unsigned char comp);
  *
  * @todo Create a function that will set a new compare value for the given timer.
  */
-void setCompValue(unsigned char timer, unsigned char comp);
+void setCompValue(unsigned char timer, unsigned short int comp);
 
 #endif /* TIMER_H_ */
