@@ -19,7 +19,7 @@
 /**
  * @brief Timer Clear Timer on Compare (CTC) mode.
  */
-#define CTC	1
+#define CTC	2
 
 #define PRESCALE1		0b001
 #define PRESCALE8 		0b010
