@@ -21,14 +21,6 @@
  */
 #define CTC	2
 
-#define PRESCALE1		0b001
-#define PRESCALE8 		0b010
-#define PRESCALE64 		0b011
-#define PRESCALE256 	0b100
-#define PRESCALE1024	0b101
-
-#define fclk_IO 8000000;
-
 /**
  * @brief Initializes the specified timer in the specified mode. This
  * header file provides constants for NORMAL operation mode and
