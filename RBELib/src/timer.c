@@ -13,17 +13,27 @@ void initTimer(unsigned char timer, int mode, unsigned char comp){
 	cli(); // disable interrupts until setup is finished
 	switch(timer){
 	case 0:
-		TCCR0A = mode << COM0A1 | mode << WGM00;
+		TCCR0A = mode << COM0A0 | mode << WGM00;
 		TCCR0B = prescale << CS00;
-		TIMSK0 |= OCIE0A << 1;
+		TIMSK0 |= 1 << OCIE0A;
 		OCR0A = comp;
+
+		if(mode == 1) {
+			TCCR0A |= 1 << COM0B1;
+			TCCR0B |= 1 << WGM02;
+			DDRB |= 1 << DDRB4;
+		}
 		break;
 	case 1:
-		PORTC ^= 0x02;
-		TCCR1A = mode << COM1A0;
+		TCCR1A = mode << COM1A0 | mode << WGM10;
 		TCCR1B = prescale << CS10 | 1 << WGM12;
-		TIMSK1 |= 1 << OCIE0A;
+		TIMSK1 |= 1 << OCIE1A;
 		OCR1AL = comp;
+
+		if(mode == 1){
+			TCCR1A |= 1;
+			DDRD |= 1 << DDRD4;
+		}
 		break;
 	case 2:
 		TCCR2A = COM2A0 << mode | WGM20 << mode;
@@ -51,5 +61,3 @@ void setCompValue(unsigned char timer, unsigned char comp){
 		break;
 	}
 }
-
-
