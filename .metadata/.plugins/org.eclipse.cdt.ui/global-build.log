@@ -1,20 +1,46 @@
-11:15:56 **** Incremental Build of configuration Release for project Lab1 ****
+18:47:10 **** Incremental Build of configuration Debug for project Lab1 ****
 make all 
+Building file: ../USART.c
+Invoking: AVR Compiler
+avr-gcc -I"/home/ryan/RBE3001_C17_TEAM12/RBELib/include" -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega644pa -DF_CPU=18432000UL -MMD -MP -MF"USART.d" -MT"USART.o" -c -o "USART.o" "../USART.c"
+In file included from /home/ryan/RBE3001_C17_TEAM12/RBELib/include/RBELib/RBELib.h:21:0,
+                 from ../USART.c:8:
+/usr/lib/avr/include/util/delay.h:95:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed" [-Wcpp]
+ # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+   ^
+Finished building: ../USART.c
+ 
 Building file: ../main.c
 Invoking: AVR Compiler
-avr-gcc -I"/home/ryan/RBE3001_C17_TEAM12/RBELib" -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega644p -DF_CPU=18432000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
-../main.c: In function ‘main’:
-../main.c:15:22: error: expected expression before ‘,’ token
-   setPinsDir(LED_PORT, LED_DIR, LED_NUMPINS);
-                      ^
-../main.c:16:25: error: expected expression before ‘,’ token
-subdir.mk:21: recipe for target 'main.o' failed
-   setPinsDir(BUTTON_PORT, BUTTON_DIR, BUTTON_NUMPINS);
-                         ^
-../main.c:19:30: error: expected expression before ‘,’ token
-     if(getPinsVal(BUTTON_PORT, BUTTON_NUMPINS)){
-                              ^
-../main.c:22:26: error: expected expression before ‘,’ token
-       setPinsVal(LED_PORT, 0, LED_NUMPINS);
-                          ^
-make: *** [main.o] Error 1
+avr-gcc -I"/home/ryan/RBE3001_C17_TEAM12/RBELib/include" -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega644pa -DF_CPU=18432000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+In file included from /home/ryan/RBE3001_C17_TEAM12/RBELib/include/RBELib/RBELib.h:21:0,
+                 from ../main.c:1:
+/usr/lib/avr/include/util/delay.h:95:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed" [-Wcpp]
+ # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+   ^
+Finished building: ../main.c
+ 
+Building target: Lab1.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Lab1.map -Wl,-u,vfprintf -lprintf_flt -lm -L"/home/ryan/RBE3001_C17_TEAM12/RBELib/Release" -mmcu=atmega644pa -o "Lab1.elf"  ./USART.o ./main.o   -lRBELib -lm
+Finished building target: Lab1.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Lab1.elf  >"Lab1.lss"
+Finished building: Lab1.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega644pa Lab1.elf
+AVR Memory Usage
+----------------
+Device: atmega644pa
+
+Program:    4922 bytes (7.5% Full)
+(.text + .data + .bootloader)
+
+Data:         44 bytes (1.1% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 

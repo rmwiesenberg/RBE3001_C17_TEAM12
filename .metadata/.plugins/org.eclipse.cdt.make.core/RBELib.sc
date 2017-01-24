@@ -4,6 +4,7 @@
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
 <includePath path="/usr/lib/gcc/avr/4.9.2/include"/>
 <includePath path="/usr/lib/gcc/avr/4.9.2/include-fixed"/>
+<includePath path="/usr/lib/gcc/avr/4.9.2/../../../avr/include"/>
 <definedSymbol symbol="__STDC__=1"/>
 <definedSymbol symbol="__STDC_HOSTED__=1"/>
 <definedSymbol symbol="__GNUC__=4"/>

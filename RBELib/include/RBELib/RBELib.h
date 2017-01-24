@@ -19,12 +19,11 @@
 
 //AVR + standard headers
 #include <util/delay.h>
-#include <avr/io.h>
 #include <avr/interrupt.h>
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <avr/iom644p.h>
+#include <avr/io.h>
 //Macros for I/O
 #define OUTPUT	1
 #define INPUT	  0
