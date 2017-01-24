@@ -5,9 +5,12 @@
 #include <avr/interrupt.h>
 
 #define POT_CHANNEL 4
+#define FREQ1	1
+#define FREQ2	20
+#define FREQ3	100
 
 unsigned char mode, tog;
-int maxCount;
+int count0;
 
 void potRead() {
 
@@ -95,15 +98,36 @@ void outputWave() {
 	}
 }
 
-ISR(TIMER1_COMPA_vect) {
-	tog = 1;
+void part2(){
+	initTimer(0, CTC, 1);
+	int freq = FREQ1;
+	int curclk = fclk_IO/prescale;
+	int state = 1;
+
+	setPinsDir('A',1,0,1,2,3,4,5,6,7);
+	setPinsDir('B',0,0,1,2,3,4,5,6,7);
+
+	while(1){
+		int countTo = curclk/freq;
+		if (count0 >= countTo){
+			state =! state;
+			setPinsVal('A',state,0,1,2,3,4,5,6,7)
+			count0 = 0;
+		}
+	}
+}
+
+ISR(TIMER0_COMPA_vect) {
+	count0++;
 }
 
 
 int main(void) {
 	initRBELib();
 	debugUSARTInit(115200);
-	potRead();
+//	potRead();
+	part2();
+
 
 	return 0;
 }
