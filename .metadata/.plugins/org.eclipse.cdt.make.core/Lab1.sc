@@ -4,6 +4,7 @@
 <collector id="org.eclipse.cdt.make.core.PerProjectSICollector">
 <includePath path="/usr/lib/gcc/avr/4.9.2/include"/>
 <includePath path="/usr/lib/gcc/avr/4.9.2/include-fixed"/>
+<includePath path="/usr/lib/gcc/avr/4.9.2/../../../avr/include"/>
 <definedSymbol symbol="__STDC__=1"/>
 <definedSymbol symbol="__STDC_HOSTED__=1"/>
 <definedSymbol symbol="__GNUC__=4"/>
@@ -436,7 +437,10 @@
 <definedSymbol symbol="__ELF__=1"/>
 <definedSymbol symbol="__AVR_ATmega16__=1"/>
 <definedSymbol symbol="__AVR_DEVICE_NAME__=atmega16"/>
+<definedSymbol symbol="__AVR_DEVICE_NAME__=atmega644pa"/>
 <definedSymbol symbol="F_CPU=1000000UL"/>
+<definedSymbol symbol="F_CPU=18432000UL"/>
+<definedSymbol symbol="__AVR_ATmega644PA__=1"/>
 </collector>
 </instance>
 <instance id="de.innot.avreclipse.configuration.app.release.1668209106;de.innot.avreclipse.configuration.app.release.1668209106.;de.innot.avreclipse.tool.compiler.winavr.app.release.190524408;de.innot.avreclipse.compiler.winavr.input.1918037689">
