@@ -13,7 +13,7 @@ void initADC(int channel) {
 	cli();
 	DDRA &= ~(1 << channel);
 	ADMUX = (1 << REFS0);
-	ADCSRA |= (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0) ;
+	ADCSRA |= (1 << ADEN) | (1 << ADIE) | 7;
 	sei();
 }
 
