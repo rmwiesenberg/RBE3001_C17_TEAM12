@@ -91,27 +91,27 @@ void setPinsVal(char port, int val, int numPins, ...) {
 	switch (port) {
 		case 'A':
 			if (val)
-				PINA &= ~pins;
+				PORTA &= ~pins;
 			else
-				PINA |= pins;
+				PORTA |= pins;
 			break;
 		case 'B':
 			if (val)
-				PINB &= ~pins;
+				PORTB &= ~pins;
 			else
-				PINB |= pins;
+				PORTB |= pins;
 			break;
 		case 'C':
 			if (val)
-				PINC &= ~pins;
+				PORTC &= ~pins;
 			else
-				PINC |= pins;
+				PORTC |= pins;
 			break;
 		case 'D':
 			if (val)
-				PIND &= ~pins;
+				PORTD &= ~pins;
 			else
-				PIND |= pins;
+				PORTD |= pins;
 			break;
 		}
 }
