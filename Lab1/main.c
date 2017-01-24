@@ -37,67 +37,6 @@ void potRead() {
 	}
 }
 
-void initTimerFreq() {
-//	DDRB &= 0x00;
-	DDRC |= 0x02;
-	PORTC &= 0xFD;
-
-	//initialize timer to 1Hz
-	initTimer(1, 0, 0x50);
-}
-
-void outputWave() {
-	//set timer to count up to one of three values according to pushbuttons
-	//pushbuttons on sw7, sw6, sw5
-	unsigned char pinB = PINB;
-	switch (pinB) {
-	case 0x80:
-		if (mode != 1) {
-			maxCount = 18000;
-			setCompValue(1, maxCount);
-			OCR1AH = 0x46;
-			mode = 1;
-		}
-		break;
-
-	case 0x40:
-		if (mode != 2) {
-			maxCount = 900;
-			setCompValue(1, maxCount);
-			mode = 2;
-		}
-		break;
-
-	case 0x20:
-		if (mode != 3) {
-			maxCount = 180;
-			setCompValue(1, maxCount);
-			mode = 3;
-		}
-		break;
-
-	default:
-
-		break;
-	}
-
-	//set the output high when timer1 resets
-	if (tog) {
-		tog = 0;
-		PORTC |= 0x01;
-	}
-
-	//read potentiometer and timer values
-	unsigned short potVal = getADC(POT_CHANNEL);
-	unsigned short timerVal = TCNT1L;
-	timerVal = TCNT1H << 8;
-
-	//set pwm according to potentiometer
-	if (timerVal > (maxCount>>1)) {
-		PORTD &= 0xFE;
-	}
-}
-
 void part2(){
 	initTimer(0, CTC, 1);
 	int freq = FREQ1;
@@ -111,7 +50,7 @@ void part2(){
 		int countTo = curclk/freq;
 		if (count0 >= countTo){
 			state =! state;
-			setPinsVal('A',state,0,1,2,3,4,5,6,7)
+			setPinsVal('A',state,0,1,2,3,4,5,6,7);
 			count0 = 0;
 		}
 	}
