@@ -7,28 +7,32 @@
 
 #include <RBELib/RBELib.h>
 
-static const int prescale = PRESCALE1024;
+static const int prescale = PRESCALE1;
 
 void initTimer(unsigned char timer, int mode, unsigned char comp){
 	cli(); // disable interrupts until setup is finished
 	switch(timer){
 	case 0:
-		TCCR0A = mode << COM0A0 | mode << WGM00;
-		TCCR0B = prescale << CS00;
+		TCCR0A = COM0A0 << mode | WGM00 << mode;
+		TCCR0B = CS00 << prescale;
 		OCR0A = comp;
-		TIMSK0 |= 1 << OCIE0A;
+		TIMSK0 |= OCIE0A << 1;
 		break;
 	case 1:
+		PORTC ^= 0x02;
 		TCCR1A = mode << COM1A0;
 		TCCR1B = prescale << CS10 | 1 << WGM12;
-		OCR1A = comp;
+		OCR1AL = comp;
 		TIMSK1 |= 1 << OCIE0A;
 		break;
 	case 2:
-		TCCR2A = mode << COM2A0 | mode << WGM20;
-		TCCR2B = prescale << CS20;
+		TCCR2A = COM2A0 << mode | WGM20 << mode;
+		TCCR2B = CS20 << prescale;
 		OCR2A = comp;
-		TIMSK2 |= 1 OCIE2A;
+		TIMSK2 |= OCIE2A << 1;
+		break;
+
+	default:
 		break;
 	}
 	sei();

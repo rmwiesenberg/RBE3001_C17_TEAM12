@@ -4,13 +4,22 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/Debug.c 
+../src/ADC.c \
+../src/Debug.c \
+../src/USARTDebug.c \
+../src/timer.c 
 
 OBJS += \
-./src/Debug.o 
+./src/ADC.o \
+./src/Debug.o \
+./src/USARTDebug.o \
+./src/timer.o 
 
 C_DEPS += \
-./src/Debug.d 
+./src/ADC.d \
+./src/Debug.d \
+./src/USARTDebug.d \
+./src/timer.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

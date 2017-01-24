@@ -43,7 +43,7 @@ all: Lab1.elf secondary-outputs
 Lab1.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,Lab1.map -Wl,-u,vfprintf -lprintf_flt -lm -L"/home/ryan/RBE3001_C17_TEAM12/RBELib/Release" -mmcu=atmega644pa -o "Lab1.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,Lab1.map -Wl,-u,vfprintf -lprintf_flt -lm -L"C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\Release" -mmcu=atmega644p -o "Lab1.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -55,7 +55,7 @@ Lab1.lss: Lab1.elf
 
 sizedummy: Lab1.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega644pa Lab1.elf
+	-avr-size --format=avr --mcu=atmega644p Lab1.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 

@@ -27,7 +27,8 @@
 #define PRESCALE256 	0b100
 #define PRESCALE1024	0b101
 
-#define fclk_IO 8000000;
+#define fclk_IO 18432000;
+//  #define fclk_IO 8000000;
 
 /**
  * @brief Initializes the specified timer in the specified mode. This

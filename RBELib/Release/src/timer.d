@@ -1,5 +1,4 @@
-src/CoProcessor/SetServo.o src/CoProcessor/SetServo.o:  \
- ../src/CoProcessor/SetServo.c .././include/RBELib/RBELib.h \
+src/timer.o src/timer.o: ../src/timer.c .././include/RBELib/RBELib.h \
   .././include/RBELib/ADC.h .././include/RBELib/DAC.h \
   .././include/RBELib/Debug.h .././include/RBELib/motors.h \
   .././include/RBELib/USARTDebug.h .././include/RBELib/timer.h \
