@@ -6,6 +6,7 @@
  */
 
 #include <RBELib/RBELib.h>
+#include <avr/io.h>
 
 static const int prescale = PRESCALE1;
 
@@ -21,7 +22,7 @@ void initTimer(unsigned char timer, int mode, unsigned char comp){
 		if(mode == 1) {
 			TCCR0A |= 1 << COM0B1;
 			TCCR0B |= 1 << WGM02;
-			DDRB |= 1 << DDRB4;
+			DDRB |= 1 << 4;
 		}
 		break;
 	case 1:
@@ -33,7 +34,7 @@ void initTimer(unsigned char timer, int mode, unsigned char comp){
 		if(mode == 1){
 			TCCR1A |= 1 << COM1B1;
 			TCCR1B |= 1 << WGM13;
-			DDRD |= 1 << DDRD4;
+			DDRD |= 1 << 4;
 		}
 		break;
 	case 2:
@@ -45,7 +46,7 @@ void initTimer(unsigned char timer, int mode, unsigned char comp){
 		if(mode == 1){
 			TCCR2A |= 1 << COM2B1;
 			TCCR2B |= 1 << WGM22;
-			DDRD |= 1 << DDRD6;
+			DDRD |= 1 << 6;
 		}
 		break;
 

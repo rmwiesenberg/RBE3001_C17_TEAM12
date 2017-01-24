@@ -122,7 +122,7 @@ int main(void) {
 	//initialize timer to 1Hz
 	initTimer(1, CTC, 0x10);
 	//Set the baud rate of the UART
-//	debugUSARTInit(115200);
+	debugUSARTInit(115200);
 
 	while (1) {
 		if (tog) {
