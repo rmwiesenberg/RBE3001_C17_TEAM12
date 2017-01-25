@@ -6,7 +6,7 @@
  * @author Eric Willcox
  * @date July 9, 2014
  */
-#include "RBELib/RBELib.h"
+#include <RBELib/RBELib.h>
 
 static FILE RBEOut = FDEV_SETUP_STREAM(printfRBE, NULL, _FDEV_SETUP_WRITE);
 

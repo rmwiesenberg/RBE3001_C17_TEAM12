@@ -8,7 +8,7 @@
 #include <RBELib/RBELib.h>
 #include <avr/io.h>
 
-static const int prescale = PRESCALE1;
+static const int prescale = PRESCALE1024;
 
 void initTimer(unsigned char timer, int mode, unsigned char comp){
 	cli(); // disable interrupts until setup is finished

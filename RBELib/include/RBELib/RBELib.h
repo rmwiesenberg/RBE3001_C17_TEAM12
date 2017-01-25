@@ -24,6 +24,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <avr/io.h>
+#include <avr/iom644p.h>
+
 //Macros for I/O
 #define OUTPUT	1
 #define INPUT	  0
@@ -41,16 +43,6 @@
 #define INT32  long
 #define UINT16 unsigned short int
 #define WORD unsigned short int
-
-
-#define PRESCALE1		0b001
-#define PRESCALE8 		0b010
-#define PRESCALE64 		0b011
-#define PRESCALE256 	0b100
-#define PRESCALE1024	0b101
-
-//#define fclk_IO 18432000;
-#define fclk_IO 8000000;
 
 //RBELib headers
 #include "ADC.h"

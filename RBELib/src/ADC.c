@@ -10,11 +10,9 @@
 
 
 void initADC(int channel) {
-	cli();
 	DDRA &= ~(1 << channel);
 	ADMUX = (1 << REFS0);
 	ADCSRA |= (1 << ADEN) | (1 << ADIE) | 7;
-	sei();
 }
 
 
@@ -31,7 +29,7 @@ unsigned short getADC(int channel) {
 
 	while(ADCSRA & (1 << ADSC)); // poll for cleared start-conversion bit
 
-	return ADC;
+	return ADCW;
 }
 
 

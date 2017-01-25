@@ -54,7 +54,7 @@ void setPinsDir(char port, int dir, char numPins, ...);
  *
  * @todo Create a way to read all given pins on a port.
  */
-unsigned char getPinsVal(char port, int numPins, ...);
+unsigned char getPinsVal(char port, char numPins, ...);
 
 /**
  * @brief Sets the value on the specified pins of a port.
@@ -66,6 +66,6 @@ unsigned char getPinsVal(char port, int numPins, ...);
  *
  * @todo Create a way to set all given pins on a port.
  */
-void setPinsVal(char port, int val, int numPins, ...);
+void setPinsVal(char port, int val, char numPins, ...);
 
 #endif /* PORTS_H_ */
