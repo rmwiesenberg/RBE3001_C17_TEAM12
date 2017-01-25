@@ -7,18 +7,21 @@ C_SRCS += \
 ../src/ADC.c \
 ../src/Debug.c \
 ../src/USARTDebug.c \
+../src/ports.c \
 ../src/timer.c 
 
 OBJS += \
 ./src/ADC.o \
 ./src/Debug.o \
 ./src/USARTDebug.o \
+./src/ports.o \
 ./src/timer.o 
 
 C_DEPS += \
 ./src/ADC.d \
 ./src/Debug.d \
 ./src/USARTDebug.d \
+./src/ports.d \
 ./src/timer.d 
 
 

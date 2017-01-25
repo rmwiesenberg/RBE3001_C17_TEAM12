@@ -1,16 +1,16 @@
-#include "RBELib/RBELib.h"
+#include <RBELib/RBELib.h>
 //For use of abs()
 #include <stdlib.h>
-#include <avr/io.h>
 #include <avr/interrupt.h>
 
+
 #define POT_CHANNEL 4
-#define FREQ1	1
-#define FREQ2	20
-#define FREQ3	100
+#define FREQ1	7813
+#define FREQ2	391
+#define FREQ3	78
 
 unsigned char mode, tog;
-int count0;
+volatile int count0 = 0;
 
 void potRead() {
 
@@ -39,19 +39,48 @@ void potRead() {
 
 void part2(){
 	initTimer(0, CTC, 1);
-	int freq = FREQ1;
-	int curclk = fclk_IO/prescale;
 	int state = 1;
+	int tHigh = 0;
+	int tLow = 0;
+	unsigned char activ;
+	int adcVal;
 
-	setPinsDir('A',1,0,1,2,3,4,5,6,7);
-	setPinsDir('B',0,0,1,2,3,4,5,6,7);
+
+	initADC(6);
+
+	setPinsDir('C', OUTPUT, 4, 0, 1, 2, 3);
+	setPinsDir('D', INPUT, 3, 0, 1, 2);
+
+	setPinsVal('C', LOW, 4, 0, 1, 2, 3);
+
 
 	while(1){
-		int countTo = curclk/freq;
-		if (count0 >= countTo){
-			state =! state;
-			setPinsVal('A',state,0,1,2,3,4,5,6,7);
-			count0 = 0;
+		activ = getPinsVal('D', 3, 0, 1, 2);
+		adcVal = (int) getADC(6);
+
+		if ((activ & 1)){
+			tHigh = adcVal;
+			tLow = 1023-tHigh;
+		} else if ((activ & 2) >> 1) {
+			tHigh = (FREQ2*adcVal)/1023;
+			tLow = FREQ2-tHigh;
+		} else {
+			tHigh = (FREQ3*adcVal)/1023;
+			tLow = FREQ3-tHigh;
+		}
+
+		if(state){
+			setPinsVal('C', LOW, 4, 0, 1, 2, 3);
+			if (count0 >= tHigh){
+				state = 0;
+				count0 = 0;
+			}
+		} else {
+			setPinsVal('C', HIGH, 4, 0, 1, 2, 3);
+			if (count0 >= tLow) {
+				state = 1;
+				count0 = 0;
+			}
 		}
 	}
 }
