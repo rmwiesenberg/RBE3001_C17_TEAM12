@@ -132,38 +132,45 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          00000000  00000000  00000000  00000034  2**0
                   ALLOC
-  3 .text.initADC 00000026  00000000  00000000  00000034  2**0
+  3 .text.initADC 00000034  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  4 .text.clearADC 00000014  00000000  00000000  0000005a  2**0
+  4 .text.clearADC 00000014  00000000  00000000  00000068  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  5 .text.getADC  00000032  00000000  00000000  0000006e  2**0
+  5 .text.getADC  0000003a  00000000  00000000  0000007c  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  6 .text.changeADC 00000012  00000000  00000000  000000a0  2**0
+  6 .text.changeADC 00000012  00000000  00000000  000000b6  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  7 .comment      00000012  00000000  00000000  000000b2  2**0
+  7 .comment      00000012  00000000  00000000  000000c8  2**0
                   CONTENTS, READONLY
 
 Disassembly of section .text.initADC:
 
 00000000 <initADC>:
-   0:	91 b1       	in	r25, 0x01	; 1
-   2:	21 e0       	ldi	r18, 0x01	; 1
-   4:	30 e0       	ldi	r19, 0x00	; 0
-   6:	00 c0       	rjmp	.+0      	; 0x8 <initADC+0x8>
-   8:	22 0f       	add	r18, r18
-   a:	8a 95       	dec	r24
-   c:	02 f4       	brpl	.+0      	; 0xe <initADC+0xe>
-   e:	20 95       	com	r18
-  10:	29 23       	and	r18, r25
-  12:	21 b9       	out	0x01, r18	; 1
-  14:	80 e4       	ldi	r24, 0x40	; 64
-  16:	80 93 7c 00 	sts	0x007C, r24
-  1a:	ea e7       	ldi	r30, 0x7A	; 122
-  1c:	f0 e0       	ldi	r31, 0x00	; 0
-  1e:	80 81       	ld	r24, Z
-  20:	8f 68       	ori	r24, 0x8F	; 143
-  22:	80 83       	st	Z, r24
-  24:	08 95       	ret
+   0:	f8 94       	cli
+   2:	91 b1       	in	r25, 0x01	; 1
+   4:	21 e0       	ldi	r18, 0x01	; 1
+   6:	30 e0       	ldi	r19, 0x00	; 0
+   8:	08 2e       	mov	r0, r24
+   a:	00 c0       	rjmp	.+0      	; 0xc <initADC+0xc>
+   c:	22 0f       	add	r18, r18
+   e:	0a 94       	dec	r0
+  10:	02 f4       	brpl	.+0      	; 0x12 <initADC+0x12>
+  12:	20 95       	com	r18
+  14:	29 23       	and	r18, r25
+  16:	21 b9       	out	0x01, r18	; 1
+  18:	ea e7       	ldi	r30, 0x7A	; 122
+  1a:	f0 e0       	ldi	r31, 0x00	; 0
+  1c:	90 81       	ld	r25, Z
+  1e:	97 68       	ori	r25, 0x87	; 135
+  20:	90 83       	st	Z, r25
+  22:	80 64       	ori	r24, 0x40	; 64
+  24:	80 93 7c 00 	sts	0x007C, r24
+  28:	ee e7       	ldi	r30, 0x7E	; 126
+  2a:	f0 e0       	ldi	r31, 0x00	; 0
+  2c:	80 81       	ld	r24, Z
+  2e:	80 83       	st	Z, r24
+  30:	78 94       	sei
+  32:	08 95       	ret
 
 Disassembly of section .text.clearADC:
 
@@ -180,22 +187,24 @@ Disassembly of section .text.clearADC:
 Disassembly of section .text.getADC:
 
 00000000 <getADC>:
-   0:	90 91 7c 00 	lds	r25, 0x007C
-   4:	90 7e       	andi	r25, 0xE0	; 224
-   6:	90 93 7c 00 	sts	0x007C, r25
+   0:	90 91 7a 00 	lds	r25, 0x007A
+   4:	9f 7d       	andi	r25, 0xDF	; 223
+   6:	90 93 7a 00 	sts	0x007A, r25
    a:	90 91 7c 00 	lds	r25, 0x007C
-   e:	8f 71       	andi	r24, 0x1F	; 31
-  10:	98 2b       	or	r25, r24
-  12:	90 93 7c 00 	sts	0x007C, r25
-  16:	80 91 7a 00 	lds	r24, 0x007A
-  1a:	80 64       	ori	r24, 0x40	; 64
-  1c:	80 93 7a 00 	sts	0x007A, r24
-  20:	80 91 7a 00 	lds	r24, 0x007A
-  24:	86 fd       	sbrc	r24, 6
-  26:	00 c0       	rjmp	.+0      	; 0x28 <getADC+0x28>
-  28:	80 91 78 00 	lds	r24, 0x0078
-  2c:	90 91 79 00 	lds	r25, 0x0079
-  30:	08 95       	ret
+   e:	90 7e       	andi	r25, 0xE0	; 224
+  10:	90 93 7c 00 	sts	0x007C, r25
+  14:	90 91 7c 00 	lds	r25, 0x007C
+  18:	89 2b       	or	r24, r25
+  1a:	80 93 7c 00 	sts	0x007C, r24
+  1e:	80 91 7a 00 	lds	r24, 0x007A
+  22:	80 64       	ori	r24, 0x40	; 64
+  24:	80 93 7a 00 	sts	0x007A, r24
+  28:	80 91 7a 00 	lds	r24, 0x007A
+  2c:	86 fd       	sbrc	r24, 6
+  2e:	00 c0       	rjmp	.+0      	; 0x30 <getADC+0x30>
+  30:	80 91 78 00 	lds	r24, 0x0078
+  34:	90 91 79 00 	lds	r25, 0x0079
+  38:	08 95       	ret
 
 Disassembly of section .text.changeADC:
 
