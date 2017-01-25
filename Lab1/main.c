@@ -46,7 +46,7 @@ void part2(){
 	int adcVal;
 
 
-	initADC(6);
+	initADC(4);
 
 	setPinsDir('C', OUTPUT, 4, 0, 1, 2, 3);
 	setPinsDir('D', INPUT, 3, 0, 1, 2);
@@ -56,11 +56,11 @@ void part2(){
 
 	while(1){
 		activ = getPinsVal('D', 3, 0, 1, 2);
-		adcVal = (int) getADC(6);
+		adcVal = (int) getADC(4);
 
 		if ((activ & 1)){
-			tHigh = adcVal;
-			tLow = 1023-tHigh;
+			tHigh = FREQ1/2;
+			tLow = FREQ1/2;
 		} else if ((activ & 2) >> 1) {
 			tHigh = (FREQ2*adcVal)/1023;
 			tLow = FREQ2-tHigh;
