@@ -31,7 +31,7 @@ void clearADC(int channel) {
 }
 
 
-unsigned short getADC(int channel) {
+unsigned int getADC(int channel) {
 	ADCSRA &= ~(1 << ADATE);
 	ADMUX &= ~31;
 	ADMUX |= channel;	// set channel
@@ -39,7 +39,7 @@ unsigned short getADC(int channel) {
 
 	while(ADCSRA & (1 << ADSC)) continue; // poll for cleared start-conversion bit
 
-	return ADC;
+	return ADCW;
 }
 
 

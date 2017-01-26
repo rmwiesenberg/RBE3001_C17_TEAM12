@@ -3,11 +3,9 @@
 #include <stdlib.h>
 #include <avr/interrupt.h>
 
-
 #define POT_CHANNEL 4
-#define FREQ1	7813
-#define FREQ2	391
-#define FREQ3	78
+
+unsigned long FREQ1 = 9024;
 
 unsigned char mode, tog;
 volatile int count0 = 0;
@@ -37,14 +35,19 @@ void potRead() {
 	}
 }
 
-void part2(){
+void part2() {
 	initTimer(0, CTC, 1);
 	int state = 1;
-	int tHigh = 0;
-	int tLow = 0;
+	unsigned long tHigh = 0;
+	unsigned long tLow = 0;
 	unsigned char activ;
-	int adcVal;
+	unsigned long adcVal;
 
+	unsigned long duty;
+	unsigned long freq;
+
+	unsigned long FREQ2 = FREQ1 / 20;
+	unsigned long FREQ3 = FREQ1 / 100;
 
 	initADC(4);
 
@@ -53,25 +56,34 @@ void part2(){
 
 	setPinsVal('C', LOW, 4, 0, 1, 2, 3);
 
-
-	while(1){
+	while (1) {
 		activ = getPinsVal('D', 3, 0, 1, 2);
-		adcVal = (int) getADC(4);
+		adcVal = getADC(4);
+		duty = 100 * adcVal / 1023;
 
-		if ((activ & 1)){
-			tHigh = FREQ1/2;
-			tLow = FREQ1/2;
+		if ((activ & 1)) {
+			freq = 1;
+			tHigh = (FREQ1 * adcVal) / 1023;
+			tLow = FREQ1 - tHigh;
+			printf("%lu,%lu,%d,%lu\n\r", duty, freq, state, adcVal);
+
 		} else if ((activ & 2) >> 1) {
-			tHigh = (FREQ2*adcVal)/1023;
-			tLow = FREQ2-tHigh;
+			freq = 20;
+			tHigh = (FREQ2 * adcVal) / 1023;
+			tLow = FREQ2 - tHigh;
+			printf("%lu,%lu,%d,%lu\n\r", duty, freq, state, adcVal);
+
 		} else {
-			tHigh = (FREQ3*adcVal)/1023;
-			tLow = FREQ3-tHigh;
+			freq = 100;
+			tHigh = (FREQ3 * adcVal) / 1023;
+			tLow = FREQ3 - tHigh;
+			printf("%lu,%lu,%d,%lu\n\r", duty, freq, state, adcVal);
+
 		}
 
-		if(state){
+		if (state) {
 			setPinsVal('C', LOW, 4, 0, 1, 2, 3);
-			if (count0 >= tHigh){
+			if (count0 >= tHigh) {
 				state = 0;
 				count0 = 0;
 			}
@@ -85,17 +97,40 @@ void part2(){
 	}
 }
 
+void part3() {
+	initTimer(0, CTC, 1);
+	initADC(4);
+	setPinsDir('C', OUTPUT, 4, 0, 1, 2, 3);
+
+	unsigned long adcVal;
+	unsigned long FREQ2 = FREQ1 / 225;
+	int i = 0;
+
+	printf("Input a command character: \n\r");
+	char cmd = getCharDebug();			// polls for input, locks up program
+
+	while (i <= 225) {
+		if (count0 >= FREQ2) {
+			setPinsVal('C', LOW, 4, 0, 1, 2, 3);
+			adcVal = getADC(4);
+			printf("%d,%lu\n\r", i, adcVal);
+			i++;
+			count0 = 0;
+		}
+		setPinsVal('C', HIGH, 4, 0, 1, 2, 3);
+	}
+}
+
 ISR(TIMER0_COMPA_vect) {
 	count0++;
 }
-
 
 int main(void) {
 	initRBELib();
 	debugUSARTInit(115200);
 //	potRead();
-	part2();
-
+//	part2();
+	part3();
 
 	return 0;
 }

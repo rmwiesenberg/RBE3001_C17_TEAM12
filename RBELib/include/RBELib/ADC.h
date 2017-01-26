@@ -51,7 +51,7 @@ void clearADC(int channel);
  * @todo Create the corresponding function to obtain the value of the
  * last calculation if you are using polling.
  */
-unsigned short getADC(int channel);
+unsigned int getADC(int channel);
 
 /**
  * @brief Change the channel the ADC is sampling if using interrupts.
