@@ -1,4 +1,4 @@
-src/USARTDebug.d src/USARTDebug.o: ../src/USARTDebug.c \
+src/USARTDebug.o src/USARTDebug.o: ../src/USARTDebug.c \
   .././include/RBELib/RBELib.h .././include/RBELib/ADC.h \
   .././include/RBELib/DAC.h .././include/RBELib/Debug.h \
   .././include/RBELib/motors.h .././include/RBELib/USARTDebug.h \

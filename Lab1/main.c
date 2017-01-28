@@ -107,7 +107,7 @@ void part3() {
 	int i = 0;
 
 	printf("Input a command character: \n\r");
-	char cmd = getCharDebug();			// polls for input, locks up program
+	char cmd = getCharDebug();
 
 	while (i <= 225) {
 		if (count0 >= FREQ2) {

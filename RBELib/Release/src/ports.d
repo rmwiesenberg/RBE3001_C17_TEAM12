@@ -1,4 +1,4 @@
-src/ports.d src/ports.o: ../src/ports.c .././include/RBELib/RBELib.h \
+src/ports.o src/ports.o: ../src/ports.c .././include/RBELib/RBELib.h \
   .././include/RBELib/ADC.h .././include/RBELib/DAC.h \
   .././include/RBELib/Debug.h .././include/RBELib/motors.h \
   .././include/RBELib/USARTDebug.h .././include/RBELib/timer.h \

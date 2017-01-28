@@ -4,6 +4,10 @@
 #include <avr/interrupt.h>
 #include <include/Lib.h>
 
+#define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency
+#define COUNT_FREQUENCY		TIMER_CLK / 256.			// count overflow interrupt fires 2.304 MHz kHz / 256 = 9000 times a second
+#define TICK				COUNT_FREQUENCY / 4096.		// 4096 ticks in 1 second = 4096 in 9000 counts = 2.197265 counts / tick
+
 #define POT_CHANNEL 2
 
 unsigned long FREQ1 = 9024;
@@ -36,102 +40,41 @@ void potRead() {
 	}
 }
 
-void part2() {
-	initTimer(0, CTC, 1);
-	int state = 1;
-	unsigned long tHigh = 0;
-	unsigned long tLow = 0;
-	unsigned char activ;
-	unsigned long adcVal;
+volatile int timer = 0;				// timer counter
 
-	unsigned long duty;
-	unsigned long freq;
+void testDAC() {
+	initRBELib();
+	debugUSARTInit(115200);
+	initSPI();
 
-	unsigned long FREQ2 = FREQ1 / 20;
-	unsigned long FREQ3 = FREQ1 / 100;
+	initTimer(0, CTC, 0);
 
-	initADC(4);
 
-	setPinsDir('C', OUTPUT, 4, 0, 1, 2, 3);
-	setPinsDir('D', INPUT, 3, 0, 1, 2);
+	int dacWrite = 0;
 
-	setPinsVal('C', LOW, 4, 0, 1, 2, 3);
-
-	while (1) {
-		activ = getPinsVal('D', 3, 0, 1, 2);
-		adcVal = getADC(4);
-		duty = 100 * adcVal / 1023;
-
-		if ((activ & 1)) {
-			freq = 1;
-			tHigh = (FREQ1 * adcVal) / 1023;
-			tLow = FREQ1 - tHigh;
-			printf("%lu,%lu,%d,%lu\n\r", duty, freq, state, adcVal);
-
-		} else if ((activ & 2) >> 1) {
-			freq = 20;
-			tHigh = (FREQ2 * adcVal) / 1023;
-			tLow = FREQ2 - tHigh;
-			printf("%lu,%lu,%d,%lu\n\r", duty, freq, state, adcVal);
-
-		} else {
-			freq = 100;
-			tHigh = (FREQ3 * adcVal) / 1023;
-			tLow = FREQ3 - tHigh;
-			printf("%lu,%lu,%d,%lu\n\r", duty, freq, state, adcVal);
-
+	while(1) {
+		if(dacWrite > 4095) {
+			dacWrite = 0;
+		}
+		if(timer > TICK) {
+			timer = 0;
+			dacWrite++;
 		}
 
-		if (state) {
-			setPinsVal('C', LOW, 4, 0, 1, 2, 3);
-			if (count0 >= tHigh) {
-				state = 0;
-				count0 = 0;
-			}
-		} else {
-			setPinsVal('C', HIGH, 4, 0, 1, 2, 3);
-			if (count0 >= tLow) {
-				state = 1;
-				count0 = 0;
-			}
-		}
+		setDAC(0, 4095 - dacWrite);
+		setDAC(1, dacWrite);
 	}
 }
 
-void part3() {
-	initTimer(0, CTC, 1);
-	initADC(4);
-	setPinsDir('C', OUTPUT, 4, 0, 1, 2, 3);
-
-	unsigned long adcVal;
-	unsigned long FREQ2 = FREQ1 / 225;
-	int i = 0;
-
-	printf("Input a command character: \n\r");
-	char cmd = getCharDebug();			// polls for input, locks up program
-
-	while (i <= 225) {
-		if (count0 >= FREQ2) {
-			setPinsVal('C', LOW, 4, 0, 1, 2, 3);
-			adcVal = getADC(4);
-			printf("%d,%lu\n\r", i, adcVal);
-			i++;
-			count0 = 0;
-		}
-		setPinsVal('C', HIGH, 4, 0, 1, 2, 3);
-	}
-}
-
-ISR(TIMER0_COMPA_vect) {
-	count0++;
+ISR(TIMER0_OVF_vect) {		// timer ISR, usable in all file functions
+	timer++;
 }
 
 int main(void) {
 	initRBELib();
 	debugUSARTInit(115200);
-	potRead();
-//	part2();
-//	part3();
+	//potRead();
+	testDAC();
 
 	return 0;
 }

@@ -236,6 +236,48 @@ Disassembly of section .text.changeADC:
    e:	90 83       	st	Z, r25
   10:	08 95       	ret
 
+DAC.o:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00000000  00000000  00000034  2**0
+                  ALLOC
+  3 .text.setDAC  00000038  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+
+Disassembly of section .text.setDAC:
+
+00000000 <setDAC>:
+   0:	0f 93       	push	r16
+   2:	1f 93       	push	r17
+   4:	8b 01       	movw	r16, r22
+   6:	54 9a       	sbi	0x0a, 4	; 10
+   8:	5c 9a       	sbi	0x0b, 4	; 11
+   a:	5c 98       	cbi	0x0b, 4	; 11
+   c:	80 63       	ori	r24, 0x30	; 48
+   e:	0e 94 00 00 	call	0	; 0x0 <setDAC>
+  12:	c8 01       	movw	r24, r16
+  14:	24 e0       	ldi	r18, 0x04	; 4
+  16:	95 95       	asr	r25
+  18:	87 95       	ror	r24
+  1a:	2a 95       	dec	r18
+  1c:	01 f4       	brne	.+0      	; 0x1e <setDAC+0x1e>
+  1e:	0e 94 00 00 	call	0	; 0x0 <setDAC>
+  22:	80 2f       	mov	r24, r16
+  24:	82 95       	swap	r24
+  26:	80 7f       	andi	r24, 0xF0	; 240
+  28:	0e 94 00 00 	call	0	; 0x0 <setDAC>
+  2c:	5c 9a       	sbi	0x0b, 4	; 11
+  2e:	5c 98       	cbi	0x0b, 4	; 11
+  30:	5c 9a       	sbi	0x0b, 4	; 11
+  32:	1f 91       	pop	r17
+  34:	0f 91       	pop	r16
+  36:	08 95       	ret
+
 Debug.o:     file format elf32-avr
 
 Sections:
@@ -274,6 +316,43 @@ Disassembly of section .text.printfRBE:
    4:	80 e0       	ldi	r24, 0x00	; 0
    6:	90 e0       	ldi	r25, 0x00	; 0
    8:	08 95       	ret
+
+SPI.o:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00000000  00000000  00000034  2**0
+                  ALLOC
+  3 .text.initSPI 00000010  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  4 .text.spiTransceive 0000000c  00000000  00000000  00000044  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+
+Disassembly of section .text.initSPI:
+
+00000000 <initSPI>:
+   0:	84 b1       	in	r24, 0x04	; 4
+   2:	80 6b       	ori	r24, 0xB0	; 176
+   4:	84 b9       	out	0x04, r24	; 4
+   6:	26 98       	cbi	0x04, 6	; 4
+   8:	8c b5       	in	r24, 0x2c	; 44
+   a:	83 65       	ori	r24, 0x53	; 83
+   c:	8c bd       	out	0x2c, r24	; 44
+   e:	08 95       	ret
+
+Disassembly of section .text.spiTransceive:
+
+00000000 <spiTransceive>:
+   0:	8e bd       	out	0x2e, r24	; 46
+   2:	0d b4       	in	r0, 0x2d	; 45
+   4:	07 fe       	sbrs	r0, 7
+   6:	00 c0       	rjmp	.+0      	; 0x8 <spiTransceive+0x8>
+   8:	8e b5       	in	r24, 0x2e	; 46
+   a:	08 95       	ret
 
 USARTDebug.o:     file format elf32-avr
 
