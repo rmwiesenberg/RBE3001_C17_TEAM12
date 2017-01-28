@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <avr/interrupt.h>
 
-#define POT_CHANNEL 4
+#define POT_CHANNEL 2
 
 unsigned long FREQ1 = 9024;
 
@@ -23,10 +23,10 @@ void potRead() {
 				unsigned int adcVal = getADC(POT_CHANNEL);// implemented in adc.c
 
 				int potOut_mVolts = (int) (adcVal * (5000. / 1023.));
-				int potAngle = (int) (adcVal * (300. / 1023.));
+				int potAngle = (int) ((adcVal * (250. / 1023.))-83);
 
 				printf("%d,%d,%d,%d\n\r", i, adcVal, potOut_mVolts, potAngle);
-
+				_delay_ms(1000);
 			}
 			printf("DONE \n\r");
 
@@ -128,9 +128,9 @@ ISR(TIMER0_COMPA_vect) {
 int main(void) {
 	initRBELib();
 	debugUSARTInit(115200);
-//	potRead();
+	potRead();
 //	part2();
-	part3();
+//	part3();
 
 	return 0;
 }
