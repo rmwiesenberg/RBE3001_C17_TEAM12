@@ -2,6 +2,7 @@
 //For use of abs()
 #include <stdlib.h>
 #include <avr/interrupt.h>
+#include <include/Lib.h>
 
 #define POT_CHANNEL 2
 
