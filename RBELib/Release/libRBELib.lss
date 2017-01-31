@@ -246,37 +246,76 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          00000000  00000000  00000000  00000034  2**0
                   ALLOC
-  3 .text.setDAC  00000038  00000000  00000000  00000034  2**0
+  3 .text.setDAC  00000096  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.setDAC:
 
 00000000 <setDAC>:
-   0:	0f 93       	push	r16
-   2:	1f 93       	push	r17
-   4:	8b 01       	movw	r16, r22
-   6:	54 9a       	sbi	0x0a, 4	; 10
-   8:	5c 9a       	sbi	0x0b, 4	; 11
-   a:	5c 98       	cbi	0x0b, 4	; 11
-   c:	80 63       	ori	r24, 0x30	; 48
-   e:	0e 94 00 00 	call	0	; 0x0 <setDAC>
-  12:	c8 01       	movw	r24, r16
-  14:	24 e0       	ldi	r18, 0x04	; 4
-  16:	95 95       	asr	r25
-  18:	87 95       	ror	r24
-  1a:	2a 95       	dec	r18
-  1c:	01 f4       	brne	.+0      	; 0x1e <setDAC+0x1e>
-  1e:	0e 94 00 00 	call	0	; 0x0 <setDAC>
-  22:	80 2f       	mov	r24, r16
-  24:	82 95       	swap	r24
-  26:	80 7f       	andi	r24, 0xF0	; 240
-  28:	0e 94 00 00 	call	0	; 0x0 <setDAC>
-  2c:	5c 9a       	sbi	0x0b, 4	; 11
-  2e:	5c 98       	cbi	0x0b, 4	; 11
-  30:	5c 9a       	sbi	0x0b, 4	; 11
-  32:	1f 91       	pop	r17
-  34:	0f 91       	pop	r16
-  36:	08 95       	ret
+   0:	ef 92       	push	r14
+   2:	ff 92       	push	r15
+   4:	0f 93       	push	r16
+   6:	1f 93       	push	r17
+   8:	98 2f       	mov	r25, r24
+   a:	80 e1       	ldi	r24, 0x10	; 16
+   c:	60 30       	cpi	r22, 0x00	; 0
+   e:	78 07       	cpc	r23, r24
+  10:	04 f0       	brlt	.+0      	; 0x12 <setDAC+0x12>
+  12:	6f ef       	ldi	r22, 0xFF	; 255
+  14:	7f e0       	ldi	r23, 0x0F	; 15
+  16:	00 c0       	rjmp	.+0      	; 0x18 <setDAC+0x18>
+  18:	16 16       	cp	r1, r22
+  1a:	17 06       	cpc	r1, r23
+  1c:	04 f0       	brlt	.+0      	; 0x1e <setDAC+0x1e>
+  1e:	60 e0       	ldi	r22, 0x00	; 0
+  20:	70 e0       	ldi	r23, 0x00	; 0
+  22:	7b 01       	movw	r14, r22
+  24:	00 27       	eor	r16, r16
+  26:	f7 fc       	sbrc	r15, 7
+  28:	00 95       	com	r16
+  2a:	10 2f       	mov	r17, r16
+  2c:	80 91 2b 00 	lds	r24, 0x002B
+  30:	8f 7e       	andi	r24, 0xEF	; 239
+  32:	80 93 2b 00 	sts	0x002B, r24
+  36:	89 2f       	mov	r24, r25
+  38:	80 63       	ori	r24, 0x30	; 48
+  3a:	0e 94 00 00 	call	0	; 0x0 <setDAC>
+  3e:	d8 01       	movw	r26, r16
+  40:	c7 01       	movw	r24, r14
+  42:	24 e0       	ldi	r18, 0x04	; 4
+  44:	b6 95       	lsr	r27
+  46:	a7 95       	ror	r26
+  48:	97 95       	ror	r25
+  4a:	87 95       	ror	r24
+  4c:	2a 95       	dec	r18
+  4e:	01 f4       	brne	.+0      	; 0x50 <setDAC+0x50>
+  50:	0e 94 00 00 	call	0	; 0x0 <setDAC>
+  54:	8f e0       	ldi	r24, 0x0F	; 15
+  56:	90 e0       	ldi	r25, 0x00	; 0
+  58:	a0 e0       	ldi	r26, 0x00	; 0
+  5a:	b0 e0       	ldi	r27, 0x00	; 0
+  5c:	e8 22       	and	r14, r24
+  5e:	f9 22       	and	r15, r25
+  60:	0a 23       	and	r16, r26
+  62:	1b 23       	and	r17, r27
+  64:	8e 2d       	mov	r24, r14
+  66:	82 95       	swap	r24
+  68:	80 7f       	andi	r24, 0xF0	; 240
+  6a:	0e 94 00 00 	call	0	; 0x0 <setDAC>
+  6e:	80 91 2b 00 	lds	r24, 0x002B
+  72:	80 61       	ori	r24, 0x10	; 16
+  74:	80 93 2b 00 	sts	0x002B, r24
+  78:	80 91 2b 00 	lds	r24, 0x002B
+  7c:	8f 7e       	andi	r24, 0xEF	; 239
+  7e:	80 93 2b 00 	sts	0x002B, r24
+  82:	80 91 2b 00 	lds	r24, 0x002B
+  86:	80 61       	ori	r24, 0x10	; 16
+  88:	80 93 2b 00 	sts	0x002B, r24
+  8c:	1f 91       	pop	r17
+  8e:	0f 91       	pop	r16
+  90:	ff 90       	pop	r15
+  92:	ef 90       	pop	r14
+  94:	08 95       	ret
 
 Debug.o:     file format elf32-avr
 
@@ -327,9 +366,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          00000000  00000000  00000000  00000034  2**0
                   ALLOC
-  3 .text.initSPI 00000010  00000000  00000000  00000034  2**0
+  3 .text.initSPI 00000012  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  4 .text.spiTransceive 0000000c  00000000  00000000  00000044  2**0
+  4 .text.spiTransceive 0000000c  00000000  00000000  00000046  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.initSPI:
@@ -338,11 +377,12 @@ Disassembly of section .text.initSPI:
    0:	84 b1       	in	r24, 0x04	; 4
    2:	80 6b       	ori	r24, 0xB0	; 176
    4:	84 b9       	out	0x04, r24	; 4
-   6:	26 98       	cbi	0x04, 6	; 4
-   8:	8c b5       	in	r24, 0x2c	; 44
-   a:	83 65       	ori	r24, 0x53	; 83
-   c:	8c bd       	out	0x2c, r24	; 44
-   e:	08 95       	ret
+   6:	2c 9a       	sbi	0x05, 4	; 5
+   8:	26 98       	cbi	0x04, 6	; 4
+   a:	8c b5       	in	r24, 0x2c	; 44
+   c:	83 65       	ori	r24, 0x53	; 83
+   e:	8c bd       	out	0x2c, r24	; 44
+  10:	08 95       	ret
 
 Disassembly of section .text.spiTransceive:
 

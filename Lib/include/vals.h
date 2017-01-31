@@ -9,12 +9,14 @@
 #define VALS_H_
 
 
-typedef struct potVal {
+typedef struct {
 	unsigned short adcVal;
-	int angle = (adcVal * 250 / 1023) - 83;
-	int mVolt = adcVal * 5000 / 1023;
-}potVal;
+	int angle;
+	int mVolt;
+} PotVal;
 
-void printPotVal(potVal aVal);
+void setPotVal(unsigned short adc);
+
+void printPotVal(PotVal aVal);
 
 #endif

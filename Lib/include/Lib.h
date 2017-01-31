@@ -6,7 +6,6 @@
  * @date January 28, 2017
  */
 
-
 #ifndef LIB_H_
 #define LIB_H_
 
