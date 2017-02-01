@@ -366,23 +366,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          00000000  00000000  00000000  00000034  2**0
                   ALLOC
-  3 .text.initSPI 00000012  00000000  00000000  00000034  2**0
+  3 .text.initSPI 0000001c  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  4 .text.spiTransceive 0000000c  00000000  00000000  00000046  2**0
+  4 .text.spiTransceive 0000000c  00000000  00000000  00000050  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.initSPI:
 
 00000000 <initSPI>:
-   0:	84 b1       	in	r24, 0x04	; 4
-   2:	80 6b       	ori	r24, 0xB0	; 176
-   4:	84 b9       	out	0x04, r24	; 4
-   6:	2c 9a       	sbi	0x05, 4	; 5
-   8:	26 98       	cbi	0x04, 6	; 4
-   a:	8c b5       	in	r24, 0x2c	; 44
-   c:	83 65       	ori	r24, 0x53	; 83
-   e:	8c bd       	out	0x2c, r24	; 44
-  10:	08 95       	ret
+   0:	10 92 64 00 	sts	0x0064, r1
+   4:	84 b1       	in	r24, 0x04	; 4
+   6:	80 6b       	ori	r24, 0xB0	; 176
+   8:	84 b9       	out	0x04, r24	; 4
+   a:	2c 9a       	sbi	0x05, 4	; 5
+   c:	26 98       	cbi	0x04, 6	; 4
+   e:	8c b5       	in	r24, 0x2c	; 44
+  10:	83 65       	ori	r24, 0x53	; 83
+  12:	8c bd       	out	0x2c, r24	; 44
+  14:	8d b5       	in	r24, 0x2d	; 45
+  16:	8e 7f       	andi	r24, 0xFE	; 254
+  18:	8d bd       	out	0x2d, r24	; 45
+  1a:	08 95       	ret
 
 Disassembly of section .text.spiTransceive:
 

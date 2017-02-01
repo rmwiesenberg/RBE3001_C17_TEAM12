@@ -48,58 +48,55 @@ void triangleDAC() {
 	DAC_SS_ddr = 1;
 	DAC_SS = 1;
 
-	initTimer(0,CTC,1);
+	//initTimer(0,NORMAL,0);
 
 
 	int dacWrite = 0;
 	int pastDAC = 0;
 	int mode = 1;
-
 	setDAC(0, 4095);
-	while(1){}
 	while(1) {
+
+
 		//if reach 0, start counting up
 		if (dacWrite <= 0) {
-			mode = 1;
+			mode = 100;
 		}
 
 		//if reach max, start counting down
 		if(dacWrite >= 4095) {
-			mode = -1;
+			mode = -100;
 			dacWrite = 4095;
 		}
 
 		//
-		if(timer > TICK) {
-			timer = 0;
-			dacWrite += mode;
-		}
+		dacWrite += mode;
 
 		if (dacWrite != pastDAC) {
 			pastDAC = dacWrite;
 			setDAC(0, (4095 - dacWrite));
-//			setDAC(1, dacWrite);
+			setDAC(1, dacWrite);
 			printf("%i %i\n\r", dacWrite, (4095-dacWrite));
 		}
 	}
 }
 
-ISR(TIMER0_COMPA_vect) {		// timer ISR, usable in all file functions
-	timer++;
-}
+//ISR(TIMER0_COMPA_vect) {		// timer ISR, usable in all file functions
+//	timer++;
+//}
 
 int main(void) {
 	initRBELib();
 	debugUSARTInit(115200);
 	//potRead();
-//	triangleDAC();
+	triangleDAC();
 	initSPI();
 	setDAC(0, 4095);
 	setDAC(1, 4095);
 	printf("h\n\r");
 	DDRB |= (1<<PB2);
-	while(1) {
-		PORTB &= ~(1<<PB2);
-	}
+//	while(1) {
+//		PORTB &= ~(1<<PB2);
+//	}
 	return 0;
 }

@@ -10,6 +10,8 @@
 #include <avr/io.h>
 
 void initSPI() {
+	PRR = 0;
+
 	DDRB |=   (1 << DDB5)  // MOSI enable
 			| (1 << DDB7)  // SCK enable
 			| (1 << DDB4); // SS enable
@@ -23,6 +25,8 @@ void initSPI() {
 			| (1 << MSTR)  // Set as master
 			| (1 << SPR1)  // set SCK freq to...
 			| (1 << SPR0); // fosc/128
+
+	SPSR &= ~(1 << SPI2X);
 }
 
 unsigned char spiTransceive(BYTE data) {
