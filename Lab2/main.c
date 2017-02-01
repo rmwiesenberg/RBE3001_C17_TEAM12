@@ -4,6 +4,7 @@
 #include <avr/interrupt.h>
 #include <../include/Lib.h>
 
+
 #define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency
 #define COUNT_FREQUENCY		TIMER_CLK / 256.			// count overflow interrupt fires 2.304 MHz kHz / 256 = 9000 times a second
 #define TICK				COUNT_FREQUENCY / 8192.		// 4096 ticks in 1 second = 4096 in 9000 counts = 2.197265 counts / tick
@@ -45,8 +46,7 @@ volatile int timer = 0; // timer counter
 
 void triangleDAC() {
 	initSPI();
-	DAC_SS_ddr = 1;
-	DAC_SS = 1;
+
 
 	//initTimer(0,NORMAL,0);
 
@@ -56,7 +56,7 @@ void triangleDAC() {
 	int mode = 1;
 	setDAC(0, 4095);
 	while(1) {
-
+		_delay_ms(100);
 
 		//if reach 0, start counting up
 		if (dacWrite <= 0) {
@@ -86,15 +86,30 @@ void triangleDAC() {
 //}
 
 int main(void) {
+
 	initRBELib();
 	debugUSARTInit(115200);
+
 	//potRead();
-	triangleDAC();
+
+	//triangleDAC();
+
 	initSPI();
-	setDAC(0, 4095);
-	setDAC(1, 4095);
-	printf("h\n\r");
-	DDRB |= (1<<PB2);
+	while(1){
+		unsigned char activ = getPinsVal('D', 3, 0, 1, 2);
+		if ((activ & 1)) {
+			driveLink(1, 0);
+		}
+		else if ((activ & 2) >> 1) {
+			driveLink(1, -2000);
+		}
+		else{
+			driveLink(1, 2000);
+
+		}
+	}
+
+//	DDRB |= (1<<PB2);
 //	while(1) {
 //		PORTB &= ~(1<<PB2);
 //	}

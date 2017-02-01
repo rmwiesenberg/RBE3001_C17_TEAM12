@@ -10,6 +10,8 @@
 #include "RBELib/RBELib.h"
 
 void setDAC(int DACn, int SPIval){
+	DAC_SS_ddr = 1;
+	DAC_SS = 1;
   //We need to send out 3 "packages" for configuring the DAC
   unsigned char package1 = 0;
   unsigned char package2 = 0;

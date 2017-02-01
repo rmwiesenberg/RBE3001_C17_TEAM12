@@ -9,6 +9,7 @@ C_SRCS += \
 ../src/Debug.c \
 ../src/SPI.c \
 ../src/USARTDebug.c \
+../src/motors.c \
 ../src/ports.c \
 ../src/timer.c 
 
@@ -18,6 +19,7 @@ OBJS += \
 ./src/Debug.o \
 ./src/SPI.o \
 ./src/USARTDebug.o \
+./src/motors.o \
 ./src/ports.o \
 ./src/timer.o 
 
@@ -27,6 +29,7 @@ C_DEPS += \
 ./src/Debug.d \
 ./src/SPI.d \
 ./src/USARTDebug.d \
+./src/motors.d \
 ./src/ports.d \
 ./src/timer.d 
 

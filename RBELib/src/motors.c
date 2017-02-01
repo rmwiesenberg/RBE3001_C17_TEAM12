@@ -4,7 +4,7 @@
  *  Created on: Jan 31, 2017
  *      Author: Rayyan
  */
-
+#include <RBELib/RBELib.h>
 
 void stopMotors(){
 
@@ -43,14 +43,15 @@ void gotoXY(int x, int y){
  * @todo Create a way to drive either link in any direction.
  */
 void driveLink(int link, int dir){
-//-4095 -> 4095
 	if(link == 1){
-		setDAC(0,0);
-		setDAC(1,20);
-	}
-
-	if(link == 2){
-
+		if(dir >= 0){
+			setDAC(0, 0);
+			setDAC(1, dir);
+		}
+		if(dir < 0){
+			setDAC(0, dir*-1);
+			setDAC(1, 0);
+		}
 	}
 
 

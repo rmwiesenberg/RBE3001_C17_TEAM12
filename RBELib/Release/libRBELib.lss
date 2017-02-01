@@ -246,7 +246,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          00000000  00000000  00000000  00000034  2**0
                   ALLOC
-  3 .text.setDAC  00000096  00000000  00000000  00000034  2**0
+  3 .text.setDAC  000000aa  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.setDAC:
@@ -257,65 +257,71 @@ Disassembly of section .text.setDAC:
    4:	0f 93       	push	r16
    6:	1f 93       	push	r17
    8:	98 2f       	mov	r25, r24
-   a:	80 e1       	ldi	r24, 0x10	; 16
-   c:	60 30       	cpi	r22, 0x00	; 0
-   e:	78 07       	cpc	r23, r24
-  10:	04 f0       	brlt	.+0      	; 0x12 <setDAC+0x12>
-  12:	6f ef       	ldi	r22, 0xFF	; 255
-  14:	7f e0       	ldi	r23, 0x0F	; 15
-  16:	00 c0       	rjmp	.+0      	; 0x18 <setDAC+0x18>
-  18:	16 16       	cp	r1, r22
-  1a:	17 06       	cpc	r1, r23
-  1c:	04 f0       	brlt	.+0      	; 0x1e <setDAC+0x1e>
-  1e:	60 e0       	ldi	r22, 0x00	; 0
-  20:	70 e0       	ldi	r23, 0x00	; 0
-  22:	7b 01       	movw	r14, r22
-  24:	00 27       	eor	r16, r16
-  26:	f7 fc       	sbrc	r15, 7
-  28:	00 95       	com	r16
-  2a:	10 2f       	mov	r17, r16
-  2c:	80 91 2b 00 	lds	r24, 0x002B
-  30:	8f 7e       	andi	r24, 0xEF	; 239
-  32:	80 93 2b 00 	sts	0x002B, r24
-  36:	89 2f       	mov	r24, r25
-  38:	80 63       	ori	r24, 0x30	; 48
-  3a:	0e 94 00 00 	call	0	; 0x0 <setDAC>
-  3e:	d8 01       	movw	r26, r16
-  40:	c7 01       	movw	r24, r14
-  42:	24 e0       	ldi	r18, 0x04	; 4
-  44:	b6 95       	lsr	r27
-  46:	a7 95       	ror	r26
-  48:	97 95       	ror	r25
-  4a:	87 95       	ror	r24
-  4c:	2a 95       	dec	r18
-  4e:	01 f4       	brne	.+0      	; 0x50 <setDAC+0x50>
-  50:	0e 94 00 00 	call	0	; 0x0 <setDAC>
-  54:	8f e0       	ldi	r24, 0x0F	; 15
-  56:	90 e0       	ldi	r25, 0x00	; 0
-  58:	a0 e0       	ldi	r26, 0x00	; 0
-  5a:	b0 e0       	ldi	r27, 0x00	; 0
-  5c:	e8 22       	and	r14, r24
-  5e:	f9 22       	and	r15, r25
-  60:	0a 23       	and	r16, r26
-  62:	1b 23       	and	r17, r27
-  64:	8e 2d       	mov	r24, r14
-  66:	82 95       	swap	r24
-  68:	80 7f       	andi	r24, 0xF0	; 240
-  6a:	0e 94 00 00 	call	0	; 0x0 <setDAC>
-  6e:	80 91 2b 00 	lds	r24, 0x002B
-  72:	80 61       	ori	r24, 0x10	; 16
-  74:	80 93 2b 00 	sts	0x002B, r24
-  78:	80 91 2b 00 	lds	r24, 0x002B
-  7c:	8f 7e       	andi	r24, 0xEF	; 239
-  7e:	80 93 2b 00 	sts	0x002B, r24
+   a:	80 91 2a 00 	lds	r24, 0x002A
+   e:	80 61       	ori	r24, 0x10	; 16
+  10:	80 93 2a 00 	sts	0x002A, r24
+  14:	80 91 2b 00 	lds	r24, 0x002B
+  18:	80 61       	ori	r24, 0x10	; 16
+  1a:	80 93 2b 00 	sts	0x002B, r24
+  1e:	80 e1       	ldi	r24, 0x10	; 16
+  20:	60 30       	cpi	r22, 0x00	; 0
+  22:	78 07       	cpc	r23, r24
+  24:	04 f0       	brlt	.+0      	; 0x26 <setDAC+0x26>
+  26:	6f ef       	ldi	r22, 0xFF	; 255
+  28:	7f e0       	ldi	r23, 0x0F	; 15
+  2a:	00 c0       	rjmp	.+0      	; 0x2c <setDAC+0x2c>
+  2c:	16 16       	cp	r1, r22
+  2e:	17 06       	cpc	r1, r23
+  30:	04 f0       	brlt	.+0      	; 0x32 <setDAC+0x32>
+  32:	60 e0       	ldi	r22, 0x00	; 0
+  34:	70 e0       	ldi	r23, 0x00	; 0
+  36:	7b 01       	movw	r14, r22
+  38:	00 27       	eor	r16, r16
+  3a:	f7 fc       	sbrc	r15, 7
+  3c:	00 95       	com	r16
+  3e:	10 2f       	mov	r17, r16
+  40:	80 91 2b 00 	lds	r24, 0x002B
+  44:	8f 7e       	andi	r24, 0xEF	; 239
+  46:	80 93 2b 00 	sts	0x002B, r24
+  4a:	89 2f       	mov	r24, r25
+  4c:	80 63       	ori	r24, 0x30	; 48
+  4e:	0e 94 00 00 	call	0	; 0x0 <setDAC>
+  52:	d8 01       	movw	r26, r16
+  54:	c7 01       	movw	r24, r14
+  56:	24 e0       	ldi	r18, 0x04	; 4
+  58:	b6 95       	lsr	r27
+  5a:	a7 95       	ror	r26
+  5c:	97 95       	ror	r25
+  5e:	87 95       	ror	r24
+  60:	2a 95       	dec	r18
+  62:	01 f4       	brne	.+0      	; 0x64 <setDAC+0x64>
+  64:	0e 94 00 00 	call	0	; 0x0 <setDAC>
+  68:	8f e0       	ldi	r24, 0x0F	; 15
+  6a:	90 e0       	ldi	r25, 0x00	; 0
+  6c:	a0 e0       	ldi	r26, 0x00	; 0
+  6e:	b0 e0       	ldi	r27, 0x00	; 0
+  70:	e8 22       	and	r14, r24
+  72:	f9 22       	and	r15, r25
+  74:	0a 23       	and	r16, r26
+  76:	1b 23       	and	r17, r27
+  78:	8e 2d       	mov	r24, r14
+  7a:	82 95       	swap	r24
+  7c:	80 7f       	andi	r24, 0xF0	; 240
+  7e:	0e 94 00 00 	call	0	; 0x0 <setDAC>
   82:	80 91 2b 00 	lds	r24, 0x002B
   86:	80 61       	ori	r24, 0x10	; 16
   88:	80 93 2b 00 	sts	0x002B, r24
-  8c:	1f 91       	pop	r17
-  8e:	0f 91       	pop	r16
-  90:	ff 90       	pop	r15
-  92:	ef 90       	pop	r14
-  94:	08 95       	ret
+  8c:	80 91 2b 00 	lds	r24, 0x002B
+  90:	8f 7e       	andi	r24, 0xEF	; 239
+  92:	80 93 2b 00 	sts	0x002B, r24
+  96:	80 91 2b 00 	lds	r24, 0x002B
+  9a:	80 61       	ori	r24, 0x10	; 16
+  9c:	80 93 2b 00 	sts	0x002B, r24
+  a0:	1f 91       	pop	r17
+  a2:	0f 91       	pop	r16
+  a4:	ff 90       	pop	r15
+  a6:	ef 90       	pop	r14
+  a8:	08 95       	ret
 
 Debug.o:     file format elf32-avr
 
@@ -465,6 +471,82 @@ Disassembly of section .text.getCharDebug:
    6:	00 c0       	rjmp	.+0      	; 0x8 <getCharDebug+0x8>
    8:	80 91 ce 00 	lds	r24, 0x00CE
    c:	08 95       	ret
+
+motors.o:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00000000  00000000  00000034  2**0
+                  ALLOC
+  3 .text.stopMotors 00000002  00000000  00000000  00000034  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  4 .text.gotoAngles 00000002  00000000  00000000  00000036  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  5 .text.gotoXY  00000002  00000000  00000000  00000038  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  6 .text.homePos 00000002  00000000  00000000  0000003a  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  7 .text.driveLink 00000044  00000000  00000000  0000003c  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+
+Disassembly of section .text.stopMotors:
+
+00000000 <stopMotors>:
+   0:	08 95       	ret
+
+Disassembly of section .text.gotoAngles:
+
+00000000 <gotoAngles>:
+   0:	08 95       	ret
+
+Disassembly of section .text.gotoXY:
+
+00000000 <gotoXY>:
+   0:	08 95       	ret
+
+Disassembly of section .text.homePos:
+
+00000000 <homePos>:
+   0:	08 95       	ret
+
+Disassembly of section .text.driveLink:
+
+00000000 <driveLink>:
+   0:	cf 93       	push	r28
+   2:	df 93       	push	r29
+   4:	eb 01       	movw	r28, r22
+   6:	01 97       	sbiw	r24, 0x01	; 1
+   8:	01 f4       	brne	.+0      	; 0xa <driveLink+0xa>
+   a:	77 fd       	sbrc	r23, 7
+   c:	00 c0       	rjmp	.+0      	; 0xe <driveLink+0xe>
+   e:	80 e0       	ldi	r24, 0x00	; 0
+  10:	90 e0       	ldi	r25, 0x00	; 0
+  12:	60 e0       	ldi	r22, 0x00	; 0
+  14:	70 e0       	ldi	r23, 0x00	; 0
+  16:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  1a:	81 e0       	ldi	r24, 0x01	; 1
+  1c:	90 e0       	ldi	r25, 0x00	; 0
+  1e:	be 01       	movw	r22, r28
+  20:	00 c0       	rjmp	.+0      	; 0x22 <driveLink+0x22>
+  22:	66 27       	eor	r22, r22
+  24:	77 27       	eor	r23, r23
+  26:	6c 1b       	sub	r22, r28
+  28:	7d 0b       	sbc	r23, r29
+  2a:	80 e0       	ldi	r24, 0x00	; 0
+  2c:	90 e0       	ldi	r25, 0x00	; 0
+  2e:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  32:	81 e0       	ldi	r24, 0x01	; 1
+  34:	90 e0       	ldi	r25, 0x00	; 0
+  36:	60 e0       	ldi	r22, 0x00	; 0
+  38:	70 e0       	ldi	r23, 0x00	; 0
+  3a:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  3e:	df 91       	pop	r29
+  40:	cf 91       	pop	r28
+  42:	08 95       	ret
 
 ports.o:     file format elf32-avr
 
