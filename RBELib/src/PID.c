@@ -82,8 +82,8 @@ signed int calcPID(char link, int setPoint, int actPos) {
 
 		// sum past errors
 		// put current error into array and shift down
-		for (i = 1; i < NUMERRS; i++) {
-			errSum += pastErr_L[i-1];
+		for (i = NUMERRS; i > 0; i--) {
+			errSum += pastErr_L[i];
 			pastErr_L[i] = pastErr_L[i-1];
 		}
 
@@ -112,7 +112,7 @@ signed int calcPID(char link, int setPoint, int actPos) {
 		dVal = -4095;
 	}
 
-	printf("pVal: %d iVal: %d dVal: %d ", pVal, iVal, dVal);
+	printf("pVal: %ld iVal: %ld dVal: %ld ", pVal, iVal, 100);
 	return pVal + iVal + dVal;
 }
 

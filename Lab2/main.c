@@ -2,6 +2,7 @@
 //For use of abs()
 #include <stdlib.h>
 #include <avr/interrupt.h>
+#include <RBELib/vals.h>
 
 
 #define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency

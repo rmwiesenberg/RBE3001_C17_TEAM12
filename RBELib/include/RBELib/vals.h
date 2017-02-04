@@ -1,5 +1,5 @@
 /**
- * @file Lib.h
+ * @file vals.h
  *
  * @brief Header file to store structs that hold data and functions for those data structs
  * @author Rayyan Khan, Ben Titus, Ryan Wiesenberg
@@ -10,7 +10,7 @@
 
 
 
-typedef struct {
+typedef struct{
 	unsigned short adcVal;
 	unsigned int angle;
 	unsigned int mVolt;
