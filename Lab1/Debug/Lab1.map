@@ -605,13 +605,13 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000      0x990
+.stab           0x00000000      0x9b4
  *(.stab)
- .stab          0x00000000      0x990 ./main.o
+ .stab          0x00000000      0x9b4 ./main.o
 
-.stabstr        0x00000000      0xd11
+.stabstr        0x00000000      0xda2
  *(.stabstr)
- .stabstr       0x00000000      0xd11 ./main.o
+ .stabstr       0x00000000      0xda2 ./main.o
 
 .stab.excl
  *(.stab.excl)

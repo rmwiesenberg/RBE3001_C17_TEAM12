@@ -13,7 +13,8 @@ main.o main.o: ../main.c \
   C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/ports.h \
   C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/SPI.h \
   C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/SetServo.h \
-  C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/SlaveSelects.h
+  C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/SlaveSelects.h \
+  C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/vals.h
 
 C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/RBELib.h:
 
@@ -44,3 +45,5 @@ C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/SPI.h:
 C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/SetServo.h:
 
 C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/SlaveSelects.h:
+
+C:\Users\Ben\git\RBE3001_C17_TEAM12\RBELib\include/RBELib/vals.h:

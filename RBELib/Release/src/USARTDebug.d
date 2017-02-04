@@ -6,7 +6,7 @@ src/USARTDebug.o src/USARTDebug.o: ../src/USARTDebug.c \
   .././include/RBELib/pot.h .././include/RBELib/PID.h \
   .././include/RBELib/reg_structs.h .././include/RBELib/ports.h \
   .././include/RBELib/SPI.h .././include/RBELib/SetServo.h \
-  .././include/RBELib/SlaveSelects.h
+  .././include/RBELib/SlaveSelects.h .././include/RBELib/vals.h
 
 .././include/RBELib/RBELib.h:
 
@@ -37,3 +37,5 @@ src/USARTDebug.o src/USARTDebug.o: ../src/USARTDebug.c \
 .././include/RBELib/SetServo.h:
 
 .././include/RBELib/SlaveSelects.h:
+
+.././include/RBELib/vals.h:

@@ -45,10 +45,16 @@ void gotoXY(int x, int y){
 void driveLink(int link, int dir){
 	if(link == 1){
 		if(dir >= 0){
+			if (dir > 4095) {
+				dir = 4095;
+			}
 			setDAC(0, 0);
 			setDAC(1, dir);
 		}
 		if(dir < 0){
+			if (dir < -4095) {
+				dir = -4095;
+			}
 			setDAC(0, dir*-1);
 			setDAC(1, 0);
 		}

@@ -2,7 +2,6 @@
 //For use of abs()
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include <../include/Lib.h>
 
 
 #define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency
@@ -10,6 +9,7 @@
 #define TICK				COUNT_FREQUENCY / 8192.		// 4096 ticks in 1 second = 4096 in 9000 counts = 2.197265 counts / tick
 
 #define POT_CHANNEL 2
+#define KC 750
 
 unsigned long FREQ1 = 9024;
 
@@ -30,7 +30,7 @@ void potRead() {
 				unsigned int adcVal = getADC(POT_CHANNEL);// implemented in adc.c
 
 				int potOut_mVolts = (int) (adcVal * (5000. / 1023.));
-				int potAngle = (int) ((adcVal * (250. / 1023.))-83);
+				int potAngle = (int) ((adcVal * (265. / 1023.))-83);
 
 				printf("%d,%d,%d,%d\n\r", i, adcVal, potOut_mVolts, potAngle);
 				_delay_ms(1000);
@@ -39,6 +39,37 @@ void potRead() {
 
 		} else {
 		}
+	}
+}
+
+void movePID() {
+	setConst('H', 45, 0, 5);
+	int pid = 0;
+	int i = 0;
+	int aVal = getADC(2);
+	PotVal potVal;
+	setPotVal(&potVal, 'H', aVal);
+
+	DDRB = 0xFF; //Set Port as output
+	initADC(POT_CHANNEL);		// init ADC on port 4
+	initSPI();
+	driveLink(1, 0);
+
+	while(1) {
+//
+//		printf("Input a command character: \n\r");
+//		char cmd = getCharDebug();			// polls for input, locks up program
+//		if (cmd == 'S') {
+			aVal = getADC(POT_CHANNEL);
+			setPotVal(&potVal, 'H', aVal);
+			pid = calcPID('H', 90, potVal.angle);
+			printf("count: %d pid: %d ", i, pid);
+			driveLink(1, pid);
+			printPotVal(potVal);
+			i++;
+			_delay_ms(10);
+//		} else {
+//		}
 	}
 }
 
@@ -89,6 +120,8 @@ int main(void) {
 
 	initRBELib();
 	debugUSARTInit(115200);
+	movePID();
+	potRead();
 
 	//potRead();
 

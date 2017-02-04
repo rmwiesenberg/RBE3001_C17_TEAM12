@@ -1,4 +1,4 @@
-src/SPI.o src/SPI.o: ../src/SPI.c .././include/RBELib/RBELib.h \
+src/PID.o src/PID.o: ../src/PID.c .././include/RBELib/RBELib.h \
   .././include/RBELib/ADC.h .././include/RBELib/DAC.h \
   .././include/RBELib/Debug.h .././include/RBELib/motors.h \
   .././include/RBELib/USARTDebug.h .././include/RBELib/timer.h \

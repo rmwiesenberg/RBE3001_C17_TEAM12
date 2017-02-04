@@ -7,31 +7,37 @@ C_SRCS += \
 ../src/ADC.c \
 ../src/DAC.c \
 ../src/Debug.c \
+../src/PID.c \
 ../src/SPI.c \
 ../src/USARTDebug.c \
 ../src/motors.c \
 ../src/ports.c \
-../src/timer.c 
+../src/timer.c \
+../src/vals.c 
 
 OBJS += \
 ./src/ADC.o \
 ./src/DAC.o \
 ./src/Debug.o \
+./src/PID.o \
 ./src/SPI.o \
 ./src/USARTDebug.o \
 ./src/motors.o \
 ./src/ports.o \
-./src/timer.o 
+./src/timer.o \
+./src/vals.o 
 
 C_DEPS += \
 ./src/ADC.d \
 ./src/DAC.d \
 ./src/Debug.d \
+./src/PID.d \
 ./src/SPI.d \
 ./src/USARTDebug.d \
 ./src/motors.d \
 ./src/ports.d \
-./src/timer.d 
+./src/timer.d \
+./src/vals.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -5,7 +5,8 @@ src/Debug.o src/Debug.o: ../src/Debug.c .././include/RBELib/RBELib.h \
   .././include/RBELib/Periph.h .././include/RBELib/pot.h \
   .././include/RBELib/PID.h .././include/RBELib/reg_structs.h \
   .././include/RBELib/ports.h .././include/RBELib/SPI.h \
-  .././include/RBELib/SetServo.h .././include/RBELib/SlaveSelects.h
+  .././include/RBELib/SetServo.h .././include/RBELib/SlaveSelects.h \
+  .././include/RBELib/vals.h
 
 .././include/RBELib/RBELib.h:
 
@@ -36,3 +37,5 @@ src/Debug.o src/Debug.o: ../src/Debug.c .././include/RBELib/RBELib.h \
 .././include/RBELib/SetServo.h:
 
 .././include/RBELib/SlaveSelects.h:
+
+.././include/RBELib/vals.h:
