@@ -10,6 +10,7 @@ C_SRCS += \
 ../src/PID.c \
 ../src/SPI.c \
 ../src/USARTDebug.c \
+../src/curSense.c \
 ../src/motors.c \
 ../src/ports.c \
 ../src/timer.c \
@@ -22,6 +23,7 @@ OBJS += \
 ./src/PID.o \
 ./src/SPI.o \
 ./src/USARTDebug.o \
+./src/curSense.o \
 ./src/motors.o \
 ./src/ports.o \
 ./src/timer.o \
@@ -34,6 +36,7 @@ C_DEPS += \
 ./src/PID.d \
 ./src/SPI.d \
 ./src/USARTDebug.d \
+./src/curSense.d \
 ./src/motors.d \
 ./src/ports.d \
 ./src/timer.d \

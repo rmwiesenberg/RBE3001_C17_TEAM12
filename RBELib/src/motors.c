@@ -7,7 +7,10 @@
 #include <RBELib/RBELib.h>
 
 void stopMotors(){
-
+	int i;
+	for (i = 0; i < 4; i++) {
+		setDAC(i, 0);
+	}
 }
 
 /**
@@ -19,7 +22,14 @@ void stopMotors(){
  * @todo Make a way to drive the links to a desired angle.
  */
 void gotoAngles(int lowerTheta, int upperTheta){
+	int ang_L = getADC(2);
+	int ang_H = getADC(3);
 
+	unsigned short pid_H = calcPID('H', upperTheta, ang_H);
+	unsigned short pid_L = calcPID('L', lowerTheta, ang_L);
+
+	driveLink(0, pid_L);
+	driveLink(1, pid_H);
 }
 
 /**

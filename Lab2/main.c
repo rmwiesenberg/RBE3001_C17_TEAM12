@@ -11,6 +11,7 @@
 
 #define POT_CHANNEL 2
 #define KC 750
+#define DEBUG_EN 1
 
 unsigned long FREQ1 = 9024;
 
@@ -43,9 +44,12 @@ void potRead() {
 	}
 }
 
-void movePID() {
-	setConst('H', 45, 0, 5);
-	int pid = 0;
+volatile BYTE timerFlag = 0;
+
+void movePID(int ang1, int ang2) {
+	initTimer(1,CTC,64);  //start 100.1603Hz timer
+	setConst('H', 45, 0, 5); //set the PID constants for high link
+	int pid_h = 0; //PID output to motor
 	int i = 0;
 	int aVal = getADC(2);
 	PotVal potVal;
@@ -57,24 +61,25 @@ void movePID() {
 	driveLink(1, 0);
 
 	while(1) {
-//
-//		printf("Input a command character: \n\r");
-//		char cmd = getCharDebug();			// polls for input, locks up program
-//		if (cmd == 'S') {
+		if (timerFlag) {
+			timerFlag = 0;
+
 			aVal = getADC(POT_CHANNEL);
 			setPotVal(&potVal, 'H', aVal);
-			pid = calcPID('H', 90, potVal.angle);
-			printf("count: %d pid: %d ", i, pid);
-			driveLink(1, pid);
-			printPotVal(potVal);
+
+			pid_h = calcPID('H', 90, potVal.angle);
+			driveLink(1, pid_h);
+
+			if (DEBUG_EN) {
+				printf("count: %d pid_h: %d ", i, pid_h);
+				printPotVal(potVal);
+			}
 			i++;
-			_delay_ms(10);
-//		} else {
-//		}
+		}
 	}
 }
 
-volatile int timer = 0; // timer counter
+//volatile int timer = 0; // timer counter
 
 void triangleDAC() {
 	initSPI();
@@ -113,15 +118,15 @@ void triangleDAC() {
 	}
 }
 
-//ISR(TIMER0_COMPA_vect) {		// timer ISR, usable in all file functions
-//	timer++;
-//}
+ISR(TIMER1_COMPA_vect) {		// timer ISR, usable in all file functions
+	timerFlag = 1;
+}
 
 int main(void) {
 
 	initRBELib();
 	debugUSARTInit(115200);
-	movePID();
+	movePID(0,0); //moves the arm to two angles
 	potRead();
 
 	//potRead();
