@@ -57,13 +57,18 @@ void movePID(int ang1, int ang2) {
 
 	DDRB = 0xFF; //Set Port as output
 	initADC(POT_CHANNEL);		// init ADC on port 4
+	initADC(0);		// init ADC on port 4
+
 	initSPI();
 	driveLink(1, 0);
 
+
 	while(1) {
+
 		if (timerFlag) {
 			timerFlag = 0;
-
+			float currSense = (((getADC(0) * 7.2)/1023)-1.6)*2.5-4;
+			printf("%f \n\r", currSense);
 			aVal = getADC(POT_CHANNEL);
 			setPotVal(&potVal, 'H', aVal);
 
@@ -71,8 +76,8 @@ void movePID(int ang1, int ang2) {
 			driveLink(1, pid_h);
 
 			if (DEBUG_EN) {
-				printf("count: %d pid_h: %d ", i, pid_h);
-				printPotVal(potVal);
+				//printf("count: %d pid_h: %d ", i, pid_h);
+				//printPotVal(potVal);
 			}
 			i++;
 		}
@@ -127,26 +132,32 @@ int main(void) {
 	initRBELib();
 	debugUSARTInit(115200);
 	movePID(0,0); //moves the arm to two angles
-	potRead();
+	initADC(0);
+	driveLink(0, 0);
+	while(1){
+		int adcVal = getADC(0);
+		float calcCurr = 0;
+		printf("%f \n\r", (((getADC(0) * 7.2)/1023)-1.6)/(20 * 0.05));
+	}
 
 	//potRead();
 
 	//triangleDAC();
 
 	initSPI();
-	while(1){
-		unsigned char activ = getPinsVal('D', 3, 0, 1, 2);
-		if ((activ & 1)) {
-			driveLink(1, 0);
-		}
-		else if ((activ & 2) >> 1) {
-			driveLink(1, -2000);
-		}
-		else{
-			driveLink(1, 2000);
-
-		}
-	}
+//	while(1){
+//		unsigned char activ = getPinsVal('D', 3, 0, 1, 2);
+//		if ((activ & 1)) {
+//			driveLink(1, 0);
+//		}
+//		else if ((activ & 2) >> 1) {
+//			driveLink(1, -2000);
+//		}
+//		else{
+//			driveLink(1, 2000);
+//
+//		}
+//	}
 
 //	DDRB |= (1<<PB2);
 //	while(1) {

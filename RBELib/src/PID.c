@@ -112,7 +112,7 @@ signed int calcPID(char link, int setPoint, int actPos) {
 		dVal = -4095;
 	}
 
-	printf("pVal: %ld iVal: %ld dVal: %ld ", pVal, iVal, dVal);
+	//printf("pVal: %ld iVal: %ld dVal: %ld ", pVal, iVal, dVal);
 	return pVal + iVal + dVal;
 }
 
