@@ -84,7 +84,7 @@ signed int calcPID(char link, int setPoint, int actPos) {
 		// put current error into array and shift down
 		for (i = NUMERRS; i > 0; i--) {
 			errSum += pastErr_L[i];
-			pastErr_L[i] = pastErr_L[i-1];
+			pastErr_L[i-1] = pastErr_L[i];
 		}
 
 		// finish up for loop
@@ -96,6 +96,8 @@ signed int calcPID(char link, int setPoint, int actPos) {
 		iVal = pidConsts.Ki_L * errSum / SAMPLEFREQ;
 		dVal = pidConsts.Kd_L * (error - pastErr_L[1]) * SAMPLEFREQ;
 	}
+
+
 	if (pVal >= 4096) {
 		pVal = 4095;
 	} else if (pVal <= -4096) {

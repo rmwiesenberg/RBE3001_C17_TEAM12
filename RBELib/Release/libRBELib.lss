@@ -369,7 +369,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   3 .text.setConst 00000084  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  4 .text.calcPID 00000298  00000000  00000000  000000b8  2**0
+  4 .text.calcPID 00000294  00000000  00000000  000000b8  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.setConst:
@@ -527,185 +527,183 @@ Disassembly of section .text.calcPID:
   fa:	93 81       	ldd	r25, Z+3	; 0x03
   fc:	08 0f       	add	r16, r24
   fe:	19 1f       	adc	r17, r25
- 100:	80 81       	ld	r24, Z
- 102:	91 81       	ldd	r25, Z+1	; 0x01
- 104:	93 83       	std	Z+3, r25	; 0x03
- 106:	82 83       	std	Z+2, r24	; 0x02
- 108:	32 97       	sbiw	r30, 0x02	; 2
- 10a:	40 e0       	ldi	r20, 0x00	; 0
- 10c:	e0 30       	cpi	r30, 0x00	; 0
- 10e:	f4 07       	cpc	r31, r20
- 110:	01 f4       	brne	.+0      	; 0x112 <calcPID+0x112>
- 112:	f3 82       	std	Z+3, r15	; 0x03
- 114:	e2 82       	std	Z+2, r14	; 0x02
- 116:	b7 01       	movw	r22, r14
- 118:	88 27       	eor	r24, r24
- 11a:	77 fd       	sbrc	r23, 7
- 11c:	80 95       	com	r24
- 11e:	98 2f       	mov	r25, r24
- 120:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 124:	20 91 00 00 	lds	r18, 0x0000
- 128:	30 91 00 00 	lds	r19, 0x0000
- 12c:	40 91 00 00 	lds	r20, 0x0000
- 130:	50 91 00 00 	lds	r21, 0x0000
+ 100:	91 83       	std	Z+1, r25	; 0x01
+ 102:	80 83       	st	Z, r24
+ 104:	32 97       	sbiw	r30, 0x02	; 2
+ 106:	40 e0       	ldi	r20, 0x00	; 0
+ 108:	e0 30       	cpi	r30, 0x00	; 0
+ 10a:	f4 07       	cpc	r31, r20
+ 10c:	01 f4       	brne	.+0      	; 0x10e <calcPID+0x10e>
+ 10e:	f3 82       	std	Z+3, r15	; 0x03
+ 110:	e2 82       	std	Z+2, r14	; 0x02
+ 112:	b7 01       	movw	r22, r14
+ 114:	88 27       	eor	r24, r24
+ 116:	77 fd       	sbrc	r23, 7
+ 118:	80 95       	com	r24
+ 11a:	98 2f       	mov	r25, r24
+ 11c:	0e 94 00 00 	call	0	; 0x0 <calcPID>
+ 120:	20 91 00 00 	lds	r18, 0x0000
+ 124:	30 91 00 00 	lds	r19, 0x0000
+ 128:	40 91 00 00 	lds	r20, 0x0000
+ 12c:	50 91 00 00 	lds	r21, 0x0000
+ 130:	0e 94 00 00 	call	0	; 0x0 <calcPID>
  134:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 138:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 13c:	5b 01       	movw	r10, r22
- 13e:	6c 01       	movw	r12, r24
- 140:	0e 0d       	add	r16, r14
- 142:	1f 1d       	adc	r17, r15
- 144:	b8 01       	movw	r22, r16
- 146:	88 27       	eor	r24, r24
- 148:	77 fd       	sbrc	r23, 7
- 14a:	80 95       	com	r24
- 14c:	98 2f       	mov	r25, r24
- 14e:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 152:	20 91 00 00 	lds	r18, 0x0000
- 156:	30 91 00 00 	lds	r19, 0x0000
- 15a:	40 91 00 00 	lds	r20, 0x0000
- 15e:	50 91 00 00 	lds	r21, 0x0000
- 162:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 166:	20 e0       	ldi	r18, 0x00	; 0
- 168:	30 e0       	ldi	r19, 0x00	; 0
- 16a:	48 ec       	ldi	r20, 0xC8	; 200
- 16c:	52 e4       	ldi	r21, 0x42	; 66
+ 138:	5b 01       	movw	r10, r22
+ 13a:	6c 01       	movw	r12, r24
+ 13c:	0e 0d       	add	r16, r14
+ 13e:	1f 1d       	adc	r17, r15
+ 140:	b8 01       	movw	r22, r16
+ 142:	88 27       	eor	r24, r24
+ 144:	77 fd       	sbrc	r23, 7
+ 146:	80 95       	com	r24
+ 148:	98 2f       	mov	r25, r24
+ 14a:	0e 94 00 00 	call	0	; 0x0 <calcPID>
+ 14e:	20 91 00 00 	lds	r18, 0x0000
+ 152:	30 91 00 00 	lds	r19, 0x0000
+ 156:	40 91 00 00 	lds	r20, 0x0000
+ 15a:	50 91 00 00 	lds	r21, 0x0000
+ 15e:	0e 94 00 00 	call	0	; 0x0 <calcPID>
+ 162:	20 e0       	ldi	r18, 0x00	; 0
+ 164:	30 e0       	ldi	r19, 0x00	; 0
+ 166:	48 ec       	ldi	r20, 0xC8	; 200
+ 168:	52 e4       	ldi	r21, 0x42	; 66
+ 16a:	0e 94 00 00 	call	0	; 0x0 <calcPID>
  16e:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 172:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 176:	3b 01       	movw	r6, r22
- 178:	4c 01       	movw	r8, r24
- 17a:	80 91 00 00 	lds	r24, 0x0000
- 17e:	90 91 00 00 	lds	r25, 0x0000
- 182:	e8 1a       	sub	r14, r24
- 184:	f9 0a       	sbc	r15, r25
- 186:	b7 01       	movw	r22, r14
- 188:	88 27       	eor	r24, r24
- 18a:	77 fd       	sbrc	r23, 7
- 18c:	80 95       	com	r24
- 18e:	98 2f       	mov	r25, r24
- 190:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 194:	20 91 00 00 	lds	r18, 0x0000
- 198:	30 91 00 00 	lds	r19, 0x0000
- 19c:	40 91 00 00 	lds	r20, 0x0000
- 1a0:	50 91 00 00 	lds	r21, 0x0000
- 1a4:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 1a8:	20 e0       	ldi	r18, 0x00	; 0
- 1aa:	30 e0       	ldi	r19, 0x00	; 0
- 1ac:	48 ec       	ldi	r20, 0xC8	; 200
- 1ae:	52 e4       	ldi	r21, 0x42	; 66
+ 172:	3b 01       	movw	r6, r22
+ 174:	4c 01       	movw	r8, r24
+ 176:	80 91 00 00 	lds	r24, 0x0000
+ 17a:	90 91 00 00 	lds	r25, 0x0000
+ 17e:	e8 1a       	sub	r14, r24
+ 180:	f9 0a       	sbc	r15, r25
+ 182:	b7 01       	movw	r22, r14
+ 184:	88 27       	eor	r24, r24
+ 186:	77 fd       	sbrc	r23, 7
+ 188:	80 95       	com	r24
+ 18a:	98 2f       	mov	r25, r24
+ 18c:	0e 94 00 00 	call	0	; 0x0 <calcPID>
+ 190:	20 91 00 00 	lds	r18, 0x0000
+ 194:	30 91 00 00 	lds	r19, 0x0000
+ 198:	40 91 00 00 	lds	r20, 0x0000
+ 19c:	50 91 00 00 	lds	r21, 0x0000
+ 1a0:	0e 94 00 00 	call	0	; 0x0 <calcPID>
+ 1a4:	20 e0       	ldi	r18, 0x00	; 0
+ 1a6:	30 e0       	ldi	r19, 0x00	; 0
+ 1a8:	48 ec       	ldi	r20, 0xC8	; 200
+ 1aa:	52 e4       	ldi	r21, 0x42	; 66
+ 1ac:	0e 94 00 00 	call	0	; 0x0 <calcPID>
  1b0:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 1b4:	0e 94 00 00 	call	0	; 0x0 <calcPID>
- 1b8:	9b 01       	movw	r18, r22
- 1ba:	ac 01       	movw	r20, r24
- 1bc:	81 e0       	ldi	r24, 0x01	; 1
- 1be:	a8 16       	cp	r10, r24
- 1c0:	80 ef       	ldi	r24, 0xF0	; 240
- 1c2:	b8 06       	cpc	r11, r24
+ 1b4:	9b 01       	movw	r18, r22
+ 1b6:	ac 01       	movw	r20, r24
+ 1b8:	81 e0       	ldi	r24, 0x01	; 1
+ 1ba:	a8 16       	cp	r10, r24
+ 1bc:	80 ef       	ldi	r24, 0xF0	; 240
+ 1be:	b8 06       	cpc	r11, r24
+ 1c0:	8f ef       	ldi	r24, 0xFF	; 255
+ 1c2:	c8 06       	cpc	r12, r24
  1c4:	8f ef       	ldi	r24, 0xFF	; 255
- 1c6:	c8 06       	cpc	r12, r24
- 1c8:	8f ef       	ldi	r24, 0xFF	; 255
- 1ca:	d8 06       	cpc	r13, r24
- 1cc:	04 f4       	brge	.+0      	; 0x1ce <calcPID+0x1ce>
- 1ce:	61 e0       	ldi	r22, 0x01	; 1
- 1d0:	a6 2e       	mov	r10, r22
- 1d2:	60 ef       	ldi	r22, 0xF0	; 240
- 1d4:	b6 2e       	mov	r11, r22
+ 1c6:	d8 06       	cpc	r13, r24
+ 1c8:	04 f4       	brge	.+0      	; 0x1ca <calcPID+0x1ca>
+ 1ca:	61 e0       	ldi	r22, 0x01	; 1
+ 1cc:	a6 2e       	mov	r10, r22
+ 1ce:	60 ef       	ldi	r22, 0xF0	; 240
+ 1d0:	b6 2e       	mov	r11, r22
+ 1d2:	6f ef       	ldi	r22, 0xFF	; 255
+ 1d4:	c6 2e       	mov	r12, r22
  1d6:	6f ef       	ldi	r22, 0xFF	; 255
- 1d8:	c6 2e       	mov	r12, r22
- 1da:	6f ef       	ldi	r22, 0xFF	; 255
- 1dc:	d6 2e       	mov	r13, r22
- 1de:	c4 01       	movw	r24, r8
- 1e0:	b3 01       	movw	r22, r6
- 1e2:	61 30       	cpi	r22, 0x01	; 1
- 1e4:	e0 ef       	ldi	r30, 0xF0	; 240
- 1e6:	7e 07       	cpc	r23, r30
+ 1d8:	d6 2e       	mov	r13, r22
+ 1da:	c4 01       	movw	r24, r8
+ 1dc:	b3 01       	movw	r22, r6
+ 1de:	61 30       	cpi	r22, 0x01	; 1
+ 1e0:	e0 ef       	ldi	r30, 0xF0	; 240
+ 1e2:	7e 07       	cpc	r23, r30
+ 1e4:	ef ef       	ldi	r30, 0xFF	; 255
+ 1e6:	8e 07       	cpc	r24, r30
  1e8:	ef ef       	ldi	r30, 0xFF	; 255
- 1ea:	8e 07       	cpc	r24, r30
- 1ec:	ef ef       	ldi	r30, 0xFF	; 255
- 1ee:	9e 07       	cpc	r25, r30
- 1f0:	04 f4       	brge	.+0      	; 0x1f2 <calcPID+0x1f2>
- 1f2:	61 e0       	ldi	r22, 0x01	; 1
- 1f4:	70 ef       	ldi	r23, 0xF0	; 240
- 1f6:	8f ef       	ldi	r24, 0xFF	; 255
- 1f8:	9f ef       	ldi	r25, 0xFF	; 255
- 1fa:	79 01       	movw	r14, r18
- 1fc:	8a 01       	movw	r16, r20
- 1fe:	21 e0       	ldi	r18, 0x01	; 1
- 200:	e2 16       	cp	r14, r18
- 202:	20 ef       	ldi	r18, 0xF0	; 240
- 204:	f2 06       	cpc	r15, r18
+ 1ea:	9e 07       	cpc	r25, r30
+ 1ec:	04 f4       	brge	.+0      	; 0x1ee <calcPID+0x1ee>
+ 1ee:	61 e0       	ldi	r22, 0x01	; 1
+ 1f0:	70 ef       	ldi	r23, 0xF0	; 240
+ 1f2:	8f ef       	ldi	r24, 0xFF	; 255
+ 1f4:	9f ef       	ldi	r25, 0xFF	; 255
+ 1f6:	79 01       	movw	r14, r18
+ 1f8:	8a 01       	movw	r16, r20
+ 1fa:	21 e0       	ldi	r18, 0x01	; 1
+ 1fc:	e2 16       	cp	r14, r18
+ 1fe:	20 ef       	ldi	r18, 0xF0	; 240
+ 200:	f2 06       	cpc	r15, r18
+ 202:	2f ef       	ldi	r18, 0xFF	; 255
+ 204:	02 07       	cpc	r16, r18
  206:	2f ef       	ldi	r18, 0xFF	; 255
- 208:	02 07       	cpc	r16, r18
- 20a:	2f ef       	ldi	r18, 0xFF	; 255
- 20c:	12 07       	cpc	r17, r18
- 20e:	04 f4       	brge	.+0      	; 0x210 <calcPID+0x210>
- 210:	21 e0       	ldi	r18, 0x01	; 1
- 212:	e2 2e       	mov	r14, r18
- 214:	20 ef       	ldi	r18, 0xF0	; 240
- 216:	f2 2e       	mov	r15, r18
+ 208:	12 07       	cpc	r17, r18
+ 20a:	04 f4       	brge	.+0      	; 0x20c <calcPID+0x20c>
+ 20c:	21 e0       	ldi	r18, 0x01	; 1
+ 20e:	e2 2e       	mov	r14, r18
+ 210:	20 ef       	ldi	r18, 0xF0	; 240
+ 212:	f2 2e       	mov	r15, r18
+ 214:	2f ef       	ldi	r18, 0xFF	; 255
+ 216:	02 2f       	mov	r16, r18
  218:	2f ef       	ldi	r18, 0xFF	; 255
- 21a:	02 2f       	mov	r16, r18
- 21c:	2f ef       	ldi	r18, 0xFF	; 255
- 21e:	12 2f       	mov	r17, r18
- 220:	9b 01       	movw	r18, r22
- 222:	ac 01       	movw	r20, r24
- 224:	20 30       	cpi	r18, 0x00	; 0
- 226:	80 e1       	ldi	r24, 0x10	; 16
- 228:	38 07       	cpc	r19, r24
+ 21a:	12 2f       	mov	r17, r18
+ 21c:	9b 01       	movw	r18, r22
+ 21e:	ac 01       	movw	r20, r24
+ 220:	20 30       	cpi	r18, 0x00	; 0
+ 222:	80 e1       	ldi	r24, 0x10	; 16
+ 224:	38 07       	cpc	r19, r24
+ 226:	80 e0       	ldi	r24, 0x00	; 0
+ 228:	48 07       	cpc	r20, r24
  22a:	80 e0       	ldi	r24, 0x00	; 0
- 22c:	48 07       	cpc	r20, r24
- 22e:	80 e0       	ldi	r24, 0x00	; 0
- 230:	58 07       	cpc	r21, r24
- 232:	04 f0       	brlt	.+0      	; 0x234 <calcPID+0x234>
- 234:	2f ef       	ldi	r18, 0xFF	; 255
- 236:	3f e0       	ldi	r19, 0x0F	; 15
- 238:	40 e0       	ldi	r20, 0x00	; 0
- 23a:	50 e0       	ldi	r21, 0x00	; 0
- 23c:	c6 01       	movw	r24, r12
- 23e:	b5 01       	movw	r22, r10
- 240:	60 30       	cpi	r22, 0x00	; 0
- 242:	e0 e1       	ldi	r30, 0x10	; 16
- 244:	7e 07       	cpc	r23, r30
+ 22c:	58 07       	cpc	r21, r24
+ 22e:	04 f0       	brlt	.+0      	; 0x230 <calcPID+0x230>
+ 230:	2f ef       	ldi	r18, 0xFF	; 255
+ 232:	3f e0       	ldi	r19, 0x0F	; 15
+ 234:	40 e0       	ldi	r20, 0x00	; 0
+ 236:	50 e0       	ldi	r21, 0x00	; 0
+ 238:	c6 01       	movw	r24, r12
+ 23a:	b5 01       	movw	r22, r10
+ 23c:	60 30       	cpi	r22, 0x00	; 0
+ 23e:	e0 e1       	ldi	r30, 0x10	; 16
+ 240:	7e 07       	cpc	r23, r30
+ 242:	e0 e0       	ldi	r30, 0x00	; 0
+ 244:	8e 07       	cpc	r24, r30
  246:	e0 e0       	ldi	r30, 0x00	; 0
- 248:	8e 07       	cpc	r24, r30
- 24a:	e0 e0       	ldi	r30, 0x00	; 0
- 24c:	9e 07       	cpc	r25, r30
- 24e:	04 f0       	brlt	.+0      	; 0x250 <calcPID+0x250>
- 250:	6f ef       	ldi	r22, 0xFF	; 255
- 252:	7f e0       	ldi	r23, 0x0F	; 15
- 254:	80 e0       	ldi	r24, 0x00	; 0
- 256:	90 e0       	ldi	r25, 0x00	; 0
- 258:	26 0f       	add	r18, r22
- 25a:	37 1f       	adc	r19, r23
- 25c:	c8 01       	movw	r24, r16
- 25e:	b7 01       	movw	r22, r14
- 260:	60 30       	cpi	r22, 0x00	; 0
- 262:	40 e1       	ldi	r20, 0x10	; 16
- 264:	74 07       	cpc	r23, r20
+ 248:	9e 07       	cpc	r25, r30
+ 24a:	04 f0       	brlt	.+0      	; 0x24c <calcPID+0x24c>
+ 24c:	6f ef       	ldi	r22, 0xFF	; 255
+ 24e:	7f e0       	ldi	r23, 0x0F	; 15
+ 250:	80 e0       	ldi	r24, 0x00	; 0
+ 252:	90 e0       	ldi	r25, 0x00	; 0
+ 254:	26 0f       	add	r18, r22
+ 256:	37 1f       	adc	r19, r23
+ 258:	c8 01       	movw	r24, r16
+ 25a:	b7 01       	movw	r22, r14
+ 25c:	60 30       	cpi	r22, 0x00	; 0
+ 25e:	40 e1       	ldi	r20, 0x10	; 16
+ 260:	74 07       	cpc	r23, r20
+ 262:	40 e0       	ldi	r20, 0x00	; 0
+ 264:	84 07       	cpc	r24, r20
  266:	40 e0       	ldi	r20, 0x00	; 0
- 268:	84 07       	cpc	r24, r20
- 26a:	40 e0       	ldi	r20, 0x00	; 0
- 26c:	94 07       	cpc	r25, r20
- 26e:	04 f0       	brlt	.+0      	; 0x270 <calcPID+0x270>
- 270:	6f ef       	ldi	r22, 0xFF	; 255
- 272:	7f e0       	ldi	r23, 0x0F	; 15
- 274:	80 e0       	ldi	r24, 0x00	; 0
- 276:	90 e0       	ldi	r25, 0x00	; 0
- 278:	26 0f       	add	r18, r22
- 27a:	37 1f       	adc	r19, r23
- 27c:	c9 01       	movw	r24, r18
- 27e:	1f 91       	pop	r17
- 280:	0f 91       	pop	r16
- 282:	ff 90       	pop	r15
- 284:	ef 90       	pop	r14
- 286:	df 90       	pop	r13
- 288:	cf 90       	pop	r12
- 28a:	bf 90       	pop	r11
- 28c:	af 90       	pop	r10
- 28e:	9f 90       	pop	r9
- 290:	8f 90       	pop	r8
- 292:	7f 90       	pop	r7
- 294:	6f 90       	pop	r6
- 296:	08 95       	ret
+ 268:	94 07       	cpc	r25, r20
+ 26a:	04 f0       	brlt	.+0      	; 0x26c <calcPID+0x26c>
+ 26c:	6f ef       	ldi	r22, 0xFF	; 255
+ 26e:	7f e0       	ldi	r23, 0x0F	; 15
+ 270:	80 e0       	ldi	r24, 0x00	; 0
+ 272:	90 e0       	ldi	r25, 0x00	; 0
+ 274:	26 0f       	add	r18, r22
+ 276:	37 1f       	adc	r19, r23
+ 278:	c9 01       	movw	r24, r18
+ 27a:	1f 91       	pop	r17
+ 27c:	0f 91       	pop	r16
+ 27e:	ff 90       	pop	r15
+ 280:	ef 90       	pop	r14
+ 282:	df 90       	pop	r13
+ 284:	cf 90       	pop	r12
+ 286:	bf 90       	pop	r11
+ 288:	af 90       	pop	r10
+ 28a:	9f 90       	pop	r9
+ 28c:	8f 90       	pop	r8
+ 28e:	7f 90       	pop	r7
+ 290:	6f 90       	pop	r6
+ 292:	08 95       	ret
 
 SPI.o:     file format elf32-avr
 
@@ -864,11 +862,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   4 .text.homePos 00000002  00000000  00000000  00000036  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  5 .text.driveLink 0000005e  00000000  00000000  00000038  2**0
+  5 .text.driveLink 000000aa  00000000  00000000  00000038  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  6 .text.stopMotors 00000032  00000000  00000000  00000096  2**0
+  6 .text.stopMotors 00000032  00000000  00000000  000000e2  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  7 .text.gotoAngles 0000005a  00000000  00000000  000000c8  2**0
+  7 .text.gotoAngles 0000005a  00000000  00000000  00000114  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.gotoXY:
@@ -887,47 +885,83 @@ Disassembly of section .text.driveLink:
    0:	cf 93       	push	r28
    2:	df 93       	push	r29
    4:	eb 01       	movw	r28, r22
-   6:	01 97       	sbiw	r24, 0x01	; 1
-   8:	01 f4       	brne	.+0      	; 0xa <driveLink+0xa>
-   a:	77 fd       	sbrc	r23, 7
-   c:	00 c0       	rjmp	.+0      	; 0xe <driveLink+0xe>
-   e:	80 e0       	ldi	r24, 0x00	; 0
-  10:	90 e0       	ldi	r25, 0x00	; 0
-  12:	60 e0       	ldi	r22, 0x00	; 0
-  14:	70 e0       	ldi	r23, 0x00	; 0
-  16:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  1a:	be 01       	movw	r22, r28
-  1c:	20 e1       	ldi	r18, 0x10	; 16
-  1e:	c0 30       	cpi	r28, 0x00	; 0
-  20:	d2 07       	cpc	r29, r18
-  22:	04 f0       	brlt	.+0      	; 0x24 <driveLink+0x24>
-  24:	6f ef       	ldi	r22, 0xFF	; 255
-  26:	7f e0       	ldi	r23, 0x0F	; 15
-  28:	81 e0       	ldi	r24, 0x01	; 1
-  2a:	90 e0       	ldi	r25, 0x00	; 0
-  2c:	00 c0       	rjmp	.+0      	; 0x2e <driveLink+0x2e>
-  2e:	cb 01       	movw	r24, r22
-  30:	20 ef       	ldi	r18, 0xF0	; 240
-  32:	61 30       	cpi	r22, 0x01	; 1
-  34:	72 07       	cpc	r23, r18
-  36:	04 f4       	brge	.+0      	; 0x38 <driveLink+0x38>
-  38:	81 e0       	ldi	r24, 0x01	; 1
-  3a:	90 ef       	ldi	r25, 0xF0	; 240
-  3c:	66 27       	eor	r22, r22
-  3e:	77 27       	eor	r23, r23
-  40:	68 1b       	sub	r22, r24
-  42:	79 0b       	sbc	r23, r25
-  44:	80 e0       	ldi	r24, 0x00	; 0
-  46:	90 e0       	ldi	r25, 0x00	; 0
-  48:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  4c:	81 e0       	ldi	r24, 0x01	; 1
-  4e:	90 e0       	ldi	r25, 0x00	; 0
-  50:	60 e0       	ldi	r22, 0x00	; 0
-  52:	70 e0       	ldi	r23, 0x00	; 0
-  54:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  58:	df 91       	pop	r29
-  5a:	cf 91       	pop	r28
-  5c:	08 95       	ret
+   6:	81 30       	cpi	r24, 0x01	; 1
+   8:	91 05       	cpc	r25, r1
+   a:	01 f4       	brne	.+0      	; 0xc <driveLink+0xc>
+   c:	77 fd       	sbrc	r23, 7
+   e:	00 c0       	rjmp	.+0      	; 0x10 <driveLink+0x10>
+  10:	82 e0       	ldi	r24, 0x02	; 2
+  12:	90 e0       	ldi	r25, 0x00	; 0
+  14:	60 e0       	ldi	r22, 0x00	; 0
+  16:	70 e0       	ldi	r23, 0x00	; 0
+  18:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  1c:	be 01       	movw	r22, r28
+  1e:	20 e1       	ldi	r18, 0x10	; 16
+  20:	c0 30       	cpi	r28, 0x00	; 0
+  22:	d2 07       	cpc	r29, r18
+  24:	04 f0       	brlt	.+0      	; 0x26 <driveLink+0x26>
+  26:	6f ef       	ldi	r22, 0xFF	; 255
+  28:	7f e0       	ldi	r23, 0x0F	; 15
+  2a:	83 e0       	ldi	r24, 0x03	; 3
+  2c:	90 e0       	ldi	r25, 0x00	; 0
+  2e:	00 c0       	rjmp	.+0      	; 0x30 <driveLink+0x30>
+  30:	cb 01       	movw	r24, r22
+  32:	20 ef       	ldi	r18, 0xF0	; 240
+  34:	61 30       	cpi	r22, 0x01	; 1
+  36:	72 07       	cpc	r23, r18
+  38:	04 f4       	brge	.+0      	; 0x3a <driveLink+0x3a>
+  3a:	81 e0       	ldi	r24, 0x01	; 1
+  3c:	90 ef       	ldi	r25, 0xF0	; 240
+  3e:	66 27       	eor	r22, r22
+  40:	77 27       	eor	r23, r23
+  42:	68 1b       	sub	r22, r24
+  44:	79 0b       	sbc	r23, r25
+  46:	82 e0       	ldi	r24, 0x02	; 2
+  48:	90 e0       	ldi	r25, 0x00	; 0
+  4a:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  4e:	83 e0       	ldi	r24, 0x03	; 3
+  50:	90 e0       	ldi	r25, 0x00	; 0
+  52:	00 c0       	rjmp	.+0      	; 0x54 <driveLink+0x54>
+  54:	89 2b       	or	r24, r25
+  56:	01 f4       	brne	.+0      	; 0x58 <driveLink+0x58>
+  58:	77 fd       	sbrc	r23, 7
+  5a:	00 c0       	rjmp	.+0      	; 0x5c <driveLink+0x5c>
+  5c:	80 e1       	ldi	r24, 0x10	; 16
+  5e:	60 30       	cpi	r22, 0x00	; 0
+  60:	78 07       	cpc	r23, r24
+  62:	04 f0       	brlt	.+0      	; 0x64 <driveLink+0x64>
+  64:	6f ef       	ldi	r22, 0xFF	; 255
+  66:	7f e0       	ldi	r23, 0x0F	; 15
+  68:	80 e0       	ldi	r24, 0x00	; 0
+  6a:	90 e0       	ldi	r25, 0x00	; 0
+  6c:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  70:	81 e0       	ldi	r24, 0x01	; 1
+  72:	90 e0       	ldi	r25, 0x00	; 0
+  74:	60 e0       	ldi	r22, 0x00	; 0
+  76:	70 e0       	ldi	r23, 0x00	; 0
+  78:	00 c0       	rjmp	.+0      	; 0x7a <driveLink+0x7a>
+  7a:	80 e0       	ldi	r24, 0x00	; 0
+  7c:	90 e0       	ldi	r25, 0x00	; 0
+  7e:	60 e0       	ldi	r22, 0x00	; 0
+  80:	70 e0       	ldi	r23, 0x00	; 0
+  82:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  86:	ce 01       	movw	r24, r28
+  88:	20 ef       	ldi	r18, 0xF0	; 240
+  8a:	c1 30       	cpi	r28, 0x01	; 1
+  8c:	d2 07       	cpc	r29, r18
+  8e:	04 f4       	brge	.+0      	; 0x90 <driveLink+0x90>
+  90:	81 e0       	ldi	r24, 0x01	; 1
+  92:	90 ef       	ldi	r25, 0xF0	; 240
+  94:	66 27       	eor	r22, r22
+  96:	77 27       	eor	r23, r23
+  98:	68 1b       	sub	r22, r24
+  9a:	79 0b       	sbc	r23, r25
+  9c:	81 e0       	ldi	r24, 0x01	; 1
+  9e:	90 e0       	ldi	r25, 0x00	; 0
+  a0:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  a4:	df 91       	pop	r29
+  a6:	cf 91       	pop	r28
+  a8:	08 95       	ret
 
 Disassembly of section .text.stopMotors:
 
@@ -1412,6 +1446,8 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
   6 .text.printPotVal 0000007e  00000000  00000000  00000187  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  7 .text.getLinkAngle 00000048  00000000  00000000  00000205  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.setPotVal:
 
@@ -1452,7 +1488,7 @@ Disassembly of section .text.setPotVal:
   48:	0e 94 00 00 	call	0	; 0x0 <setPotVal>
   4c:	20 e0       	ldi	r18, 0x00	; 0
   4e:	30 e0       	ldi	r19, 0x00	; 0
-  50:	46 ea       	ldi	r20, 0xA6	; 166
+  50:	40 ea       	ldi	r20, 0xA0	; 160
   52:	52 e4       	ldi	r21, 0x42	; 66
   54:	0e 94 00 00 	call	0	; 0x0 <setPotVal>
   58:	0e 94 00 00 	call	0	; 0x0 <setPotVal>
@@ -1476,7 +1512,7 @@ Disassembly of section .text.setPotVal:
   80:	0e 94 00 00 	call	0	; 0x0 <setPotVal>
   84:	20 e0       	ldi	r18, 0x00	; 0
   86:	30 e0       	ldi	r19, 0x00	; 0
-  88:	44 eb       	ldi	r20, 0xB4	; 180
+  88:	4a e9       	ldi	r20, 0x9A	; 154
   8a:	52 e4       	ldi	r21, 0x42	; 66
   8c:	0e 94 00 00 	call	0	; 0x0 <setPotVal>
   90:	0e 94 00 00 	call	0	; 0x0 <setPotVal>
@@ -1619,3 +1655,38 @@ Disassembly of section .text.printPotVal:
   78:	cf 91       	pop	r28
   7a:	df 91       	pop	r29
   7c:	08 95       	ret
+
+Disassembly of section .text.getLinkAngle:
+
+00000000 <getLinkAngle>:
+   0:	88 34       	cpi	r24, 0x48	; 72
+   2:	01 f4       	brne	.+0      	; 0x4 <getLinkAngle+0x4>
+   4:	83 e0       	ldi	r24, 0x03	; 3
+   6:	90 e0       	ldi	r25, 0x00	; 0
+   8:	00 c0       	rjmp	.+0      	; 0xa <getLinkAngle+0xa>
+   a:	8c 34       	cpi	r24, 0x4C	; 76
+   c:	01 f0       	breq	.+0      	; 0xe <getLinkAngle+0xe>
+   e:	60 e0       	ldi	r22, 0x00	; 0
+  10:	70 e0       	ldi	r23, 0x00	; 0
+  12:	00 c0       	rjmp	.+0      	; 0x14 <getLinkAngle+0x14>
+  14:	82 e0       	ldi	r24, 0x02	; 2
+  16:	90 e0       	ldi	r25, 0x00	; 0
+  18:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  1c:	a0 e0       	ldi	r26, 0x00	; 0
+  1e:	b0 e0       	ldi	r27, 0x00	; 0
+  20:	bc 01       	movw	r22, r24
+  22:	cd 01       	movw	r24, r26
+  24:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  28:	28 e2       	ldi	r18, 0x28	; 40
+  2a:	31 ea       	ldi	r19, 0xA1	; 161
+  2c:	44 e8       	ldi	r20, 0x84	; 132
+  2e:	5e e3       	ldi	r21, 0x3E	; 62
+  30:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  34:	20 e0       	ldi	r18, 0x00	; 0
+  36:	30 e0       	ldi	r19, 0x00	; 0
+  38:	40 ea       	ldi	r20, 0xA0	; 160
+  3a:	52 e4       	ldi	r21, 0x42	; 66
+  3c:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  40:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  44:	cb 01       	movw	r24, r22
+  46:	08 95       	ret

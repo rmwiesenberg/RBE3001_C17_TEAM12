@@ -9,9 +9,9 @@
 #define VALS_H_
 
 //defines for setting PotVal struct
-#define H_OFFSET 83    // high link angle offset
+#define H_OFFSET 80    // high link angle offset
 #define H_SCALE 265.0  // high link angle scale factor
-#define L_OFFSET 90    // low link angle offset
+#define L_OFFSET 77    // low link angle offset
 #define L_SCALE 250.0  // low link angle scale factor
 
 
@@ -35,6 +35,7 @@ void printPotVal(PotVal aVal);
  */
 void setPotVal(PotVal* pot, char link, int adc);
 
+int getLinkAngle(char link);
 
 #define CUR_SCALE 200
 

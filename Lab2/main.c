@@ -1,5 +1,4 @@
 #include <RBELib/RBELib.h>
-//For use of abs()
 #include <stdlib.h>
 #include <avr/interrupt.h>
 #include <RBELib/vals.h>
@@ -9,9 +8,10 @@
 #define COUNT_FREQUENCY		TIMER_CLK / 256.			// count overflow interrupt fires 2.304 MHz kHz / 256 = 9000 times a second
 #define TICK				COUNT_FREQUENCY / 8192.		// 4096 ticks in 1 second = 4096 in 9000 counts = 2.197265 counts / tick
 
-#define POT_CHANNEL 2
+#define HIGH_POT 3
+#define LOW_POT 2
 #define KC 750
-#define DEBUG_EN 1
+#define DEBUG_EN 0
 
 unsigned long FREQ1 = 9024;
 
@@ -22,14 +22,14 @@ volatile int count0 = 0;
 void potRead() {
 
 	DDRB = 0xFF; //Set Port as output
-	initADC(POT_CHANNEL);		// init ADC on port 4
+	initADC(LOW_POT);		// init ADC on port 4
 	while (1) {
 		printf("Input a command character: \n\r");
 		char cmd = getCharDebug();			// polls for input, locks up program
 		if (cmd == 'S') {
 
 			for (int i = 0; i < 250; i++) {
-				unsigned int adcVal = getADC(POT_CHANNEL);// implemented in adc.c
+				unsigned int adcVal = getADC(LOW_POT);// implemented in adc.c
 
 				int potOut_mVolts = (int) (adcVal * (5000. / 1023.));
 				int potAngle = (int) ((adcVal * (265. / 1023.))-83);
@@ -46,21 +46,41 @@ void potRead() {
 
 volatile BYTE timerFlag = 0;
 
+void calcTipPos(int ang1, int ang2){
+	int xTip = 0;
+		xTip = 250 * cos(ang1) - 220 * cos(ang1 + ang2);
+	int yTip = 0;
+		yTip = 250 * sin(ang1) + 220 * sin(ang1 + ang2) + 190;
+
+	printf("x: %d y: %d \n\r", xTip, yTip);
+}
+
 void movePID(int ang1, int ang2) {
 	initTimer(1,CTC,64);  //start 100.1603Hz timer
-	setConst('H', 45, 0, 5); //set the PID constants for high link
+
+	initADC(LOW_POT);
+	initADC(HIGH_POT);		// init ADC on port 3
+	initADC(0);		// init ADC on port 0 - currSense
+
+
+
+	setConst('H', 45, 0, 2); //set the PID constants for high link
+	setConst('L', 45, 0, 2); //set the PID constants for low link
+
 	int pid_h = 0; //PID output to motor
+	int pid_l = 0;
 	int i = 0;
-	int aVal = getADC(2);
-	PotVal potVal;
-	setPotVal(&potVal, 'H', aVal);
+	int aValH = getADC(HIGH_POT);
+	int aValL = getADC(LOW_POT);
+
+	PotVal potVal, potValL;
+	setPotVal(&potVal, 'H', aValH);
+	setPotVal(&potValL, 'L', aValL);
 
 	DDRB = 0xFF; //Set Port as output
-	initADC(POT_CHANNEL);		// init ADC on port 4
-	initADC(0);		// init ADC on port 4
+
 
 	initSPI();
-	driveLink(1, 0);
 
 
 	while(1) {
@@ -68,16 +88,38 @@ void movePID(int ang1, int ang2) {
 		if (timerFlag) {
 			timerFlag = 0;
 			float currSense = (((getADC(0) * 7.2)/1023)-1.6)*2.5-4;
-			printf("%f \n\r", currSense);
-			aVal = getADC(POT_CHANNEL);
-			setPotVal(&potVal, 'H', aVal);
+			//printf("currSense: %f \n\r", currSense);
+			aValH = getADC(HIGH_POT);
+			aValL = getADC(LOW_POT);
+			setPotVal(&potVal, 'H', aValH);
+			setPotVal(&potValL, 'L', aValL);
 
-			pid_h = calcPID('H', 90, potVal.angle);
-			driveLink(1, pid_h);
+			unsigned char activ = getPinsVal('D', 3, 0, 1, 2);
+			if ((activ & 1)) {
+				pid_h = calcPID('H', 0, potVal.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 0, potValL.angle);
+				driveLink(0, pid_l);
+			}
+			else if ((activ & 2) >> 1) {
+				pid_h = calcPID('H', 45, potVal.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 45, potValL.angle);
+				driveLink(0, pid_l);
+			}
+			else{
+				pid_h = calcPID('H', 90, potVal.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 90, potValL.angle);
+				driveLink(0, pid_l);
+			}
+
+			calcTipPos(getLinkAngle('L'), getLinkAngle('H'));
 
 			if (DEBUG_EN) {
-				//printf("count: %d pid_h: %d ", i, pid_h);
-				//printPotVal(potVal);
+				printf("count: %d pid_h: %d pid_l: %d", i, pid_h, pid_l);
+				printPotVal(potVal);
+				printPotVal(potValL);
 			}
 			i++;
 		}
@@ -135,8 +177,6 @@ int main(void) {
 	initADC(0);
 	driveLink(0, 0);
 	while(1){
-		int adcVal = getADC(0);
-		float calcCurr = 0;
 		printf("%f \n\r", (((getADC(0) * 7.2)/1023)-1.6)/(20 * 0.05));
 	}
 

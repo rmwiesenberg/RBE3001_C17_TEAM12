@@ -14,6 +14,18 @@ void printPotVal(PotVal aVal) {
 	printf("adcVal: %d, angle: %d, mVolt: %d\n\r", aVal.adcVal, aVal.angle, aVal.mVolt);
 }
 
+int getLinkAngle(char link){
+	int angle = 0;
+	if (link == 'H') {
+		angle = ((getADC(3) * (H_SCALE / 1023.))-H_OFFSET);
+	}
+	if (link == 'L') {
+		angle = ((getADC(2) * (H_SCALE / 1023.))-H_OFFSET);
+	}
+
+	return angle;
+}
+
 void setPotVal(PotVal* pot, char link, int adc) {
 
 	pot->adcVal = adc;
@@ -28,8 +40,8 @@ void setPotVal(PotVal* pot, char link, int adc) {
 
 	// set value for low link
 	if (link == 'L') {
-		pot->angle = (adc * (L_SCALE / 1023.)) - L_OFFSET;
-		pot->mVolt = adc * (5000. / 1023.);
+		pot->angle = (int) ((adc * (L_SCALE / 1023.)) - L_OFFSET);
+		pot->mVolt = (int) (adc * (5000. / 1023.));
 	}
 
 //	printf("pot->angle: %d ", pot->angle);

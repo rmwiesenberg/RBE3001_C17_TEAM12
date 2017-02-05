@@ -53,22 +53,40 @@ void gotoXY(int x, int y){
  * @todo Create a way to drive either link in any direction.
  */
 void driveLink(int link, int dir){
+	//upperlink
 	if(link == 1){
 		if(dir >= 0){
 			if (dir > 4095) {
 				dir = 4095;
 			}
-			setDAC(0, 0);
-			setDAC(1, dir);
+			setDAC(2, 0);
+			setDAC(3, dir);
 		}
 		if(dir < 0){
 			if (dir < -4095) {
 				dir = -4095;
 			}
-			setDAC(0, dir*-1);
-			setDAC(1, 0);
+			setDAC(2, dir*-1);
+			setDAC(3, 0);
 		}
 	}
+	//lowerlink
+	if(link == 0){
+			if(dir >= 0){
+				if (dir > 4095) {
+					dir = 4095;
+				}
+				setDAC(0, dir);
+				setDAC(1, 0);
+			}
+			if(dir < 0){
+				if (dir < -4095) {
+					dir = -4095;
+				}
+				setDAC(0, 0);
+				setDAC(1, dir*-1);
+			}
+		}
 
 
 }
