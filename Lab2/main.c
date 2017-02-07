@@ -1,7 +1,8 @@
 #include <RBELib/RBELib.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include <RBELib/vals.h>
+#include "RBELib/vals.h"
+#include <Math.h>
 
 
 #define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency
@@ -10,8 +11,10 @@
 
 #define HIGH_POT 3
 #define LOW_POT 2
+#define HIGH_CUR 1
+#define LOW_CUR 0
 #define KC 750
-#define DEBUG_EN 0
+#define DEBUG_EN 1
 
 unsigned long FREQ1 = 9024;
 
@@ -72,9 +75,12 @@ void movePID(int ang1, int ang2) {
 	int i = 0;
 	int aValH = getADC(HIGH_POT);
 	int aValL = getADC(LOW_POT);
+	int adcCH = getADC(HIGH_CUR);
+	int adcCL = getADC(LOW_CUR);
 
-	PotVal potVal, potValL;
-	setPotVal(&potVal, 'H', aValH);
+	PotVal potValH, potValL;
+	CurVal curValH, curValL;
+	setPotVal(&potValH, 'H', aValH);
 	setPotVal(&potValL, 'L', aValL);
 
 	DDRB = 0xFF; //Set Port as output
@@ -83,43 +89,48 @@ void movePID(int ang1, int ang2) {
 	initSPI();
 
 
+
 	while(1) {
 
 		if (timerFlag) {
 			timerFlag = 0;
-			float currSense = (((getADC(0) * 7.2)/1023)-1.6)*2.5-4;
+//			float currSense = ((getADC(0) * (5000/1023))-2.5);
+			adcCH = getADC(1);
+			adcCL = getADC(1);
+			setCurVal(curValH, adcCH);
+			setCurVal(curValL, adcCH);
 			//printf("currSense: %f \n\r", currSense);
 			aValH = getADC(HIGH_POT);
 			aValL = getADC(LOW_POT);
-			setPotVal(&potVal, 'H', aValH);
+			setPotVal(&potValH, 'H', aValH);
 			setPotVal(&potValL, 'L', aValL);
 
 			unsigned char activ = getPinsVal('D', 3, 0, 1, 2);
 			if ((activ & 1)) {
-				pid_h = calcPID('H', 0, potVal.angle);
+				pid_h = calcPID('H', 0, potValH.angle);
 				driveLink(1, pid_h);
 				pid_l = calcPID('L', 0, potValL.angle);
 				driveLink(0, pid_l);
 			}
 			else if ((activ & 2) >> 1) {
-				pid_h = calcPID('H', 45, potVal.angle);
+				pid_h = calcPID('H', 45, potValH.angle);
 				driveLink(1, pid_h);
 				pid_l = calcPID('L', 45, potValL.angle);
 				driveLink(0, pid_l);
 			}
 			else{
-				pid_h = calcPID('H', 90, potVal.angle);
+				pid_h = calcPID('H', 90, potValH.angle);
 				driveLink(1, pid_h);
 				pid_l = calcPID('L', 90, potValL.angle);
 				driveLink(0, pid_l);
 			}
 
-			calcTipPos(getLinkAngle('L'), getLinkAngle('H'));
+			//calcTipPos(getLinkAngle('L'), getLinkAngle('H'));
 
 			if (DEBUG_EN) {
-				printf("count: %d pid_h: %d pid_l: %d", i, pid_h, pid_l);
-				printPotVal(potVal);
-				printPotVal(potValL);
+//				printPotVal(potVal);
+//				printPotVal(potValL);
+				printf("count: %d pid_h: %d pid_l: %d currentH: %d currentL: %d \n\r", i, pid_h, pid_l, curValH.mAmp, curValL.mAmp);
 			}
 			i++;
 		}

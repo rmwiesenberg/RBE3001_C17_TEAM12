@@ -14,6 +14,13 @@
 #define L_OFFSET 77    // low link angle offset
 #define L_SCALE 250.0  // low link angle scale factor
 
+#define CUR_SCALE 4.88
+
+
+typedef struct{
+	unsigned short adcVal;
+	unsigned int mAmp;
+} CurVal;
 
 typedef struct{
 	unsigned short adcVal;
@@ -37,13 +44,6 @@ void setPotVal(PotVal* pot, char link, int adc);
 
 int getLinkAngle(char link);
 
-#define CUR_SCALE 200
-
-
-typedef struct{
-	unsigned short adcVal;
-	unsigned int mAmp;
-} CurVal;
 
 /**
  * Takes in a CurVal struct and prints out its fields

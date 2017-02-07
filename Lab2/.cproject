@@ -22,7 +22,7 @@
 							<option id="de.innot.avreclipse.toolchain.options.toolchain.size.app.release.385634430" name="Print Size" superClass="de.innot.avreclipse.toolchain.options.toolchain.size.app.release" useByScannerDiscovery="false"/>
 							<option id="de.innot.avreclipse.toolchain.options.toolchain.avrdude.app.release.1714604039" name="AVRDude" superClass="de.innot.avreclipse.toolchain.options.toolchain.avrdude.app.release" useByScannerDiscovery="false"/>
 							<targetPlatform id="de.innot.avreclipse.targetplatform.winavr.app.release.1485923426" name="AVR Cross-Target" superClass="de.innot.avreclipse.targetplatform.winavr.app.release"/>
-							<builder buildPath="${workspace_loc:/Lab1}/Release" id="de.innot.avreclipse.target.builder.winavr.app.release.97766692" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="AVR GNU Make Builder" superClass="de.innot.avreclipse.target.builder.winavr.app.release"/>
+							<builder arguments="clean" buildPath="${workspace_loc:/Lab1}/Release" command="make" id="de.innot.avreclipse.target.builder.winavr.app.release.97766692" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="AVR GNU Make Builder" superClass="de.innot.avreclipse.target.builder.winavr.app.release"/>
 							<tool id="de.innot.avreclipse.tool.assembler.winavr.app.release.910403107" name="AVR Assembler" superClass="de.innot.avreclipse.tool.assembler.winavr.app.release">
 								<option id="de.innot.avreclipse.assembler.option.debug.level.536663458" name="Generate Debugging Info" superClass="de.innot.avreclipse.assembler.option.debug.level" useByScannerDiscovery="false" value="de.innot.avreclipse.assembler.option.debug.level.none" valueType="enumerated"/>
 								<inputType id="de.innot.avreclipse.tool.assembler.input.749678258" superClass="de.innot.avreclipse.tool.assembler.input"/>
@@ -72,10 +72,10 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="Debug">
+		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/Lab1"/>
 		</configuration>
-		<configuration configurationName="Release">
+		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/Lab1"/>
 		</configuration>
 	</storageModule>

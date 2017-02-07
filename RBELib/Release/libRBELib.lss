@@ -1434,19 +1434,19 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .text         00000000  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000037  00000000  00000000  00000034  2**0
+  1 .data         00000036  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000000  00000000  00000000  0000006b  2**0
+  2 .bss          00000000  00000000  00000000  0000006a  2**0
                   ALLOC
-  3 .text.setPotVal 000000be  00000000  00000000  0000006b  2**0
+  3 .text.setPotVal 000000be  00000000  00000000  0000006a  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  4 .text.setCurVal 00000024  00000000  00000000  00000129  2**0
-                  CONTENTS, ALLOC, LOAD, READONLY, CODE
-  5 .text.printCurVal 0000003a  00000000  00000000  0000014d  2**0
+  4 .text.setCurVal 00000038  00000000  00000000  00000128  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  6 .text.printPotVal 0000007e  00000000  00000000  00000187  2**0
+  5 .text.printCurVal 0000003a  00000000  00000000  00000160  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  7 .text.getLinkAngle 00000048  00000000  00000000  00000205  2**0
+  6 .text.printPotVal 0000007e  00000000  00000000  0000019a  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  7 .text.getLinkAngle 00000048  00000000  00000000  00000218  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.setPotVal:
@@ -1539,24 +1539,31 @@ Disassembly of section .text.setPotVal:
 Disassembly of section .text.setCurVal:
 
 00000000 <setCurVal>:
-   0:	fc 01       	movw	r30, r24
-   2:	71 83       	std	Z+1, r23	; 0x01
-   4:	60 83       	st	Z, r22
-   6:	60 50       	subi	r22, 0x00	; 0
-   8:	78 40       	sbci	r23, 0x08	; 8
-   a:	88 ec       	ldi	r24, 0xC8	; 200
-   c:	90 e0       	ldi	r25, 0x00	; 0
-   e:	9c 01       	movw	r18, r24
-  10:	62 9f       	mul	r22, r18
-  12:	c0 01       	movw	r24, r0
-  14:	63 9f       	mul	r22, r19
-  16:	90 0d       	add	r25, r0
-  18:	72 9f       	mul	r23, r18
-  1a:	90 0d       	add	r25, r0
-  1c:	11 24       	eor	r1, r1
-  1e:	93 83       	std	Z+3, r25	; 0x03
-  20:	82 83       	std	Z+2, r24	; 0x02
-  22:	08 95       	ret
+   0:	0f 93       	push	r16
+   2:	1f 93       	push	r17
+   4:	8c 01       	movw	r16, r24
+   6:	fc 01       	movw	r30, r24
+   8:	71 83       	std	Z+1, r23	; 0x01
+   a:	60 83       	st	Z, r22
+   c:	60 50       	subi	r22, 0x00	; 0
+   e:	78 40       	sbci	r23, 0x08	; 8
+  10:	88 27       	eor	r24, r24
+  12:	77 fd       	sbrc	r23, 7
+  14:	80 95       	com	r24
+  16:	98 2f       	mov	r25, r24
+  18:	0e 94 00 00 	call	0	; 0x0 <setCurVal>
+  1c:	26 ef       	ldi	r18, 0xF6	; 246
+  1e:	38 e2       	ldi	r19, 0x28	; 40
+  20:	4c e9       	ldi	r20, 0x9C	; 156
+  22:	50 e4       	ldi	r21, 0x40	; 64
+  24:	0e 94 00 00 	call	0	; 0x0 <setCurVal>
+  28:	0e 94 00 00 	call	0	; 0x0 <setCurVal>
+  2c:	f8 01       	movw	r30, r16
+  2e:	73 83       	std	Z+3, r23	; 0x03
+  30:	62 83       	std	Z+2, r22	; 0x02
+  32:	1f 91       	pop	r17
+  34:	0f 91       	pop	r16
+  36:	08 95       	ret
 
 Disassembly of section .text.printCurVal:
 

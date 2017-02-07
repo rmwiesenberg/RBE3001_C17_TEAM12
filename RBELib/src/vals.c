@@ -11,7 +11,7 @@
 
 
 void printPotVal(PotVal aVal) {
-	printf("adcVal: %d, angle: %d, mVolt: %d\n\r", aVal.adcVal, aVal.angle, aVal.mVolt);
+	printf("adcVal: %d, angle: %d, mVolt: %d ", aVal.adcVal, aVal.angle, aVal.mVolt);
 }
 
 int getLinkAngle(char link){
