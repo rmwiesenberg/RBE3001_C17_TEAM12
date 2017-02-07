@@ -14,17 +14,28 @@
 #define L_OFFSET 87    // low link angle offset
 #define L_SCALE 250.0  // low link angle scale factor
 
-#define CUR_SCALE 1.22
+#define CUR_SCALE 4.8828// 5000 / 1024
+
+#define DAC_SCALE 1.2207 // 5000 / 4096
+
+#define PI 3.14159265
+
 
 
 struct Motor{
-	unsigned short adcPot;
-	unsigned int angle;
-	unsigned int mVolt;
-
-	unsigned short adcCur;
-	unsigned int mAmp;
+	int adcPot;
+	int angle;
+	int mVolt;
+	int dacVal;
+	int dacVolt;
+	int adcCur;
+	int mAmp;
 };
+
+/**
+ *
+ */
+void calcTipPos(struct Motor m1, struct Motor m2);
 
 /**
  * Initializes the values for a PotVal struct
@@ -48,6 +59,14 @@ void setCurVal(struct Motor* motor, int adc);
  * @param aVal CurVal to print out
  */
 void printMotor(struct Motor motor);
+
+/**
+ * Takes in Motor struct and sets the DAC output voltage
+ * @param motor Motor to set value for
+ * @param dac DAC output value
+ */
+void setMotorVolt(struct Motor* motor, int dac);
+
 
 
 #endif

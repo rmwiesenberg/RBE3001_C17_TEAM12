@@ -68,7 +68,7 @@ signed int calcPID(char link, int setPoint, int actPos) {
 			errSum += pastErr_H[i];
 			pastErr_H[i-1] = pastErr_H[i];
 		}
-
+		// Finish up for loop
 		errSum += error;
 		pastErr_H[0] = error;
 
@@ -86,7 +86,6 @@ signed int calcPID(char link, int setPoint, int actPos) {
 			errSum += pastErr_L[i];
 			pastErr_L[i-1] = pastErr_L[i];
 		}
-
 		// finish up for loop
 		errSum += error;
 		pastErr_L[0] = error;

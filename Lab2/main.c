@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <avr/interrupt.h>
 #include <RBELib/vals.h>
+#include <Math.h>
 
 
 #define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency
@@ -14,11 +15,17 @@
 #define LOW_CUR 0
 #define KC 750
 #define DEBUG_EN 1
+#define NUM_POINTS 3
+#define TOL 3
 
 unsigned long FREQ1 = 9024;
 
 unsigned char mode, tog;
 volatile int count0 = 0;
+
+int pointArrayH[] = {10,90,45};
+int pointArrayL[] = {10,90,45};
+
 
 
 void potRead() {
@@ -48,30 +55,20 @@ void potRead() {
 
 volatile BYTE timerFlag = 0;
 
-void calcTipPos(int ang1, int ang2){
-	int xTip = 0;
-		xTip = 250 * cos(ang1) - 220 * cos(ang1 + ang2);
-	int yTip = 0;
-		yTip = 250 * sin(ang1) + 220 * sin(ang1 + ang2) + 190;
 
-	printf("x: %d y: %d \n\r", xTip, yTip);
-}
-
-void movePID(int ang1, int ang2) {
+void movePID() {
 	initTimer(1,CTC,64);  //start 100.1603Hz timer
 
 	initADC(LOW_POT);
 	initADC(HIGH_POT);		// init ADC on port 3
 	initADC(0);		// init ADC on port 0 - currSense
 
-
-
-	setConst('H', 45, 0, 2); //set the PID constants for high link
-	setConst('L', 45, 0, 2); //set the PID constants for low link
+	setConst('H', 45, 8, 2); //set the PID constants for high link
+	setConst('L', 45, 8, 2); //set the PID constants for low link
 
 	int pid_h = 0; //PID output to motor
 	int pid_l = 0;
-	int i = 0;
+	unsigned int i = 0;
 	int aValH = getADC(HIGH_POT);
 	int aValL = getADC(LOW_POT);
 	int adcCH = getADC(HIGH_CUR);
@@ -93,50 +90,331 @@ void movePID(int ang1, int ang2) {
 		if (timerFlag) {
 			timerFlag = 0;
 //			float currSense = ((getADC(0) * (5000/1023))-2.5);
-			adcCH = getADC(1);
-			adcCL = getADC(1);
+			adcCH = getADC(HIGH_CUR);
+			adcCL = getADC(LOW_CUR);
 			setCurVal(&motorH, adcCH);
-			setCurVal(&motorL, adcCH);
+			setCurVal(&motorL, adcCL);
+
 			//printf("currSense: %f \n\r", currSense);
 			aValH = getADC(HIGH_POT);
 			aValL = getADC(LOW_POT);
 			setPotVal(&motorH, 'H', aValH);
 			setPotVal(&motorL, 'L', aValL);
 
-			unsigned char activ = getPinsVal('D', 3, 0, 1, 2);
-			if ((activ & 1)) {
-				pid_h = calcPID('H', 0, motorH.angle);
+			unsigned char activ = getPinsVal('D', 3, 2, 1, 0);
+			if (activ == 0) {
+				pid_h = calcPID('H', 90, motorH.angle);
 				driveLink(1, pid_h);
 				pid_l = calcPID('L', 0, motorL.angle);
 				driveLink(0, pid_l);
-			}
-			else if ((activ & 2) >> 1) {
-				pid_h = calcPID('H', 45, motorH.angle);
+
+			} else if (activ == 1) {
+				pid_h = calcPID('H', 90, motorH.angle);
 				driveLink(1, pid_h);
-				pid_l = calcPID('L', 45, motorL.angle);
+				pid_l = calcPID('L', 30, motorL.angle);
 				driveLink(0, pid_l);
-			}
-			else{
+
+			} else if (activ == 2) {
+				pid_h = calcPID('H', 90, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 60, motorL.angle);
+				driveLink(0, pid_l);
+
+			} else {
 				pid_h = calcPID('H', 90, motorH.angle);
 				driveLink(1, pid_h);
 				pid_l = calcPID('L', 90, motorL.angle);
 				driveLink(0, pid_l);
 			}
 
+			setMotorVolt(&motorL, pid_l);
+			setMotorVolt(&motorH, pid_h);
+
+			//calcTipPos(getLinkAngle('L'), getLinkAngle('H'));
+
+			if (DEBUG_EN) {
+//				if (i > 19) {
+//					i = 0;
+	//				printPotVal(potVal);
+	//				printPotVal(motorL);
+					printf("%d,%d,%d,%d\n\r", i, motorL.angle, motorL.dacVolt, motorL.mAmp);
+//				}
+			}
+			i++;
+		}
+	}
+}
+
+void lab2BP4() {
+	initTimer(1,CTC,64);  //start 100.1603Hz timer
+
+	initADC(LOW_POT);
+	initADC(HIGH_POT);		// init ADC on port 3
+	initADC(0);		// init ADC on port 0 - currSense
+
+	setConst('H', 45, 8, 2); //set the PID constants for high link
+	setConst('L', 45, 8, 2); //set the PID constants for low link
+
+	int pid_h = 0; //PID output to motor
+	int pid_l = 0;
+	unsigned int i = 0;
+	int aValH = getADC(HIGH_POT);
+	int aValL = getADC(LOW_POT);
+	int adcCH = getADC(HIGH_CUR);
+	int adcCL = getADC(LOW_CUR);
+
+	struct Motor motorH, motorL;
+	setPotVal(&motorH, 'H', aValH);
+	setPotVal(&motorL, 'L', aValL);
+
+	DDRB = 0xFF; //Set Port as output
+
+
+	initSPI();
+
+
+
+	while(1) {
+
+		if (timerFlag) {
+			timerFlag = 0;
+//			float currSense = ((getADC(0) * (5000/1023))-2.5);
+			adcCH = getADC(HIGH_CUR);
+			adcCL = getADC(LOW_CUR);
+			setCurVal(&motorH, adcCH);
+			setCurVal(&motorL, adcCL);
+
+			//printf("currSense: %f \n\r", currSense);
+			aValH = getADC(HIGH_POT);
+			aValL = getADC(LOW_POT);
+			setPotVal(&motorH, 'H', aValH);
+			setPotVal(&motorL, 'L', aValL);
+
+			unsigned char activ = getPinsVal('D', 3, 2, 1, 0);
+			if (activ == 0) {
+				pid_h = calcPID('H', 90, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 0, motorL.angle);
+				driveLink(0, pid_l);
+
+			} else if (activ == 1) {
+				pid_h = calcPID('H', 0, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 45, motorL.angle);
+				driveLink(0, pid_l);
+
+			} else if (activ == 2) {
+				pid_h = calcPID('H', 45, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 45, motorL.angle);
+				driveLink(0, pid_l);
+
+			} else {
+				pid_h = calcPID('H', 90, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 90, motorL.angle);
+				driveLink(0, pid_l);
+			}
+
+			setMotorVolt(&motorL, pid_l);
+			setMotorVolt(&motorH, pid_h);
+
 			//calcTipPos(getLinkAngle('L'), getLinkAngle('H'));
 
 			if (DEBUG_EN) {
 				if (i > 19) {
+				calcTipPos(motorL, motorH);
 					i = 0;
 	//				printPotVal(potVal);
 	//				printPotVal(motorL);
-					printf("count: %5d pid_h: %5d pid_l: %5d currentH: %5d currentL: %5d \n\r", i, pid_h, pid_l, motorH.mAmp, motorL.mAmp);
+//					printf("%d,%d,%d,%d\n\r", i, motorL.angle, motorL.dacVolt, motorL.mAmp);
 				}
 			}
 			i++;
 		}
 	}
 }
+
+void lab2BP5() {
+	initTimer(1,CTC,64);  //start 100.1603Hz timer
+
+	initADC(LOW_POT);
+	initADC(HIGH_POT);		// init ADC on port 3
+	initADC(0);		// init ADC on port 0 - currSense
+
+	setConst('H', 45, 8, 2); //set the PID constants for high link
+	setConst('L', 45, 8, 2); //set the PID constants for low link
+
+	int pid_h = 0; //PID output to motor
+	int pid_l = 0;
+	BYTE i = 0;
+	unsigned int timer = 0;
+
+	int aValH = getADC(HIGH_POT);
+	int aValL = getADC(LOW_POT);
+	int adcCH = getADC(HIGH_CUR);
+	int adcCL = getADC(LOW_CUR);
+
+
+	struct Motor motorH, motorL;
+	setPotVal(&motorH, 'H', aValH);
+	setPotVal(&motorL, 'L', aValL);
+
+	setPinsDir('B', OUTPUT, 8, 1, 2, 3, 4, 5, 6, 7); //Set Port as output
+//	setPinsDir('C', OUTPUT, 1, 1);
+
+
+	initSPI();
+
+	while(1) {
+		for (i = 0; i < NUM_POINTS; i++) {
+			while( (abs(motorH.angle - pointArrayH[i]) > TOL) ||
+					(abs(motorL.angle - pointArrayL[i]) > TOL )) {
+
+				if (timerFlag) {
+//					if (timer > 19) {
+//						timer = 0;
+//						if (getPinsVal('C', 1, 1) & 1) {
+//							setPinsVal('C', 1, 1, 1);
+//
+//						} else {
+//							setPinsVal('C', 0, 1, 1);
+//						}
+//					}
+
+					timerFlag = 0;
+		//			float currSense = ((getADC(0) * (5000/1023))-2.5);
+					adcCH = getADC(HIGH_CUR);
+					adcCL = getADC(LOW_CUR);
+					setCurVal(&motorH, adcCH);
+					setCurVal(&motorL, adcCL);
+
+					//printf("currSense: %f \n\r", currSense);
+					aValH = getADC(HIGH_POT);
+					aValL = getADC(LOW_POT);
+					setPotVal(&motorH, 'H', aValH);
+					setPotVal(&motorL, 'L', aValL);
+
+
+					pid_h = calcPID('H', pointArrayH[i], motorH.angle);
+					driveLink(1, pid_h);
+					pid_l = calcPID('L', pointArrayL[i], motorL.angle);
+					driveLink(0, pid_l);
+
+
+					setMotorVolt(&motorL, pid_l);
+					setMotorVolt(&motorH, pid_h);
+
+					//calcTipPos(getLinkAngle('L'), getLinkAngle('H'));
+
+					if (DEBUG_EN) {
+//						if (timer > 19) {
+							printf("PoinH: %d, PointL: %d, ", pointArrayH[i], pointArrayL[i]);
+							calcTipPos(motorL, motorH);
+//							timer = 0;
+			//				printPotVal(potVal);
+			//				printPotVal(motorL);
+		//					printf("%d,%d,%d,%d\n\r", i, motorL.angle, motorL.dacVolt, motorL.mAmp);
+//						}
+					}
+					timer++;
+				}
+			}
+			stopMotors();
+			_delay_ms(1000);
+		}
+	}
+}
+void lab2BP6() {
+	initTimer(1,CTC,64);  //start 100.1603Hz timer
+
+	initADC(LOW_POT);
+	initADC(HIGH_POT);		// init ADC on port 3
+	initADC(0);		// init ADC on port 0 - currSense
+
+	setConst('H', 45, 8, 2); //set the PID constants for high link
+	setConst('L', 45, 8, 2); //set the PID constants for low link
+
+	int pid_h = 0; //PID output to motor
+	int pid_l = 0;
+	unsigned int i = 0;
+	int aValH = getADC(HIGH_POT);
+	int aValL = getADC(LOW_POT);
+	int adcCH = getADC(HIGH_CUR);
+	int adcCL = getADC(LOW_CUR);
+
+	struct Motor motorH, motorL;
+	setPotVal(&motorH, 'H', aValH);
+	setPotVal(&motorL, 'L', aValL);
+
+	DDRB = 0xFF; //Set Port as output
+
+
+	initSPI();
+
+
+
+	while(1) {
+
+		if (timerFlag) {
+			timerFlag = 0;
+//			float currSense = ((getADC(0) * (5000/1023))-2.5);
+			adcCH = getADC(HIGH_CUR);
+			adcCL = getADC(LOW_CUR);
+			setCurVal(&motorH, adcCH);
+			setCurVal(&motorL, adcCL);
+
+			//printf("currSense: %f \n\r", currSense);
+			aValH = getADC(HIGH_POT);
+			aValL = getADC(LOW_POT);
+			setPotVal(&motorH, 'H', aValH);
+			setPotVal(&motorL, 'L', aValL);
+
+			unsigned char activ = getPinsVal('D', 3, 2, 1, 0);
+			if (activ == 0) {
+				pid_h = calcPID('H', 90, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 0, motorL.angle);
+				driveLink(0, pid_l);
+
+			} else if (activ == 1) {
+				pid_h = calcPID('H', 0, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 45, motorL.angle);
+				driveLink(0, pid_l);
+
+			} else if (activ == 2) {
+				pid_h = calcPID('H', 45, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 45, motorL.angle);
+				driveLink(0, pid_l);
+
+			} else {
+				pid_h = calcPID('H', 90, motorH.angle);
+				driveLink(1, pid_h);
+				pid_l = calcPID('L', 90, motorL.angle);
+				driveLink(0, pid_l);
+			}
+
+			setMotorVolt(&motorL, pid_l);
+			setMotorVolt(&motorH, pid_h);
+
+			//calcTipPos(getLinkAngle('L'), getLinkAngle('H'));
+
+			if (DEBUG_EN) {
+				if (i > 19) {
+				calcTipPos(motorL, motorH);
+					i = 0;
+	//				printPotVal(potVal);
+	//				printPotVal(motorL);
+//					printf("%d,%d,%d,%d\n\r", i, motorL.angle, motorL.dacVolt, motorL.mAmp);
+				}
+			}
+			i++;
+		}
+	}
+}
+
 
 //volatile int timer = 0; // timer counter
 
@@ -185,7 +463,10 @@ int main(void) {
 
 	initRBELib();
 	debugUSARTInit(115200);
-	movePID(0,0); //moves the arm to two angles
+//	lab2BP4();
+	lab2BP5();
+//	lab2BP6();
+//	movePID(); //moves the arm to two angles
 	initADC(0);
 	driveLink(0, 0);
 	while(1){

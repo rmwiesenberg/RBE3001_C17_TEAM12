@@ -7,6 +7,20 @@
  */
 
 #include <RBELib/RBELib.h>
+#include <Math.h>
+
+
+void calcTipPos(struct Motor m1, struct Motor m2) {
+	double ang1, ang2;
+	ang1 = m1.angle * PI / 180.;
+	ang2 = m2.angle * PI / 180.;
+	int xTip = 0;
+		xTip = 250 * cos(ang1) + 220 * sin(ang1 + ang2);
+	int yTip = 0;
+		yTip = 250 * sin(ang1) - 220 * cos(ang1 + ang2) + 190;
+
+	printf("m1.ang: %3d m2.ang: %3d x: %4d y: %4d \n\r", m1.angle, m2.angle, xTip, yTip);
+}
 
 int getLinkAngle(char link){
 	int angle = 0;
@@ -47,9 +61,22 @@ void setPotVal(struct Motor* motor, char link, int adc) {
 
 void setCurVal(struct Motor* motor, int adc) {
 	motor->adcCur = adc;
-	motor->mAmp = (adc-512)*CUR_SCALE;
+	motor->mAmp = (adc);//-542)*(CUR_SCALE);
 }
 
 void printMotor(struct Motor motor) {
 	printf("adcPot: %d angle: %d mVolt:%d adcCur: %d mAmp: %d", motor.adcPot, motor.angle, motor.mVolt, motor.adcCur, motor.mAmp);
+}
+
+
+void setMotorVolt(struct Motor* motor, int dac) {
+	if (dac > 4095) {
+		dac = 4095;
+	}
+	if (dac < -4095) {
+		dac = -4095;
+	}
+
+	motor->dacVal = dac;
+	motor->dacVolt = dac * DAC_SCALE;
 }

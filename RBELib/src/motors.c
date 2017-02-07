@@ -7,9 +7,9 @@
 #include <RBELib/RBELib.h>
 
 void stopMotors(){
-	int i;
-	for (i = 0; i < 4; i++) {
-		setDAC(i, 0);
+	int i_;
+	for (i_ = 0; i_ < 4; i_++) {
+		setDAC(i_, 0);
 	}
 }
 
