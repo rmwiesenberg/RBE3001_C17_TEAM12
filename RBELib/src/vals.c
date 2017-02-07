@@ -8,12 +8,6 @@
 
 #include <RBELib/RBELib.h>
 
-
-
-void printPotVal(PotVal aVal) {
-	printf("adcVal: %d, angle: %d, mVolt: %d ", aVal.adcVal, aVal.angle, aVal.mVolt);
-}
-
 int getLinkAngle(char link){
 	int angle = 0;
 	if (link == 'H') {
@@ -26,22 +20,22 @@ int getLinkAngle(char link){
 	return angle;
 }
 
-void setPotVal(PotVal* pot, char link, int adc) {
+void setPotVal(struct Motor* motor, char link, int adc) {
 
-	pot->adcVal = adc;
+	motor->adcPot = adc;
 
 
 	//set values for high link
 	if (link == 'H') {
-		pot->mVolt = (int) (adc * (5000. / 1023.));
-		pot->angle = (int) ((adc * (H_SCALE / 1023.))-H_OFFSET);
+		motor->mVolt = (int) (adc * (5000. / 1023.));
+		motor->angle = (int) ((adc * (H_SCALE / 1023.))-H_OFFSET);
 //		printf("adcVal: %d, angle: %d, mVolt: %d ", pot->adcVal, pot->angle, pot->mVolt);
 	}
 
 	// set value for low link
 	if (link == 'L') {
-		pot->angle = (int) ((adc * (L_SCALE / 1023.)) - L_OFFSET);
-		pot->mVolt = (int) (adc * (5000. / 1023.));
+		motor->angle = (int) ((adc * (L_SCALE / 1023.)) - L_OFFSET);
+		motor->mVolt = (int) (adc * (5000. / 1023.));
 	}
 
 //	printf("pot->angle: %d ", pot->angle);
@@ -51,11 +45,11 @@ void setPotVal(PotVal* pot, char link, int adc) {
 }
 
 
-void printCurVal(CurVal aVal) {
-	printf("adcVal: %d mAmp: %d", aVal.adcVal, aVal.mAmp);
+void setCurVal(struct Motor* motor, int adc) {
+	motor->adcCur = adc;
+	motor->mAmp = (adc-512)*CUR_SCALE;
 }
 
-void setCurVal(CurVal* cur, int adc) {
-	cur->adcVal = adc;
-	cur->mAmp = (adc-2048)*CUR_SCALE;
+void printMotor(struct Motor motor) {
+	printf("adcPot: %d angle: %d mVolt:%d adcCur: %d mAmp: %d", motor.adcPot, motor.angle, motor.mVolt, motor.adcCur, motor.mAmp);
 }

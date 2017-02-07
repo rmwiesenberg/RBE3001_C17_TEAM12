@@ -1,8 +1,7 @@
 #include <RBELib/RBELib.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include "RBELib/vals.h"
-#include <Math.h>
+#include <RBELib/vals.h>
 
 
 #define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency
@@ -78,10 +77,9 @@ void movePID(int ang1, int ang2) {
 	int adcCH = getADC(HIGH_CUR);
 	int adcCL = getADC(LOW_CUR);
 
-	PotVal potValH, potValL;
-	CurVal curValH, curValL;
-	setPotVal(&potValH, 'H', aValH);
-	setPotVal(&potValL, 'L', aValL);
+	struct Motor motorH, motorL;
+	setPotVal(&motorH, 'H', aValH);
+	setPotVal(&motorL, 'L', aValL);
 
 	DDRB = 0xFF; //Set Port as output
 
@@ -97,40 +95,43 @@ void movePID(int ang1, int ang2) {
 //			float currSense = ((getADC(0) * (5000/1023))-2.5);
 			adcCH = getADC(1);
 			adcCL = getADC(1);
-			setCurVal(curValH, adcCH);
-			setCurVal(curValL, adcCH);
+			setCurVal(&motorH, adcCH);
+			setCurVal(&motorL, adcCH);
 			//printf("currSense: %f \n\r", currSense);
 			aValH = getADC(HIGH_POT);
 			aValL = getADC(LOW_POT);
-			setPotVal(&potValH, 'H', aValH);
-			setPotVal(&potValL, 'L', aValL);
+			setPotVal(&motorH, 'H', aValH);
+			setPotVal(&motorL, 'L', aValL);
 
 			unsigned char activ = getPinsVal('D', 3, 0, 1, 2);
 			if ((activ & 1)) {
-				pid_h = calcPID('H', 0, potValH.angle);
+				pid_h = calcPID('H', 0, motorH.angle);
 				driveLink(1, pid_h);
-				pid_l = calcPID('L', 0, potValL.angle);
+				pid_l = calcPID('L', 0, motorL.angle);
 				driveLink(0, pid_l);
 			}
 			else if ((activ & 2) >> 1) {
-				pid_h = calcPID('H', 45, potValH.angle);
+				pid_h = calcPID('H', 45, motorH.angle);
 				driveLink(1, pid_h);
-				pid_l = calcPID('L', 45, potValL.angle);
+				pid_l = calcPID('L', 45, motorL.angle);
 				driveLink(0, pid_l);
 			}
 			else{
-				pid_h = calcPID('H', 90, potValH.angle);
+				pid_h = calcPID('H', 90, motorH.angle);
 				driveLink(1, pid_h);
-				pid_l = calcPID('L', 90, potValL.angle);
+				pid_l = calcPID('L', 90, motorL.angle);
 				driveLink(0, pid_l);
 			}
 
 			//calcTipPos(getLinkAngle('L'), getLinkAngle('H'));
 
 			if (DEBUG_EN) {
-//				printPotVal(potVal);
-//				printPotVal(potValL);
-				printf("count: %d pid_h: %d pid_l: %d currentH: %d currentL: %d \n\r", i, pid_h, pid_l, curValH.mAmp, curValL.mAmp);
+				if (i > 19) {
+					i = 0;
+	//				printPotVal(potVal);
+	//				printPotVal(motorL);
+					printf("count: %5d pid_h: %5d pid_l: %5d currentH: %5d currentL: %5d \n\r", i, pid_h, pid_l, motorH.mAmp, motorL.mAmp);
+				}
 			}
 			i++;
 		}

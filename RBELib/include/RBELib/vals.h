@@ -9,30 +9,22 @@
 #define VALS_H_
 
 //defines for setting PotVal struct
-#define H_OFFSET 80    // high link angle offset
-#define H_SCALE 265.0  // high link angle scale factor
-#define L_OFFSET 77    // low link angle offset
+#define H_OFFSET 88    // high link angle offset
+#define H_SCALE 270.0  // high link angle scale factor
+#define L_OFFSET 87    // low link angle offset
 #define L_SCALE 250.0  // low link angle scale factor
 
-#define CUR_SCALE 4.88
+#define CUR_SCALE 1.22
 
 
-typedef struct{
-	unsigned short adcVal;
-	unsigned int mAmp;
-} CurVal;
-
-typedef struct{
-	unsigned short adcVal;
+struct Motor{
+	unsigned short adcPot;
 	unsigned int angle;
 	unsigned int mVolt;
-} PotVal;
 
-/**
- * Takes in a PotVal struct and prints out its fields
- * @param aVal PotVal to print out
- */
-void printPotVal(PotVal aVal);
+	unsigned short adcCur;
+	unsigned int mAmp;
+};
 
 /**
  * Initializes the values for a PotVal struct
@@ -40,22 +32,22 @@ void printPotVal(PotVal aVal);
  * @param link 'H' or 'L' for Upper or Lower link, respectively
  * @param adc ADC value to set the other values
  */
-void setPotVal(PotVal* pot, char link, int adc);
+void setPotVal(struct Motor* motor, char link, int adc);
 
 int getLinkAngle(char link);
-
-
-/**
- * Takes in a CurVal struct and prints out its fields
- * @param aVal CurVal to print out
- */
-void printCurVal(CurVal aVal);
 
 /**
  * Initializes the values for a CurVal struct
  * @param cur CurVal struct to initialize
  * @param adc ADC value read in from the current sense pins
  */
-void setCurVal(CurVal* cur, int adc);
+void setCurVal(struct Motor* motor, int adc);
+
+/**
+ * Takes in a CurVal struct and prints out its fields
+ * @param aVal CurVal to print out
+ */
+void printMotor(struct Motor motor);
+
 
 #endif
