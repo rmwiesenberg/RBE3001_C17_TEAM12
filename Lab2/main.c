@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <avr/interrupt.h>
 #include <RBELib/vals.h>
-#include <Math.h>
-
 
 #define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency
 #define COUNT_FREQUENCY		TIMER_CLK / 256.			// count overflow interrupt fires 2.304 MHz kHz / 256 = 9000 times a second
@@ -15,7 +13,6 @@
 #define LOW_CUR 0
 #define KC 750
 #define DEBUG_EN 1
-#define NUM_POINTS 3
 #define TOL 3
 
 unsigned long FREQ1 = 9024;
@@ -23,8 +20,8 @@ unsigned long FREQ1 = 9024;
 unsigned char mode, tog;
 volatile int count0 = 0;
 
-int pointArrayH[] = {10,90,45};
-int pointArrayL[] = {10,90,45};
+int pointArrayH[] = {-9,17,-33};
+int pointArrayL[] = {69,42,55};
 
 
 
@@ -44,7 +41,7 @@ void potRead() {
 				int potAngle = (int) ((adcVal * (265. / 1023.))-83);
 
 				printf("%d,%d,%d,%d\n\r", i, adcVal, potOut_mVolts, potAngle);
-				_delay_ms(1000);
+				_delay_ms(100);
 			}
 			printf("DONE \n\r");
 
@@ -137,7 +134,7 @@ void movePID() {
 //					i = 0;
 	//				printPotVal(potVal);
 	//				printPotVal(motorL);
-					printf("%d,%d,%d,%d\n\r", i, motorL.angle, motorL.dacVolt, motorL.mAmp);
+					printf("%d,%d,%d,%d\n\r", i, motorL.angle, motorL.dacVolt, (motorL.mAmp-512)/(.05*20));
 //				}
 			}
 			i++;
@@ -267,7 +264,7 @@ void lab2BP5() {
 	initSPI();
 
 	while(1) {
-		for (i = 0; i < NUM_POINTS; i++) {
+		for (i = 0; i < (sizeof(pointArrayH)/sizeof(pointArrayH[0])); i++) {
 			while( (abs(motorH.angle - pointArrayH[i]) > TOL) ||
 					(abs(motorL.angle - pointArrayL[i]) > TOL )) {
 
@@ -309,7 +306,7 @@ void lab2BP5() {
 
 					if (DEBUG_EN) {
 //						if (timer > 19) {
-							printf("PoinH: %d, PointL: %d, ", pointArrayH[i], pointArrayL[i]);
+//							printf("PoinH: %d, PointL: %d, ", pointArrayH[i], pointArrayL[i]);
 							calcTipPos(motorL, motorH);
 //							timer = 0;
 			//				printPotVal(potVal);
@@ -321,7 +318,7 @@ void lab2BP5() {
 				}
 			}
 			stopMotors();
-			_delay_ms(1000);
+			_delay_ms(500);
 		}
 	}
 }
@@ -464,9 +461,9 @@ int main(void) {
 	initRBELib();
 	debugUSARTInit(115200);
 //	lab2BP4();
-	lab2BP5();
+//	lab2BP5();
 //	lab2BP6();
-//	movePID(); //moves the arm to two angles
+	movePID(); //moves the arm to two angles
 	initADC(0);
 	driveLink(0, 0);
 	while(1){

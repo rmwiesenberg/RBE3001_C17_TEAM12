@@ -7,7 +7,6 @@
  */
 
 #include <RBELib/RBELib.h>
-#include <Math.h>
 
 
 void calcTipPos(struct Motor m1, struct Motor m2) {
@@ -19,7 +18,7 @@ void calcTipPos(struct Motor m1, struct Motor m2) {
 	int yTip = 0;
 		yTip = 250 * sin(ang1) - 220 * cos(ang1 + ang2) + 190;
 
-	printf("m1.ang: %3d m2.ang: %3d x: %4d y: %4d \n\r", m1.angle, m2.angle, xTip, yTip);
+	printf("%d, %d, %d, %d\n\r", m1.angle, m2.angle, xTip, yTip);
 }
 
 int getLinkAngle(char link){
