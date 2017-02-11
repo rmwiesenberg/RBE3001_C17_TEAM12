@@ -21,7 +21,9 @@
 #define PI 3.14159265
 
 
-
+/**
+ * Struct to hold useful data for a link motor
+ */
 struct Motor{
 	int adcPot;
 	int angle;
@@ -32,10 +34,14 @@ struct Motor{
 	int mAmp;
 };
 
+
 /**
- *
+ * Calculates tip position when given the angles of both links and prints out (x,y) coords
+ * @param mL Motor struct containing lower link data
+ * @param mH Motor struct containing upper link data
  */
-void calcTipPos(struct Motor m1, struct Motor m2);
+void calcTipPos(struct Motor mL, struct Motor mH);
+
 
 /**
  * Initializes the values for a PotVal struct
@@ -45,7 +51,13 @@ void calcTipPos(struct Motor m1, struct Motor m2);
  */
 void setPotVal(struct Motor* motor, char link, int adc);
 
+
+/**
+ * Returns the angle of the desired link, H or L
+ * @param link Link (H, or L) to return angle of
+ */
 int getLinkAngle(char link);
+
 
 /**
  * Initializes the values for a CurVal struct
@@ -54,11 +66,13 @@ int getLinkAngle(char link);
  */
 void setCurVal(struct Motor* motor, int adc);
 
+
 /**
  * Takes in a CurVal struct and prints out its fields
  * @param aVal CurVal to print out
  */
 void printMotor(struct Motor motor);
+
 
 /**
  * Takes in Motor struct and sets the DAC output voltage

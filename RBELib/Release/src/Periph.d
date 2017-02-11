@@ -1,4 +1,4 @@
-src/DAC.o src/DAC.o: ../src/DAC.c .././include/RBELib/RBELib.h \
+src/Periph.o src/Periph.o: ../src/Periph.c .././include/RBELib/RBELib.h \
   .././include/RBELib/ADC.h .././include/RBELib/DAC.h \
   .././include/RBELib/Debug.h .././include/RBELib/motors.h \
   .././include/RBELib/USARTDebug.h .././include/RBELib/timer.h \

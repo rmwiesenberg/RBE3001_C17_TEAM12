@@ -8,6 +8,7 @@ C_SRCS += \
 ../src/DAC.c \
 ../src/Debug.c \
 ../src/PID.c \
+../src/Periph.c \
 ../src/SPI.c \
 ../src/USARTDebug.c \
 ../src/curSense.c \
@@ -21,6 +22,7 @@ OBJS += \
 ./src/DAC.o \
 ./src/Debug.o \
 ./src/PID.o \
+./src/Periph.o \
 ./src/SPI.o \
 ./src/USARTDebug.o \
 ./src/curSense.o \
@@ -34,6 +36,7 @@ C_DEPS += \
 ./src/DAC.d \
 ./src/Debug.d \
 ./src/PID.d \
+./src/Periph.d \
 ./src/SPI.d \
 ./src/USARTDebug.d \
 ./src/curSense.d \

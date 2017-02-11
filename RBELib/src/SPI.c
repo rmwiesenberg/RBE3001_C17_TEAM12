@@ -12,13 +12,18 @@
 void initSPI() {
 	PRR = 0;
 
-	DDRB |=   (1 << DDB5)  // MOSI enable
-			| (1 << DDB7)  // SCK enable
-			| (1 << DDB4); // SS enable
+	SPI_MISO_DDR = 0;  // PB6 MISO Input
+	SPI_MOSI_DDR = 1;  // PB5 MOSI Output
+	SPI_SCK_DDR = 1;   // PB7 SCK Output
+	SPI_MASTER_SS = 1; // PB4 SS Output
 
-	PORTB |=  (1 << PB4);  // Tie SS high to deselect
+	PORTBbits._P4 = 1; // Tie SS high to deassert
 
-	DDRB &=  ~(1 << DDB6); // MISO enable
+	DAC_SS_ddr = 1;    // DAC SS Output
+	DAC_SS = 1;        // Tie SS high to deassert
+
+	PORTCbits._P5 = 1;  // Accelerometer SS Output
+	PORTCbits._P5 = 1; // Tie SS high to deassert
 
 
 	SPCR |=   (1 << SPE)   // Enable SPI

@@ -9,16 +9,16 @@
 #include <RBELib/RBELib.h>
 
 
-void calcTipPos(struct Motor m1, struct Motor m2) {
-	double ang1, ang2;
-	ang1 = m1.angle * PI / 180.;
-	ang2 = m2.angle * PI / 180.;
+void calcTipPos(struct Motor mL, struct Motor mH) {
+	double angL, angH;
+	angL = mL.angle * PI / 180.;
+	angH = mH.angle * PI / 180.;
 	int xTip = 0;
-		xTip = 250 * cos(ang1) + 220 * sin(ang1 + ang2);
+		xTip = 250 * cos(angL) + 220 * sin(angL + angH);
 	int yTip = 0;
-		yTip = 250 * sin(ang1) - 220 * cos(ang1 + ang2) + 190;
+		yTip = 250 * sin(angL) - 220 * cos(angL + angH) + 190;
 
-	printf("%d, %d, %d, %d\n\r", m1.angle, m2.angle, xTip, yTip);
+	printf("%d, %d, %d, %d\n\r", mL.angle, mH.angle, xTip, yTip);
 }
 
 int getLinkAngle(char link){
