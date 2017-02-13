@@ -467,6 +467,9 @@ int main(void) {
 	printf("Begin:\n\r");
 
 	while(1){
+		driveLink(1, 4095);
+		printf("Encoder Counts %d", encoderCounts(0));
+		/*
 		if (timerFlag) {
 			for (i = 0; i < 1; i++) {
 				gValue = getAccel(i);
@@ -474,6 +477,7 @@ int main(void) {
 			}
 			printf("\n\r");
 		}
+		*/
 	}
 	return 0;
 }

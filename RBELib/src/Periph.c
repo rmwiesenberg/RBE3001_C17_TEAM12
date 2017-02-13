@@ -121,7 +121,50 @@ void resetEncCount(int chan) {
  *
  * @todo Find the current encoder ticks on a given channel.
  */
-signed long encCount(int chan) {
-	return 0;
+int encCount(int chan) {
+		DDRC |= (1 << DDC5) | (1 << DDC4);				// set Encoder CS1 and Encoder CS0 to output mode
+
+		switch(chan) {
+		case 0:
+			PORTC |= (1 << PC5);
+			PORTC &= ~(1 << PC5);
+
+			/* Setup */
+			spiTransceive(0x88);
+			spiTransceive(0x03);
+
+			// reset SPI read cycle
+			PORTC |= (1 << PC5);
+			PORTC &= ~(1 << PC5);
+
+			spiTransceive(0x90);
+			spiTransceive(0x12);
+
+			// reset SPI read cycle
+			PORTC |= (1 << PC5);
+			PORTC &= ~(1 << PC5);
+
+			/* Get Counts */
+			spiTransceive(0x60);
+
+			int rec = spiTransceive(0xFF);
+			rec = (rec & 0xFF) << 8;
+			rec += spiTransceive(0xFF);
+
+			PORTC |= (1 << PC5);
+
+			return rec;
+
+			break;
+		case 2:
+			//fill this
+			return rec;
+			break;
+
+		default:
+			return -1;
+			break;
+		}
+	}
 }
 
