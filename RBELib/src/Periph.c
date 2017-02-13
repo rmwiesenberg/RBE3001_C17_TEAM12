@@ -21,7 +21,25 @@
  *
  * @todo Create a function that is able to find the acceleration of a given axis.
  */
-signed int getAccel(int axis) {
+int getAccel(int axis) {
+
+//	DDRD |= (1 << DDD7);
+//
+//	unsigned int in = 0;
+//
+//	PORTD &= ~(1 << PD7);
+//
+//	spiTransceive(0x06);
+//
+//	in = spiTransceive((axis << 6));
+//	in = (in & 0x0F) << 8;
+//
+//	in += spiTransceive(0x00);
+//
+//	PORTD |= (1 << PD7);
+//
+//	return in;
+
 	DDRCbits._P5 = 1;
 	PORTCbits._P5 = 1;
 	int axVal, refVal, gVal;
