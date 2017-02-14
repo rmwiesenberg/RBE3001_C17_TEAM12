@@ -1,17 +1,14 @@
-///*
-// * DAC.c
-// *
-// *  Created on: Jan 28, 2017
-// *      Author: Rayyan Khan, Ben Titus, Ryan Wiesenberg
-// */
 
-
+/*
+ * DAC.c
+ *
+ *  Created on: Jul 15, 2014
+ *      Author: ewillcox
+ */
 
 #include "RBELib/RBELib.h"
 
 void setDAC(int DACn, int SPIval){
-	DAC_SS_ddr = 1;
-	DAC_SS = 1;
   //We need to send out 3 "packages" for configuring the DAC
   unsigned char package1 = 0;
   unsigned char package2 = 0;
@@ -25,7 +22,6 @@ void setDAC(int DACn, int SPIval){
 
   //If value is over our max, cap it at 4095
   if(SPIval >= 4096) SPIval = 4095;
-//  if(SPIval <= 0) SPIval = 0;
 
   //Copy the SPIval
   temp = SPIval;
