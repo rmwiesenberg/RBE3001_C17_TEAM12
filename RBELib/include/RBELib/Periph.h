@@ -52,6 +52,6 @@ void resetEncCount(int chan);
  *
  * @todo Find the current encoder ticks on a given channel.
  */
-signed long encCount(int chan);
+int encCount(int chan);
 
 #endif /* PERIPH_H_ */

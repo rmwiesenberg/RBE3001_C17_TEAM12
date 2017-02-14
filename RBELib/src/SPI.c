@@ -40,8 +40,7 @@ unsigned char spiTransceive(BYTE data) {
 
 	// wait for interrupt flag to go low
 	//happens when transmit is complete
-	while (!(SPSR & (1 << SPIF)))
-		;
+	while (!(SPSR & (1 << SPIF))) continue;
 
 	return SPDR;
 }

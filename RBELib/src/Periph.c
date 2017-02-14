@@ -22,83 +22,83 @@
  * @todo Create a function that is able to find the acceleration of a given axis.
  */
 int getAccel(int axis) {
+	PORTC &= ~(1 << PC7);
 
-//	DDRD |= (1 << DDD7);
+	unsigned int in = 0;
+
+	const char cmd = ((1<<4) | (1<<3) | axis) << 2;
+
+
+	spiTransceive(cmd);
+
+	unsigned char high = spiTransceive(0);
+	unsigned char low = spiTransceive(0);
+
+	in = ((int)high << 4) | ((low >> 4) & 0x0F);
+
+	PORTC |= (1 << PC7);
+
+	return in;
 //
-//	unsigned int in = 0;
+//	DDRCbits._P5 = 1;
+//	PORTCbits._P5 = 1;
+//	int axVal, refVal, gVal;
 //
-//	PORTD &= ~(1 << PD7);
+//	BYTE refOUT = 0;
+//	refOUT = (1 << 4)
+//			| (1 << 3)
+//			| (3 << 0);
+//	refOUT = 0b00110110;
 //
-//	spiTransceive(0x06);
+//	//set channel
+//	BYTE OUT = 0;
+//	OUT = (1 << 4)     // Start bit
+//			| (1 << 3) // Set to single ended mode
+//			| ((axis) << 0);  // Set channel
 //
-//	in = spiTransceive((axis << 6));
-//	in = (in & 0x0F) << 8;
+//	BYTE high, low;
 //
-//	in += spiTransceive(0x00);
+//	refVal = 0;
+//	axVal = 0;
 //
-//	PORTD |= (1 << PD7);
+//	PORTCbits._P5 = 0;
 //
-//	return in;
-
-	DDRCbits._P5 = 1;
-	PORTCbits._P5 = 1;
-	int axVal, refVal, gVal;
-
-	BYTE refOUT = 0;
-	refOUT = (1 << 4)
-			| (1 << 3)
-			| (3 << 0);
-	refOUT = 0b00110110;
-
-	//set channel
-	BYTE OUT = 0;
-	OUT = (1 << 4)     // Start bit
-			| (1 << 3) // Set to single ended mode
-			| ((axis) << 0);  // Set channel
-
-	BYTE high, low;
-
-	refVal = 0;
-	axVal = 0;
-
-	PORTCbits._P5 = 0;
-
-	spiTransceive(refOUT);
-	high = spiTransceive(0);
-	low = spiTransceive(0);
-
-	PORTCbits._P5 = 1;
-	printf("high: %d  low: %d  ", high, low);
-
-	_delay_ms(1);
-
-	refVal = (high << 8) | (low);
-
-	PORTCbits._P5 = 0;
-
-	//shift out control bits
-	spiTransceive(OUT);
-	high = spiTransceive(0);
-	low = spiTransceive(0);
-
-	PORTCbits._P5 = 1;
-	printf("high: %d  low: %d  ", high, low);
-
-	axVal = (high << 8) | (low);
-
-	if (axVal >= refVal) {
-		gVal = (axVal - refVal) * G_CONV;
-	} else {
-		gVal = -((refVal - axVal) * G_CONV);
-	}
-
-
-
-	printf("refVal: %d  axVal %d:  ", refVal, axVal);
-
-	SPI_MISO = 0;
-	SPI_MOSI = 0;
-	return gVal;
+//	spiTransceive(refOUT);
+//	high = spiTransceive(0);
+//	low = spiTransceive(0);
+//
+//	PORTCbits._P5 = 1;
+//	printf("high: %d  low: %d  ", high, low);
+//
+//	_delay_ms(1);
+//
+//	refVal = (high << 8) | (low);
+//
+//	PORTCbits._P5 = 0;
+//
+//	//shift out control bits
+//	spiTransceive(OUT);
+//	high = spiTransceive(0);
+//	low = spiTransceive(0);
+//
+//	PORTCbits._P5 = 1;
+//	printf("high: %d  low: %d  ", high, low);
+//
+//	axVal = (high << 8) | (low);
+//
+//	if (axVal >= refVal) {
+//		gVal = (axVal - refVal) * G_CONV;
+//	} else {
+//		gVal = -((refVal - axVal) * G_CONV);
+//	}
+//
+//
+//
+//	printf("refVal: %d  axVal %d:  ", refVal, axVal);
+//
+//	SPI_MISO = 0;
+//	SPI_MOSI = 0;
+//	return gVal;
 }
 
 /**
@@ -183,6 +183,6 @@ int encCount(int chan) {
 			return -1;
 			break;
 		}
-	}
+//	}
 }
 
