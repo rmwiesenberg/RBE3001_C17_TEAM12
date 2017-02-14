@@ -22,21 +22,21 @@
  * @todo Create a function that is able to find the acceleration of a given axis.
  */
 int getAccel(int axis) {
-	PORTC &= ~(1 << PC7);
 
-	unsigned int in = 0;
+	unsigned short in = 0;
+	char chan = axis;
 
-	const char cmd = ((1<<4) | (1<<3) | axis) << 2;
+	PORTC |= (1 << PC5);
+	PORTD &= ~(1 << PIN7);
 
+	spiTransceive(0b00011011);
 
-	spiTransceive(cmd);
+	unsigned char high = spiTransceive(0x00);
+	unsigned char low = spiTransceive(0x00);
 
-	unsigned char high = spiTransceive(0);
-	unsigned char low = spiTransceive(0);
+	PORTC &= ~(1 << PC5);
 
-	in = ((int)high << 4) | ((low >> 4) & 0x0F);
-
-	PORTC |= (1 << PC7);
+	in = high << 8 | low;
 
 	return in;
 //

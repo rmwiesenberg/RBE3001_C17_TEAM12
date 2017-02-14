@@ -461,21 +461,28 @@ int main(void) {
 	initRBELib();
 	debugUSARTInit(115200);
 	initSPI();
-	initTimer(1,CTC,20);
+	initTimer(1,CTC,40);
 	int i;
+	int count = 0;
 	int gValue = 0;
 	printf("Begin:\n\r");
+
+	_delay_ms(1000);
 
 	while(1){
 //		driveLink(1, 4095);
 //		printf("Encoder Counts %d", encoderCounts(0));
-
 		if (timerFlag) {
-			for (i = 0; i < 1; i++) {
+			timerFlag = 0;
+			count++;
+			for (i = 2; i < 3; i++) {
 				gValue = getAccel(i);
-				printf("channel %1d: %5d ", i, gValue);
+				if (count > 19) {
+					count = 0;
+					printf("channel %1d: %5d \n\r", i, gValue);
+				}
 			}
-			printf("\n\r");
+//			printf("youfuckngbitch\n\r");
 		}
 
 	}
