@@ -36,15 +36,20 @@ void initSPI(void){
 
   //DAC SS = output
   DAC_SS_ddr = OUTPUT;
+
   //Bring the SS line low first (datasheet)
   //Important after soft-resets.  Then deassert.
   DAC_SS = 0;
   DAC_SS = 1;
-DDRDbits._P7=OUTPUT;
-PORTDbits._P7=1;
-  //Encoders SS lines = outputs
+
+  //
+  SPARE_SS_ddr=OUTPUT;
+  PORTCbits._P0=1;
+
+//Encoders SS lines = outputs
   ENCODER_SS_0_ddr = OUTPUT;
   ENCODER_SS_1_ddr = OUTPUT;
+
   //Deassert
   ENCODER_SS_0 = 1;
   ENCODER_SS_1 = 1;

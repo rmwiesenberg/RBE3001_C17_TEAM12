@@ -15,6 +15,8 @@
 #define DEBUG_EN 1
 #define TOL 3
 
+#define SIGN_OFF 1
+
 unsigned long FREQ1 = 9024;
 
 unsigned char mode, tog;
@@ -412,59 +414,20 @@ void lab2BP6() {
 	}
 }
 
-
-//volatile int timer = 0; // timer counter
-
-void triangleDAC() {
+void signOff1() {
+	initRBELib();
+	debugUSARTInit(115200);
 	initSPI();
+	int encCount = 0;
 
-
-	//initTimer(0,NORMAL,0);
-
-
-	int dacWrite = 0;
-	int pastDAC = 0;
-	int mode = 1;
-	setDAC(0, 4095);
-	while(1) {
-		_delay_ms(100);
-
-		//if reach 0, start counting up
-		if (dacWrite <= 0) {
-			mode = 100;
-		}
-
-		//if reach max, start counting down
-		if(dacWrite >= 4095) {
-			mode = -100;
-			dacWrite = 4095;
-		}
-
-		//
-		dacWrite += mode;
-
-		if (dacWrite != pastDAC) {
-			pastDAC = dacWrite;
-			setDAC(0, (4095 - dacWrite));
-			setDAC(1, dacWrite);
-			printf("%i %i\n\r", dacWrite, (4095-dacWrite));
-		}
-	}
 }
 
-ISR(TIMER1_COMPA_vect) {		// timer ISR, usable in all file functions
-	timerFlag = 1;
-}
-
-int main(void) {
-
+void signOff2() {
 	initRBELib();
 	debugUSARTInit(115200);
 	initSPI();
 	initTimer(1,CTC,40);
-	int i;
-	int count = 0;
-	int gValue = 0;
+	int xVal = 0, yVal = 0, zVal = 0;
 	printf("Begin:\n\r");
 
 	_delay_ms(1000);
@@ -474,17 +437,45 @@ int main(void) {
 //		printf("Encoder Counts %d", encoderCounts(0));
 		if (timerFlag) {
 			timerFlag = 0;
-			count++;
-			for (i = 2; i < 3; i++) {
-				gValue = getAccel(i);
-				if (count > 19) {
-					count = 0;
-					printf("channel %1d: %5d \n\r", i, gValue);
-				}
-			}
+			xVal = getAccel(0);
+			yVal = getAccel(1);
+			zVal = getAccel(2);
+			if (DEBUG_EN) printf("x: %5d y: %5d z: %5d\n\r", xVal, yVal, zVal);
 //			printf("youfuckngbitch\n\r");
 		}
 
+	}
+}
+
+void signOff3() {
+
+}
+
+void signOff4() {
+
+}
+
+ISR(TIMER1_COMPA_vect) {		// timer ISR, usable in all file functions
+	timerFlag = 1;
+}
+
+int main(void) {
+	switch(SIGN_OFF) {
+	case 1:
+		signOff1();
+		break;
+
+	case 2:
+		signOff2();
+		break;
+
+	case 3:
+		signOff3();
+		break;
+
+	case 4:
+		signOff4();
+		break;
 	}
 	return 0;
 }

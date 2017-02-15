@@ -24,81 +24,39 @@
 int getAccel(int axis) {
 
 	unsigned short in = 0;
-	char chan = axis;
 
-	PORTC |= (1 << PC5);
-	PORTD &= ~(1 << PIN7);
+	BYTE out;
 
-	spiTransceive(0b00011011);
+	switch (axis) {
+	case 0:
+		out = 0b01100000;
+		break;
+
+	case 1:
+		out = 0b01100100;
+		break;
+
+	case 2:
+		out = 0b01101000;
+		break;
+
+	default:
+		out = 0b01101100;
+		break;
+	}
+
+	PORTCbits._P0 = 0;
+
+	spiTransceive(out);
 
 	unsigned char high = spiTransceive(0x00);
 	unsigned char low = spiTransceive(0x00);
 
-	PORTC &= ~(1 << PC5);
+	PORTCbits._P0 = 1;
 
-	in = high << 8 | low;
+	in = (high << 4) | (low >> 4);
 
 	return in;
-//
-//	DDRCbits._P5 = 1;
-//	PORTCbits._P5 = 1;
-//	int axVal, refVal, gVal;
-//
-//	BYTE refOUT = 0;
-//	refOUT = (1 << 4)
-//			| (1 << 3)
-//			| (3 << 0);
-//	refOUT = 0b00110110;
-//
-//	//set channel
-//	BYTE OUT = 0;
-//	OUT = (1 << 4)     // Start bit
-//			| (1 << 3) // Set to single ended mode
-//			| ((axis) << 0);  // Set channel
-//
-//	BYTE high, low;
-//
-//	refVal = 0;
-//	axVal = 0;
-//
-//	PORTCbits._P5 = 0;
-//
-//	spiTransceive(refOUT);
-//	high = spiTransceive(0);
-//	low = spiTransceive(0);
-//
-//	PORTCbits._P5 = 1;
-//	printf("high: %d  low: %d  ", high, low);
-//
-//	_delay_ms(1);
-//
-//	refVal = (high << 8) | (low);
-//
-//	PORTCbits._P5 = 0;
-//
-//	//shift out control bits
-//	spiTransceive(OUT);
-//	high = spiTransceive(0);
-//	low = spiTransceive(0);
-//
-//	PORTCbits._P5 = 1;
-//	printf("high: %d  low: %d  ", high, low);
-//
-//	axVal = (high << 8) | (low);
-//
-//	if (axVal >= refVal) {
-//		gVal = (axVal - refVal) * G_CONV;
-//	} else {
-//		gVal = -((refVal - axVal) * G_CONV);
-//	}
-//
-//
-//
-//	printf("refVal: %d  axVal %d:  ", refVal, axVal);
-//
-//	SPI_MISO = 0;
-//	SPI_MOSI = 0;
-//	return gVal;
 }
 
 /**
@@ -119,6 +77,7 @@ int IRDist(int chan) {
  * @todo Make a function that can setup both encoder chips on the board.
  */
 void encInit(int chan) {
+	DDRC |= (1 << DDC5) | (1 << DDC4);				// set Encoder CS1 and Encoder CS0 to output mode
 
 }
 
@@ -140,7 +99,6 @@ void resetEncCount(int chan) {
  * @todo Find the current encoder ticks on a given channel.
  */
 int encCount(int chan) {
-		DDRC |= (1 << DDC5) | (1 << DDC4);				// set Encoder CS1 and Encoder CS0 to output mode
 
 		switch(chan) {
 		case 0:
