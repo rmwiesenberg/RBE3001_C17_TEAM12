@@ -42,7 +42,7 @@ void initSPI(void){
   DAC_SS = 0;
   DAC_SS = 1;
 
-  //
+  // Accelerometer SS line
   SPARE_SS_ddr=OUTPUT;
   PORTCbits._P0=1;
 

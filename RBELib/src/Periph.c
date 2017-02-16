@@ -77,8 +77,98 @@ int IRDist(int chan) {
  * @todo Make a function that can setup both encoder chips on the board.
  */
 void encInit(int chan) {
-	DDRC |= (1 << DDC5) | (1 << DDC4);				// set Encoder CS1 and Encoder CS0 to output mode
+	switch(chan) {
+	// Lower Motor Encoder
+	case 0:
+		PORTCbits._P4 = 1;
 
+		// Setup encoder 0
+		PORTCbits._P5 = 1;
+		PORTCbits._P5 = 0;
+
+		/* Write to MDR0 Register (10001000)
+		 * B7-B6: 10 - Write
+		 * B5-B3: 001 - MDR0 register select
+		 * B2-B0: 000 - Don't Care */
+		spiTransceive(0x88);
+
+		/* Setup MDR0 Register (00000011)
+		 * B7: 0 - Clock divide = 1
+		 * B6: 0 - Asynch Index
+		 * B5-B4: 00 - Disable Index
+		 * B3-B2: 00 - Free running count mode
+		 * B1-B0: 11 - x4 quadrature (4 counts per cycle)*/
+		spiTransceive(0x03);
+
+		// reset SPI read cycle
+		PORTCbits._P5 = 1;
+		PORTCbits._P5 = 0;
+
+		/* Write to MDR1 Register (10010000)
+		 * B7-B6: 10 - Write
+		 * B5-B3: 010 - MDR1 register select
+		 * B2-B0: 000 - Don't Care */
+		spiTransceive(0x90);
+
+		/* Setup MDR1 Register (00010010)
+		 * B7: 0 - NOP (no flag on CY)
+		 * B6: 0 - NOP (no flag on BW)
+		 * B5: 0 - NOP (no flag on CMP)
+		 * B4: 1 - Flag on IDX
+		 * B3: 0 - Not used
+		 * B2: 0 - Enable counting
+		 * B1-B0: 10 - 2-byte counter */
+		spiTransceive(0x12);
+
+		// reset SPI read cycle
+		PORTCbits._P5 = 1;
+		break;
+
+	case 1:
+		PORTCbits._P5 = 1;
+
+		// Setup encoder 1
+		PORTCbits._P4 = 1;
+		PORTCbits._P4 = 0;
+
+		/* Write to MDR0 Register (10001000)
+		 * B7-B6: 10 - Write
+		 * B5-B3: 001 - MDR0 register select
+		 * B2-B0: 000 - Don't Care */
+		spiTransceive(0x88);
+
+		/* Setup MDR0 Register (00000011)
+		 * B7: 0 - Clock divide = 1
+		 * B6: 0 - Asynch Index
+		 * B5-B4: 00 - Disable Index
+		 * B3-B2: 00 - Free running count mode
+		 * B1-B0: 11 - x4 quadrature (4 counts per cycle)*/
+		spiTransceive(0x03);
+
+		// reset SPI read cycle
+		PORTCbits._P4 = 1;
+		PORTCbits._P4 = 0;
+
+		/* Write to MDR1 Register (10010000)
+		 * B7-B6: 10 - Write
+		 * B5-B3: 010 - MDR1 register select
+		 * B2-B0: 000 - Don't Care */
+		spiTransceive(0x90);
+
+		/* Setup MDR1 Register (00010010)
+		 * B7: 0 - NOP (no flag on CY)
+		 * B6: 0 - NOP (no flag on BW)
+		 * B5: 0 - NOP (no flag on CMP)
+		 * B4: 1 - Flag on IDX
+		 * B3: 0 - Not used
+		 * B2: 0 - Enable counting
+		 * B1-B0: 10 - 2-byte counter */
+		spiTransceive(0x12);
+
+		// reset SPI read cycle
+		PORTCbits._P4 = 1;
+		break;
+	}
 }
 
 /**
@@ -88,7 +178,29 @@ void encInit(int chan) {
  * @todo Clear the encoder count (set to 0).
  */
 void resetEncCount(int chan) {
+	switch(chan) {
+	case 0:
+		PORTCbits._P5 = 1;
+		PORTCbits._P5 = 0;
+		/* Clear CNTR register (00100000)
+		 * B7-B6: 00 - CLR command
+		 * B5-B3: 100 - CNTR register select
+		 * B2-B0: 000 - Don't case */
+		spiTransceive(0x20);
+		PORTCbits._P5 = 1;
+		break;
 
+	case 1:
+		PORTCbits._P4 = 1;
+		PORTCbits._P4 = 0;
+		/* Clear CNTR register (00100000)
+		 * B7-B6: 00 - CLR command
+		 * B5-B3: 100 - CNTR register select
+		 * B2-B0: 000 - Don't case */
+		spiTransceive(0x20);
+		PORTCbits._P4 = 1;
+		break;
+	}
 }
 
 /**
@@ -99,42 +211,61 @@ void resetEncCount(int chan) {
  * @todo Find the current encoder ticks on a given channel.
  */
 int encCount(int chan) {
+	BYTE high = 0, low = 0;
+	int ret = 0;
 
 		switch(chan) {
 		case 0:
-			PORTC |= (1 << PC5);
-			PORTC &= ~(1 << PC5);
-
-			/* Setup */
-			spiTransceive(0x88);
-			spiTransceive(0x03);
-
 			// reset SPI read cycle
-			PORTC |= (1 << PC5);
-			PORTC &= ~(1 << PC5);
+			PORTCbits._P5 = 1;
+			PORTCbits._P5 = 0;
 
-			spiTransceive(0x90);
-			spiTransceive(0x12);
-
-			// reset SPI read cycle
-			PORTC |= (1 << PC5);
-			PORTC &= ~(1 << PC5);
-
-			/* Get Counts */
+			/* Get Counts (01100000)
+			 * B7-B6: 01 - Read register
+			 * B5-B3: 100 - CNTR register select
+			 * B2-B0: 000 - Don't Care */
 			spiTransceive(0x60);
 
-			int rec = spiTransceive(0xFF);
-			rec = (rec & 0xFF) << 8;
-			rec += spiTransceive(0xFF);
+			/* Read upper byte from register
+			 * B7-B1: 00000000 - Don't care
+			 */
+			high = spiTransceive(0x00);
 
-			PORTC |= (1 << PC5);
+			/* Read lower byte from register
+			 * B7-B1: 00000000 - Don't care
+			 */
+			low = spiTransceive(0x00);
 
-			return rec;
+			PORTCbits._P5 = 1;
 
+			ret = (high << 8) | low;
+			return ret;
 			break;
-		case 2:
-			//fill this
-			return rec;
+
+		// Upper Motor Encoder
+		case 1:
+			// reset SPI read cycle
+			PORTCbits._P4 = 1;
+			PORTCbits._P4 = 0;
+
+			/* Get Counts (01100000)
+			 * B7-B6: 01 - Read register
+			 * B5-B3: 100 - CNTR register select
+			 * B2-B0: 000 - Don't Care */
+			spiTransceive(0x60);
+
+			/* Read upper byte from register
+			 * B7-B1: 00000000 - Don't care */
+			high = spiTransceive(0x00);
+
+			/* Read lower byte from register
+			 * B7-B1: 00000000 - Don't care */
+			low = spiTransceive(0x00);
+
+			PORTCbits._P4 = 1;
+
+			ret = (high << 8) | low;
+			return ret;
 			break;
 
 		default:
