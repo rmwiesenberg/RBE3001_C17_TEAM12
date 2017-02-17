@@ -29,21 +29,34 @@ volatile BYTE timerFlag = 0;
 
 
 void robotHome() {
-	printf("Going home");
-	cli();
-	int angH = getADC(3);
-	int angL = getADC(2);
-	sei();
-	printf("We goin'");
-	while((angL < 89) | (angL > 91) | (angH < 89) | (angH > 91)) {
+	int angH = calcPotAngle('H',getADC(3));
+	int angL = calcPotAngle('L',getADC(2));
+
+	/* Values to print */
+//	int encVal = 0, potVal = 0, xVal = 0, yVal = 0, zVal = 0;
+//	encVal = encCount(0);
+//	potVal = angL;
+//	xVal = getAccel(0);
+//	yVal = getAccel(1);
+//	zVal = getAccel(2);
+
+	while((angH < 88) | (angH > 92) | (angL < 88) | (angL > 92)) {
 		if (timerFlag) {
 			timerFlag = 0;
 			gotoAngles(90,90);
-			angL = getADC(2);
-			angH = getADC(3);
-			printf("Hi\n\r");
+			angL = calcPotAngle('L',getADC(2));
+			angH = calcPotAngle('H',getADC(3));
+//			if (DEBUG_EN) {
+//				encVal = encCount(0);
+//				potVal = angL;
+//				xVal = getAccel(0);
+//				yVal = getAccel(1);
+//				zVal = getAccel(2);
+//				printf("%d, %d, %d, %d, %d\n\r", potVal, encVal, xVal, yVal, zVal);
+//			}
 		}
 	}
+	stopMotors();
 
 	resetEncCount(0);
 	resetEncCount(1);
@@ -105,7 +118,7 @@ void signOff1() {
 			encCountL = encCount(0);
 			encCountH = encCount(1);
 
-			printf("%d, %d\n\r", encCountL, encCountH);
+			printf("%d, %d\n", encCountL, encCountH);
 		}
 	}
 }
@@ -145,11 +158,15 @@ void signOff3() {
 	encInit(0);
 	resetEncCount(0);
 	resetEncCount(1);
+	setConst('H', 45, 8, 2); //set the PID constants for high link
+	setConst('L', 45, 8, 2); //set the PID constants for low link
 	initTimer(1, CTC, 78);
 
 	printf("\n\rHello World\n\r");
 
 	setPinsDir('B', 0, 1, 0);
+
+	stopMotors();
 
 	int butts = getPinsVal('B', 1, 0);
 	while (butts) {
@@ -165,7 +182,55 @@ void signOff3() {
 
 
 void signOff4() {
+	initRBELib();
+	debugUSARTInit(115200);
+	initSPI();
+	initADC(LOW_POT);
+	initADC(HIGH_POT);		// init ADC on port 3
+	encInit(1);
+	encInit(0);
+	resetEncCount(0);
+	resetEncCount(1);
+	setConst('H', 45, 8, 2); //set the PID constants for high link
+	setConst('L', 45, 8, 2); //set the PID constants for low link
+	initTimer(1, CTC, 78);
 
+	setPinsDir('B', 0, 1, 0);
+
+	stopMotors();
+
+	int butts = getPinsVal('B', 1, 0);
+	while (butts) {
+		if (timerFlag) {
+			timerFlag = 0;
+		}
+		butts = getPinsVal('B', 1, 0);
+	}
+
+	robotHome();
+
+	/* Values to print */
+	int encVal = 0, potVal = 0, xVal = 0, yVal = 0, zVal = 0;
+	encVal = encCount(0);
+	potVal = calcPotAngle('L',getADC(2));
+	xVal = getAccel(0);
+	yVal = getAccel(1);
+	zVal = getAccel(2);
+
+	while(1) {
+		if (timerFlag) {
+			timerFlag = 0;
+			gotoAngles(90,90);
+			if (DEBUG_EN) {
+				encVal = encCount(0);
+				potVal = calcPotAngle('L',getADC(2));;
+				xVal = getAccel(0);
+				yVal = getAccel(1);
+				zVal = getAccel(2);
+				printf("%d, %d, %d, %d, %d\n", potVal, encVal, xVal, yVal, zVal);
+			}
+		}
+	}
 }
 
 ISR(TIMER1_COMPA_vect) {		// timer ISR, usable in all file functions

@@ -16,12 +16,13 @@ void stopMotors(){
 
 
 void gotoAngles(int lowerTheta, int upperTheta){
-	int ang_L = getADC(2);
-	int ang_H = getADC(3);
+	int ang_L = calcPotAngle('L',getADC(2));
+	int ang_H = calcPotAngle('H',getADC(3));
 
 	unsigned short pid_H = calcPID('H', upperTheta, ang_H);
 	unsigned short pid_L = calcPID('L', lowerTheta, ang_L);
 
+//	printf("ang_L: %d ang_H: %d pid_L: %d pid_H: %d ", ang_L, ang_H, pid_L, pid_H);
 	driveLink(0, pid_L);
 	driveLink(1, pid_H);
 }
@@ -71,10 +72,8 @@ void driveLink(int link, int dir){
 			if (dir < -4095) {
 				dir = -4095;
 			}
-			cli();
 			setDAC(0, 0);
 			setDAC(1, dir*-1);
-			sei();
 		}
 	}
 }

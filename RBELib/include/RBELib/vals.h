@@ -32,6 +32,7 @@ struct Motor{
 	int dacVolt;
 	int adcCur;
 	int mAmp;
+	int encVal;
 };
 
 
@@ -81,6 +82,21 @@ void printMotor(struct Motor motor);
  */
 void setMotorVolt(struct Motor* motor, int dac);
 
+
+/**
+ * Takes in Motor struct and sets the encoder value
+ * @param motor Motor to set value for
+ * @param enc Encoder tick value to set
+ */
+void setEncVal(struct Motor* motor, int enc);
+
+
+/**
+ * Takes in ADC value and returns scaled pot value
+ * @param link Link to calculate value for
+ * @param adc ADC value to scale
+ */
+int calcPotAngle(char link, int adc);
 
 
 #endif

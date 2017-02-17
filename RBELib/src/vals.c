@@ -80,3 +80,24 @@ void setMotorVolt(struct Motor* motor, int dac) {
 	motor->dacVal = dac;
 	motor->dacVolt = dac * DAC_SCALE;
 }
+
+
+void setEncVal(struct Motor* motor, int enc) {
+	motor->encVal = enc;
+}
+
+
+int calcPotAngle(char link, int adc) {
+	//set values for high link
+	if (link == 'H') {
+		return (int) ((adc * (H_SCALE / 1023.))-H_OFFSET);
+//		printf("adcVal: %d, angle: %d, mVolt: %d ", pot->adcVal, pot->angle, pot->mVolt);
+	}
+
+	// set value for low link
+	if (link == 'L') {
+		return (int) ((adc * (L_SCALE / 1023.)) - L_OFFSET);
+	}
+
+	return -1;
+}
