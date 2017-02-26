@@ -6,6 +6,8 @@
 #define TIMER_CLK		 	18432000. / 8.				// timer uses clk frequency 18.432 MHz / 8 = 2.304 MHz = count frequency
 #define COUNT_FREQUENCY		TIMER_CLK / 256.			// count overflow interrupt fires 2.304 MHz kHz / 256 = 9000 times a second
 #define TICK				COUNT_FREQUENCY / 8192.		// 4096 ticks in 1 second = 4096 in 9000 counts = 2.197265 counts / tick
+#define IR_ONE 4
+#define IR_TWO 5
 
 #define HIGH_POT 3
 #define LOW_POT 2
@@ -15,7 +17,7 @@
 #define DEBUG_EN 1
 #define TOL 3
 
-#define SIGN_OFF 3
+#define SIGN_OFF 1
 
 unsigned long FREQ1 = 9024;
 
@@ -233,6 +235,47 @@ void signOff4() {
 	}
 }
 
+void lab4(){
+	initRBELib();
+	debugUSARTInit(115200);
+	initSPI();
+
+	initADC(LOW_POT);
+	initADC(HIGH_POT);
+
+	initADC(IR_ONE);
+	initADC(IR_TWO);
+
+	setConst('H', 45, 8, 2); //set the PID constants for high link
+	setConst('L', 45, 8, 2); //set the PID constants for low link
+
+	setServo(0,0);
+	_delay_ms(10);
+	setServo(2,0);
+
+	stopMotors();
+
+	int ir1val = 0;
+	int ir2val = 0;
+
+	while(1){
+
+		ir1val = getIRval(IR_ONE);
+		ir2val = getIRval(IR_TWO);
+
+		if(ir1val < 180){
+			setServo(0,0);
+		}
+		else if(ir2val < 140){
+			setServo(0,180);
+		}
+
+		printf("IR 1: %d mm  IR 2: %d mm \r\n", ir1val, ir2val);
+
+	}
+}
+
+
 ISR(TIMER1_COMPA_vect) {		// timer ISR, usable in all file functions
 	timerFlag = 1;
 }
@@ -240,7 +283,8 @@ ISR(TIMER1_COMPA_vect) {		// timer ISR, usable in all file functions
 int main(void) {
 	switch(SIGN_OFF) {
 	case 1:
-		signOff1();
+		//signOff1();
+		lab4();
 		break;
 
 	case 2:

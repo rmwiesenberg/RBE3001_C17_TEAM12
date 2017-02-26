@@ -98,5 +98,6 @@ void setEncVal(struct Motor* motor, int enc);
  */
 int calcPotAngle(char link, int adc);
 
+float getIRval(int pin);
 
 #endif
