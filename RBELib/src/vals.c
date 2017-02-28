@@ -103,18 +103,6 @@ int calcPotAngle(char link, int adc) {
 }
 
 float getIRval(int pin){
-	float map = 0;
-	float adcVal = getADC(pin);
 
-	if(pin == 4){
-		map = (-0.2486)*adcVal + 237.64;
-	}
-
-	else if(pin == 5){
-		map = (-0.2794)*adcVal + 169.67;
-	//map = (-0.2486)*adcVal + 237.64;
-	}
-
-	return map;
 
 }

@@ -689,23 +689,16 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          00000000  00000000  00000000  00000034  2**0
                   ALLOC
-  3 .text.IRDist  00000006  00000000  00000000  00000034  2**0
-                  CONTENTS, ALLOC, LOAD, READONLY, CODE
-  4 .text.encCount 00000084  00000000  00000000  0000003a  2**0
+  3 .text.encCount 00000084  00000000  00000000  00000034  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  5 .text.resetEncCount 00000056  00000000  00000000  000000be  2**0
+  4 .text.resetEncCount 00000056  00000000  00000000  000000b8  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  6 .text.encInit 000000b8  00000000  00000000  00000114  2**0
+  5 .text.encInit 000000b8  00000000  00000000  0000010e  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  7 .text.getAccel 0000006c  00000000  00000000  000001cc  2**0
+  6 .text.getAccel 0000006c  00000000  00000000  000001c6  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-
-Disassembly of section .text.IRDist:
-
-00000000 <IRDist>:
-   0:	80 e0       	ldi	r24, 0x00	; 0
-   2:	90 e0       	ldi	r25, 0x00	; 0
-   4:	08 95       	ret
+  7 .text.IRDist  00000064  00000000  00000000  00000232  2**0
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.encCount:
 
@@ -907,6 +900,54 @@ Disassembly of section .text.getAccel:
   66:	1f 91       	pop	r17
   68:	0f 91       	pop	r16
   6a:	08 95       	ret
+
+Disassembly of section .text.IRDist:
+
+00000000 <IRDist>:
+   0:	cf 93       	push	r28
+   2:	df 93       	push	r29
+   4:	ec 01       	movw	r28, r24
+   6:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+   a:	a0 e0       	ldi	r26, 0x00	; 0
+   c:	b0 e0       	ldi	r27, 0x00	; 0
+   e:	bc 01       	movw	r22, r24
+  10:	cd 01       	movw	r24, r26
+  12:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  16:	c4 30       	cpi	r28, 0x04	; 4
+  18:	d1 05       	cpc	r29, r1
+  1a:	01 f4       	brne	.+0      	; 0x1c <IRDist+0x1c>
+  1c:	2f e2       	ldi	r18, 0x2F	; 47
+  1e:	3d ed       	ldi	r19, 0xDD	; 221
+  20:	44 ea       	ldi	r20, 0xA4	; 164
+  22:	5f e3       	ldi	r21, 0x3F	; 63
+  24:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  28:	22 e1       	ldi	r18, 0x12	; 18
+  2a:	33 e8       	ldi	r19, 0x83	; 131
+  2c:	40 ee       	ldi	r20, 0xE0	; 224
+  2e:	51 e4       	ldi	r21, 0x41	; 65
+  30:	00 c0       	rjmp	.+0      	; 0x32 <IRDist+0x32>
+  32:	25 97       	sbiw	r28, 0x05	; 5
+  34:	01 f0       	breq	.+0      	; 0x36 <IRDist+0x36>
+  36:	60 e0       	ldi	r22, 0x00	; 0
+  38:	70 e0       	ldi	r23, 0x00	; 0
+  3a:	80 e0       	ldi	r24, 0x00	; 0
+  3c:	90 e0       	ldi	r25, 0x00	; 0
+  3e:	00 c0       	rjmp	.+0      	; 0x40 <IRDist+0x40>
+  40:	28 ea       	ldi	r18, 0xA8	; 168
+  42:	36 ec       	ldi	r19, 0xC6	; 198
+  44:	4b ee       	ldi	r20, 0xEB	; 235
+  46:	5f e3       	ldi	r21, 0x3F	; 63
+  48:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  4c:	22 ef       	ldi	r18, 0xF2	; 242
+  4e:	32 ed       	ldi	r19, 0xD2	; 210
+  50:	4c e9       	ldi	r20, 0x9C	; 156
+  52:	52 e4       	ldi	r21, 0x42	; 66
+  54:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  58:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  5c:	cb 01       	movw	r24, r22
+  5e:	df 91       	pop	r29
+  60:	cf 91       	pop	r28
+  62:	08 95       	ret
 
 SPI.o:     file format elf32-avr
 
@@ -1697,13 +1738,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   7 .text.calcPotAngle 00000062  00000000  00000000  00000197  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  8 .text.getIRval 0000006e  00000000  00000000  000001f9  2**0
+  8 .text.getIRval 00000002  00000000  00000000  000001f9  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  9 .text.printMotor 000000c8  00000000  00000000  000001fb  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  9 .text.getLinkAngle 00000048  00000000  00000000  00000267  2**0
+ 10 .text.getLinkAngle 00000048  00000000  00000000  000002c3  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
- 10 .text.printMotor 000000c8  00000000  00000000  000002af  2**0
-                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
- 11 .text.calcTipPos 000001fc  00000000  00000000  00000377  2**0
+ 11 .text.calcTipPos 000001fc  00000000  00000000  0000030b  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.setPotVal:
@@ -1901,91 +1942,7 @@ Disassembly of section .text.calcPotAngle:
 Disassembly of section .text.getIRval:
 
 00000000 <getIRval>:
-   0:	cf 93       	push	r28
-   2:	df 93       	push	r29
-   4:	ec 01       	movw	r28, r24
-   6:	0e 94 00 00 	call	0	; 0x0 <getIRval>
-   a:	a0 e0       	ldi	r26, 0x00	; 0
-   c:	b0 e0       	ldi	r27, 0x00	; 0
-   e:	bc 01       	movw	r22, r24
-  10:	cd 01       	movw	r24, r26
-  12:	0e 94 00 00 	call	0	; 0x0 <getIRval>
-  16:	c4 30       	cpi	r28, 0x04	; 4
-  18:	d1 05       	cpc	r29, r1
-  1a:	01 f4       	brne	.+0      	; 0x1c <getIRval+0x1c>
-  1c:	20 e0       	ldi	r18, 0x00	; 0
-  1e:	31 e9       	ldi	r19, 0x91	; 145
-  20:	4e e7       	ldi	r20, 0x7E	; 126
-  22:	5e eb       	ldi	r21, 0xBE	; 190
-  24:	0e 94 00 00 	call	0	; 0x0 <getIRval>
-  28:	27 ed       	ldi	r18, 0xD7	; 215
-  2a:	33 ea       	ldi	r19, 0xA3	; 163
-  2c:	4d e6       	ldi	r20, 0x6D	; 109
-  2e:	53 e4       	ldi	r21, 0x43	; 67
-  30:	00 c0       	rjmp	.+0      	; 0x32 <getIRval+0x32>
-  32:	25 97       	sbiw	r28, 0x05	; 5
-  34:	01 f0       	breq	.+0      	; 0x36 <getIRval+0x36>
-  36:	e0 e0       	ldi	r30, 0x00	; 0
-  38:	70 e0       	ldi	r23, 0x00	; 0
-  3a:	80 e0       	ldi	r24, 0x00	; 0
-  3c:	60 e0       	ldi	r22, 0x00	; 0
-  3e:	00 c0       	rjmp	.+0      	; 0x40 <getIRval+0x40>
-  40:	24 e8       	ldi	r18, 0x84	; 132
-  42:	3d e0       	ldi	r19, 0x0D	; 13
-  44:	4f e8       	ldi	r20, 0x8F	; 143
-  46:	5e eb       	ldi	r21, 0xBE	; 190
-  48:	0e 94 00 00 	call	0	; 0x0 <getIRval>
-  4c:	25 e8       	ldi	r18, 0x85	; 133
-  4e:	3b ea       	ldi	r19, 0xAB	; 171
-  50:	49 e2       	ldi	r20, 0x29	; 41
-  52:	53 e4       	ldi	r21, 0x43	; 67
-  54:	0e 94 00 00 	call	0	; 0x0 <getIRval>
-  58:	e6 2f       	mov	r30, r22
-  5a:	69 2f       	mov	r22, r25
-  5c:	2e 2f       	mov	r18, r30
-  5e:	37 2f       	mov	r19, r23
-  60:	48 2f       	mov	r20, r24
-  62:	56 2f       	mov	r21, r22
-  64:	b9 01       	movw	r22, r18
-  66:	ca 01       	movw	r24, r20
-  68:	df 91       	pop	r29
-  6a:	cf 91       	pop	r28
-  6c:	08 95       	ret
-
-Disassembly of section .text.getLinkAngle:
-
-00000000 <getLinkAngle>:
-   0:	88 34       	cpi	r24, 0x48	; 72
-   2:	01 f4       	brne	.+0      	; 0x4 <getLinkAngle+0x4>
-   4:	83 e0       	ldi	r24, 0x03	; 3
-   6:	90 e0       	ldi	r25, 0x00	; 0
-   8:	00 c0       	rjmp	.+0      	; 0xa <getLinkAngle+0xa>
-   a:	8c 34       	cpi	r24, 0x4C	; 76
-   c:	01 f0       	breq	.+0      	; 0xe <getLinkAngle+0xe>
-   e:	60 e0       	ldi	r22, 0x00	; 0
-  10:	70 e0       	ldi	r23, 0x00	; 0
-  12:	00 c0       	rjmp	.+0      	; 0x14 <getLinkAngle+0x14>
-  14:	82 e0       	ldi	r24, 0x02	; 2
-  16:	90 e0       	ldi	r25, 0x00	; 0
-  18:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
-  1c:	a0 e0       	ldi	r26, 0x00	; 0
-  1e:	b0 e0       	ldi	r27, 0x00	; 0
-  20:	bc 01       	movw	r22, r24
-  22:	cd 01       	movw	r24, r26
-  24:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
-  28:	28 ec       	ldi	r18, 0xC8	; 200
-  2a:	31 e2       	ldi	r19, 0x21	; 33
-  2c:	47 e8       	ldi	r20, 0x87	; 135
-  2e:	5e e3       	ldi	r21, 0x3E	; 62
-  30:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
-  34:	20 e0       	ldi	r18, 0x00	; 0
-  36:	30 e0       	ldi	r19, 0x00	; 0
-  38:	40 eb       	ldi	r20, 0xB0	; 176
-  3a:	52 e4       	ldi	r21, 0x42	; 66
-  3c:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
-  40:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
-  44:	cb 01       	movw	r24, r22
-  46:	08 95       	ret
+   0:	08 95       	ret
 
 Disassembly of section .text.printMotor:
 
@@ -2089,6 +2046,41 @@ Disassembly of section .text.printMotor:
   c2:	bf 90       	pop	r11
   c4:	af 90       	pop	r10
   c6:	08 95       	ret
+
+Disassembly of section .text.getLinkAngle:
+
+00000000 <getLinkAngle>:
+   0:	88 34       	cpi	r24, 0x48	; 72
+   2:	01 f4       	brne	.+0      	; 0x4 <getLinkAngle+0x4>
+   4:	83 e0       	ldi	r24, 0x03	; 3
+   6:	90 e0       	ldi	r25, 0x00	; 0
+   8:	00 c0       	rjmp	.+0      	; 0xa <getLinkAngle+0xa>
+   a:	8c 34       	cpi	r24, 0x4C	; 76
+   c:	01 f0       	breq	.+0      	; 0xe <getLinkAngle+0xe>
+   e:	60 e0       	ldi	r22, 0x00	; 0
+  10:	70 e0       	ldi	r23, 0x00	; 0
+  12:	00 c0       	rjmp	.+0      	; 0x14 <getLinkAngle+0x14>
+  14:	82 e0       	ldi	r24, 0x02	; 2
+  16:	90 e0       	ldi	r25, 0x00	; 0
+  18:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  1c:	a0 e0       	ldi	r26, 0x00	; 0
+  1e:	b0 e0       	ldi	r27, 0x00	; 0
+  20:	bc 01       	movw	r22, r24
+  22:	cd 01       	movw	r24, r26
+  24:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  28:	28 ec       	ldi	r18, 0xC8	; 200
+  2a:	31 e2       	ldi	r19, 0x21	; 33
+  2c:	47 e8       	ldi	r20, 0x87	; 135
+  2e:	5e e3       	ldi	r21, 0x3E	; 62
+  30:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  34:	20 e0       	ldi	r18, 0x00	; 0
+  36:	30 e0       	ldi	r19, 0x00	; 0
+  38:	40 eb       	ldi	r20, 0xB0	; 176
+  3a:	52 e4       	ldi	r21, 0x42	; 66
+  3c:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  40:	0e 94 00 00 	call	0	; 0x0 <getLinkAngle>
+  44:	cb 01       	movw	r24, r22
+  46:	08 95       	ret
 
 Disassembly of section .text.calcTipPos:
 

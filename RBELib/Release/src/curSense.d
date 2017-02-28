@@ -1,4 +1,4 @@
-src/curSense.o src/curSense.o: ../src/curSense.c \
+src/curSense.d src/curSense.o: ../src/curSense.c \
   .././include/RBELib/RBELib.h .././include/RBELib/ADC.h \
   .././include/RBELib/DAC.h .././include/RBELib/Debug.h \
   .././include/RBELib/motors.h .././include/RBELib/USARTDebug.h \

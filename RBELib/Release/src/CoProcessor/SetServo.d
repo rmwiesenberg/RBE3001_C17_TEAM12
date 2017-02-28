@@ -1,4 +1,4 @@
-src/CoProcessor/SetServo.o src/CoProcessor/SetServo.o:  \
+src/CoProcessor/SetServo.d src/CoProcessor/SetServo.o:  \
  ../src/CoProcessor/SetServo.c .././include/RBELib/RBELib.h \
   .././include/RBELib/ADC.h .././include/RBELib/DAC.h \
   .././include/RBELib/Debug.h .././include/RBELib/motors.h \

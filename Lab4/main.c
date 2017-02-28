@@ -29,208 +29,16 @@ int pointArrayL[] = {69,42,55};
 
 volatile BYTE timerFlag = 0;
 
+void readit(int* theta){
+	unsigned char inchar;
+	int stage = 0;
 
-void robotHome() {
-	int angH = calcPotAngle('H',getADC(3));
-	int angL = calcPotAngle('L',getADC(2));
-
-	/* Values to print */
-//	int encVal = 0, potVal = 0, xVal = 0, yVal = 0, zVal = 0;
-//	encVal = encCount(0);
-//	potVal = angL;
-//	xVal = getAccel(0);
-//	yVal = getAccel(1);
-//	zVal = getAccel(2);
-
-	while((angH < 88) | (angH > 92) | (angL < 88) | (angL > 92)) {
-		if (timerFlag) {
-			timerFlag = 0;
-			gotoAngles(90,90);
-			angL = calcPotAngle('L',getADC(2));
-			angH = calcPotAngle('H',getADC(3));
-//			if (DEBUG_EN) {
-//				encVal = encCount(0);
-//				potVal = angL;
-//				xVal = getAccel(0);
-//				yVal = getAccel(1);
-//				zVal = getAccel(2);
-//				printf("%d, %d, %d, %d, %d\n\r", potVal, encVal, xVal, yVal, zVal);
-//			}
-		}
-	}
-	stopMotors();
-
-	resetEncCount(0);
-	resetEncCount(1);
-}
-
-
-void signOff1() {
-	initRBELib();
-	debugUSARTInit(115200);
-	initSPI();
-	encInit(1);
-	encInit(0);
-	resetEncCount(0);
-	resetEncCount(1);
-	initTimer(1, CTC, 78);
-	int encCountL = 0;
-	int encCountH = 0;
-	int mode = 0;
-	BYTE butts = 0;
-	driveLink(0,0);
-	setPinsDir('B', 0, 4, 0, 1, 2, 3);
-	butts = getPinsVal('B', 4, 0, 1, 2, 3);
-
-	while(1) {
-		butts = getPinsVal('B', 4, 0, 1, 2, 3);
-
-		if (timerFlag) {
-			timerFlag = 0;
-			if ((~butts & 0x01)) {
-				mode = 0;
-			} else if (((~butts) & 0x02)) {
-				mode = 1;
-			} else if (((~butts) & 0x04)) {
-				mode = 2;
-			} else if (((~butts) & 0x08)) {
-				mode = 3;
-			}
-
-			cli();
-			switch(mode) {
-			case 0:
-				driveLink(1,0);
-				break;
-
-			case 1:
-				driveLink(1, 768);
-				break;
-
-			case 2:
-				driveLink(1,-768);
-				break;
-
-			case 3:
-				driveLink(1,1536);
-				break;
-			}
-			sei();
-
-			encCountL = encCount(0);
-			encCountH = encCount(1);
-
-			printf("%d, %d\n", encCountL, encCountH);
-		}
-	}
-}
-
-void signOff2() {
-	initRBELib();
-	debugUSARTInit(115200);
-	initSPI();
-	initTimer(1,CTC,40);
-	int xVal = 0, yVal = 0, zVal = 0;
-	printf("Begin:\n\r");
-
-	_delay_ms(1000);
-
-	while(1){
-//		driveLink(1, 4095);
-//		printf("Encoder Counts %d", encoderCounts(0));
-		if (timerFlag) {
-			timerFlag = 0;
-			xVal = getAccel(0);
-			yVal = getAccel(1);
-			zVal = getAccel(2);
-			if (DEBUG_EN) printf("x: %5d y: %5d z: %5d\n\r", xVal, yVal, zVal);
-//			printf("youfuckngbitch\n\r");
-		}
-
-	}
-}
-
-void signOff3() {
-	initRBELib();
-	debugUSARTInit(115200);
-	initSPI();
-	initADC(LOW_POT);
-	initADC(HIGH_POT);		// init ADC on port 3
-	encInit(1);
-	encInit(0);
-	resetEncCount(0);
-	resetEncCount(1);
-	setConst('H', 45, 8, 2); //set the PID constants for high link
-	setConst('L', 45, 8, 2); //set the PID constants for low link
-	initTimer(1, CTC, 78);
-
-	printf("\n\rHello World\n\r");
-
-	setPinsDir('B', 0, 1, 0);
-
-	stopMotors();
-
-	int butts = getPinsVal('B', 1, 0);
-	while (butts) {
-		if (timerFlag) {
-			timerFlag = 0;
-			printf("Why me\n\r");
-		}
-		butts = getPinsVal('B', 1, 0);
-	}
-	robotHome();
-	printf("Home sweet home~\n\r");
-}
-
-
-void signOff4() {
-	initRBELib();
-	debugUSARTInit(115200);
-	initSPI();
-	initADC(LOW_POT);
-	initADC(HIGH_POT);		// init ADC on port 3
-	encInit(1);
-	encInit(0);
-	resetEncCount(0);
-	resetEncCount(1);
-	setConst('H', 45, 8, 2); //set the PID constants for high link
-	setConst('L', 45, 8, 2); //set the PID constants for low link
-	initTimer(1, CTC, 78);
-
-	setPinsDir('B', 0, 1, 0);
-
-	stopMotors();
-
-	int butts = getPinsVal('B', 1, 0);
-	while (butts) {
-		if (timerFlag) {
-			timerFlag = 0;
-		}
-		butts = getPinsVal('B', 1, 0);
-	}
-
-	robotHome();
-
-	/* Values to print */
-	int encVal = 0, potVal = 0, xVal = 0, yVal = 0, zVal = 0;
-	encVal = encCount(0);
-	potVal = calcPotAngle('L',getADC(2));
-	xVal = getAccel(0);
-	yVal = getAccel(1);
-	zVal = getAccel(2);
-
-	while(1) {
-		if (timerFlag) {
-			timerFlag = 0;
-			gotoAngles(90,90);
-			if (DEBUG_EN) {
-				encVal = encCount(0);
-				potVal = calcPotAngle('L',getADC(2));;
-				xVal = getAccel(0);
-				yVal = getAccel(1);
-				zVal = getAccel(2);
-				printf("%d, %d, %d, %d, %d\n", potVal, encVal, xVal, yVal, zVal);
-			}
+	while(stage != 2){
+		inchar = getCharDebug();
+		if(inchar == ' ' || inchar == '\n'){
+			stage++;
+		} else {
+			theta[stage] += inchar - 48;
 		}
 	}
 }
@@ -258,20 +66,96 @@ void lab4(){
 	int ir1val = 0;
 	int ir2val = 0;
 
+	int pid_h = 0; //PID output to motor
+	int pid_l = 0;
+
+	struct Motor motorL, motorH;
+
+	int potValH = getADC(HIGH_POT);
+	int potValL = getADC(LOW_POT);
+	int curValH = getADC(HIGH_CUR);
+	int curValL = getADC(LOW_CUR);
+
+	setPotVal(&motorH, 'H', potValH);
+	setPotVal(&motorL, 'L', potValL);
+	setCurVal(&motorH, curValH);
+	setCurVal(&motorL, curValL);
+
+	int state = 0;
+	int potval[2] = {90,0};
 	while(1){
+		switch(state){
+		case 0: // find position and velocity of block
+			potValH = getADC(HIGH_POT);
+			potValL = getADC(LOW_POT);
+			setPotVal(&motorH, 'H', potValH);
+			setPotVal(&motorL, 'L', potValL);
+			pid_l = calcPID('L', 90, motorL.angle);
+			pid_h = calcPID('H', 0+90, motorH.angle);
 
-		ir1val = getIRval(IR_ONE);
-		ir2val = getIRval(IR_TWO);
+			ir1val = IRDist(IR_ONE);
+			if (ir1val < 150){
+				printf("%d", ir1val);
+				state = 1;
+			}
+		break;
+		case 1: // Get
+			readit(potval);
+			state = 2;
+		break;
+		case 2:
+			ir2val = IRDist(IR_TWO);
+			if(ir2val < 150){
+				state = 3;
+			}
+		break;
+		case 3:
+			potValH = getADC(HIGH_POT);
+			potValL = getADC(LOW_POT);
+			setPotVal(&motorH, 'H', potValH);
+			setPotVal(&motorL, 'L', potValL);
+			pid_l = calcPID('L', potval[0], motorL.angle);
+			pid_h = calcPID('H', potval[1]+90, motorH.angle);
 
-		if(ir1val < 180){
-			setServo(0,0);
+			if (pid_l < 300 && pid_h < 300){
+				setServo(0,255);
+				state = 4;
+			}
+		break;
+		case 4:
+			potValH = getADC(HIGH_POT);
+			potValL = getADC(LOW_POT);
+			setPotVal(&motorH, 'H', potValH);
+			setPotVal(&motorL, 'L', potValL);
+			pid_l = calcPID('L', 90, motorL.angle);
+			pid_h = calcPID('H', -90+90, motorH.angle);
+
+			if (pid_l < 300 && pid_h < 300){
+				setServo(0,255);
+				state = 5;
+			}
+		break;
+		case 5:
+			curValH = getADC(HIGH_CUR);
+			setCurVal(&motorH, curValH);
+
+			if(motorH.mAmp < 100){
+				potValH = getADC(HIGH_POT);
+				potValL = getADC(LOW_POT);
+				setPotVal(&motorH, 'H', potValH);
+				setPotVal(&motorL, 'L', potValL);
+				pid_l = calcPID('L', 90, motorL.angle);
+				pid_h = calcPID('H', 90+90, motorH.angle);
+			} else {
+
+			}
+
+			if (pid_l < 300 && pid_h < 300){
+				setServo(0,0);
+				state = 0;
+			}
+		break;
 		}
-		else if(ir2val < 140){
-			setServo(0,180);
-		}
-
-		printf("IR 1: %d mm  IR 2: %d mm \r\n", ir1val, ir2val);
-
 	}
 }
 
@@ -281,23 +165,6 @@ ISR(TIMER1_COMPA_vect) {		// timer ISR, usable in all file functions
 }
 
 int main(void) {
-	switch(SIGN_OFF) {
-	case 1:
-		//signOff1();
-		lab4();
-		break;
+	lab4();
 
-	case 2:
-		signOff2();
-		break;
-
-	case 3:
-		signOff3();
-		break;
-
-	case 4:
-		signOff4();
-		break;
-	}
-	return 0;
 }

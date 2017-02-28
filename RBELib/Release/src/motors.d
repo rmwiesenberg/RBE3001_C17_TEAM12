@@ -1,4 +1,4 @@
-src/motors.o src/motors.o: ../src/motors.c .././include/RBELib/RBELib.h \
+src/motors.d src/motors.o: ../src/motors.c .././include/RBELib/RBELib.h \
   .././include/RBELib/ADC.h .././include/RBELib/DAC.h \
   .././include/RBELib/Debug.h .././include/RBELib/motors.h \
   .././include/RBELib/USARTDebug.h .././include/RBELib/timer.h \
