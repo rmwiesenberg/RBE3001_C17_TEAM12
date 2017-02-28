@@ -18,7 +18,7 @@
 							<option id="de.innot.avreclipse.toolchain.options.toolchain.objdump.lib.release.1345172335" name="Generate Extended Listing (Source + generated Assembler)" superClass="de.innot.avreclipse.toolchain.options.toolchain.objdump.lib.release"/>
 							<option id="de.innot.avreclipse.toolchain.options.toolchain.size.lib.release.1532433780" name="Print Size" superClass="de.innot.avreclipse.toolchain.options.toolchain.size.lib.release"/>
 							<targetPlatform id="de.innot.avreclipse.targetplatform.winavr.lib.release.2016054841" name="AVR Cross-Target" superClass="de.innot.avreclipse.targetplatform.winavr.lib.release"/>
-							<builder buildPath="${workspace_loc:/RBELib/Release}" id="de.innot.avreclipse.target.builder.winavr.lib.release.1407053718" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="AVR GNU Make Builder" superClass="de.innot.avreclipse.target.builder.winavr.lib.release"/>
+							<builder arguments="clean" buildPath="${workspace_loc:/RBELib/Release}" command="make" id="de.innot.avreclipse.target.builder.winavr.lib.release.1407053718" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="AVR GNU Make Builder" superClass="de.innot.avreclipse.target.builder.winavr.lib.release"/>
 							<tool id="de.innot.avreclipse.tool.assembler.winavr.lib.release.1181092694" name="AVR Assembler" superClass="de.innot.avreclipse.tool.assembler.winavr.lib.release">
 								<option id="de.innot.avreclipse.assembler.option.debug.level.1956251647" name="Generate Debugging Info" superClass="de.innot.avreclipse.assembler.option.debug.level" value="de.innot.avreclipse.assembler.option.debug.level.none" valueType="enumerated"/>
 								<inputType id="de.innot.avreclipse.tool.assembler.input.446797546" superClass="de.innot.avreclipse.tool.assembler.input"/>
@@ -53,7 +53,11 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="RBELib.de.innot.avreclipse.project.winavr.staticlib.548624836" name="AVR Cross Target Static Library" projectType="de.innot.avreclipse.project.winavr.staticlib"/>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/RBELib"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
 		<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">

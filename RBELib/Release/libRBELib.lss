@@ -697,7 +697,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
   6 .text.getAccel 0000006c  00000000  00000000  000001c6  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  7 .text.IRDist  00000064  00000000  00000000  00000232  2**0
+  7 .text.IRDist  00000080  00000000  00000000  00000232  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.encCount:
@@ -916,38 +916,48 @@ Disassembly of section .text.IRDist:
   16:	c4 30       	cpi	r28, 0x04	; 4
   18:	d1 05       	cpc	r29, r1
   1a:	01 f4       	brne	.+0      	; 0x1c <IRDist+0x1c>
-  1c:	2f e2       	ldi	r18, 0x2F	; 47
-  1e:	3d ed       	ldi	r19, 0xDD	; 221
-  20:	44 ea       	ldi	r20, 0xA4	; 164
-  22:	5f e3       	ldi	r21, 0x3F	; 63
+  1c:	20 e0       	ldi	r18, 0x00	; 0
+  1e:	30 e0       	ldi	r19, 0x00	; 0
+  20:	40 ea       	ldi	r20, 0xA0	; 160
+  22:	5e eb       	ldi	r21, 0xBE	; 190
   24:	0e 94 00 00 	call	0	; 0x0 <IRDist>
-  28:	22 e1       	ldi	r18, 0x12	; 18
-  2a:	33 e8       	ldi	r19, 0x83	; 131
-  2c:	40 ee       	ldi	r20, 0xE0	; 224
-  2e:	51 e4       	ldi	r21, 0x41	; 65
-  30:	00 c0       	rjmp	.+0      	; 0x32 <IRDist+0x32>
-  32:	25 97       	sbiw	r28, 0x05	; 5
-  34:	01 f0       	breq	.+0      	; 0x36 <IRDist+0x36>
-  36:	60 e0       	ldi	r22, 0x00	; 0
-  38:	70 e0       	ldi	r23, 0x00	; 0
-  3a:	80 e0       	ldi	r24, 0x00	; 0
-  3c:	90 e0       	ldi	r25, 0x00	; 0
-  3e:	00 c0       	rjmp	.+0      	; 0x40 <IRDist+0x40>
-  40:	28 ea       	ldi	r18, 0xA8	; 168
-  42:	36 ec       	ldi	r19, 0xC6	; 198
-  44:	4b ee       	ldi	r20, 0xEB	; 235
-  46:	5f e3       	ldi	r21, 0x3F	; 63
-  48:	0e 94 00 00 	call	0	; 0x0 <IRDist>
-  4c:	22 ef       	ldi	r18, 0xF2	; 242
-  4e:	32 ed       	ldi	r19, 0xD2	; 210
-  50:	4c e9       	ldi	r20, 0x9C	; 156
-  52:	52 e4       	ldi	r21, 0x42	; 66
+  28:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  2c:	88 27       	eor	r24, r24
+  2e:	77 fd       	sbrc	r23, 7
+  30:	80 95       	com	r24
+  32:	98 2f       	mov	r25, r24
+  34:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  38:	20 e0       	ldi	r18, 0x00	; 0
+  3a:	30 e2       	ldi	r19, 0x20	; 32
+  3c:	49 e6       	ldi	r20, 0x69	; 105
+  3e:	53 e4       	ldi	r21, 0x43	; 67
+  40:	00 c0       	rjmp	.+0      	; 0x42 <IRDist+0x42>
+  42:	25 97       	sbiw	r28, 0x05	; 5
+  44:	01 f0       	breq	.+0      	; 0x46 <IRDist+0x46>
+  46:	60 e0       	ldi	r22, 0x00	; 0
+  48:	70 e0       	ldi	r23, 0x00	; 0
+  4a:	00 c0       	rjmp	.+0      	; 0x4c <IRDist+0x4c>
+  4c:	20 e0       	ldi	r18, 0x00	; 0
+  4e:	30 e0       	ldi	r19, 0x00	; 0
+  50:	40 e2       	ldi	r20, 0x20	; 32
+  52:	5f eb       	ldi	r21, 0xBF	; 191
   54:	0e 94 00 00 	call	0	; 0x0 <IRDist>
   58:	0e 94 00 00 	call	0	; 0x0 <IRDist>
-  5c:	cb 01       	movw	r24, r22
-  5e:	df 91       	pop	r29
-  60:	cf 91       	pop	r28
-  62:	08 95       	ret
+  5c:	88 27       	eor	r24, r24
+  5e:	77 fd       	sbrc	r23, 7
+  60:	80 95       	com	r24
+  62:	98 2f       	mov	r25, r24
+  64:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  68:	28 eb       	ldi	r18, 0xB8	; 184
+  6a:	3e ed       	ldi	r19, 0xDE	; 222
+  6c:	4f e5       	ldi	r20, 0x5F	; 95
+  6e:	53 e4       	ldi	r21, 0x43	; 67
+  70:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  74:	0e 94 00 00 	call	0	; 0x0 <IRDist>
+  78:	cb 01       	movw	r24, r22
+  7a:	df 91       	pop	r29
+  7c:	cf 91       	pop	r28
+  7e:	08 95       	ret
 
 SPI.o:     file format elf32-avr
 
@@ -1135,11 +1145,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   4 .text.homePos 00000002  00000000  00000000  00000036  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  5 .text.driveLink 000000c6  00000000  00000000  00000038  2**0
+  5 .text.driveLink 000000aa  00000000  00000000  00000038  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  6 .text.stopMotors 00000032  00000000  00000000  000000fe  2**0
+  6 .text.stopMotors 00000032  00000000  00000000  000000e2  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
-  7 .text.gotoAngles 0000006a  00000000  00000000  00000130  2**0
+  7 .text.gotoAngles 0000006e  00000000  00000000  00000114  2**0
                   CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
 
 Disassembly of section .text.gotoXY:
@@ -1163,89 +1173,78 @@ Disassembly of section .text.driveLink:
    a:	01 f4       	brne	.+0      	; 0xc <driveLink+0xc>
    c:	77 fd       	sbrc	r23, 7
    e:	00 c0       	rjmp	.+0      	; 0x10 <driveLink+0x10>
-  10:	f8 94       	cli
-  12:	82 e0       	ldi	r24, 0x02	; 2
-  14:	90 e0       	ldi	r25, 0x00	; 0
-  16:	60 e0       	ldi	r22, 0x00	; 0
-  18:	70 e0       	ldi	r23, 0x00	; 0
-  1a:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  1e:	be 01       	movw	r22, r28
-  20:	20 e1       	ldi	r18, 0x10	; 16
-  22:	c0 30       	cpi	r28, 0x00	; 0
-  24:	d2 07       	cpc	r29, r18
-  26:	04 f0       	brlt	.+0      	; 0x28 <driveLink+0x28>
-  28:	6f ef       	ldi	r22, 0xFF	; 255
-  2a:	7f e0       	ldi	r23, 0x0F	; 15
-  2c:	83 e0       	ldi	r24, 0x03	; 3
-  2e:	90 e0       	ldi	r25, 0x00	; 0
-  30:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  34:	78 94       	sei
-  36:	00 c0       	rjmp	.+0      	; 0x38 <driveLink+0x38>
-  38:	f8 94       	cli
-  3a:	cb 01       	movw	r24, r22
-  3c:	20 ef       	ldi	r18, 0xF0	; 240
-  3e:	61 30       	cpi	r22, 0x01	; 1
-  40:	72 07       	cpc	r23, r18
-  42:	04 f4       	brge	.+0      	; 0x44 <driveLink+0x44>
-  44:	81 e0       	ldi	r24, 0x01	; 1
-  46:	90 ef       	ldi	r25, 0xF0	; 240
-  48:	66 27       	eor	r22, r22
-  4a:	77 27       	eor	r23, r23
-  4c:	68 1b       	sub	r22, r24
-  4e:	79 0b       	sbc	r23, r25
-  50:	82 e0       	ldi	r24, 0x02	; 2
-  52:	90 e0       	ldi	r25, 0x00	; 0
-  54:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  58:	83 e0       	ldi	r24, 0x03	; 3
-  5a:	90 e0       	ldi	r25, 0x00	; 0
-  5c:	60 e0       	ldi	r22, 0x00	; 0
-  5e:	70 e0       	ldi	r23, 0x00	; 0
-  60:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  64:	78 94       	sei
-  66:	00 c0       	rjmp	.+0      	; 0x68 <driveLink+0x68>
-  68:	89 2b       	or	r24, r25
-  6a:	01 f4       	brne	.+0      	; 0x6c <driveLink+0x6c>
-  6c:	77 fd       	sbrc	r23, 7
-  6e:	00 c0       	rjmp	.+0      	; 0x70 <driveLink+0x70>
-  70:	f8 94       	cli
-  72:	80 e1       	ldi	r24, 0x10	; 16
-  74:	60 30       	cpi	r22, 0x00	; 0
-  76:	78 07       	cpc	r23, r24
-  78:	04 f0       	brlt	.+0      	; 0x7a <driveLink+0x7a>
-  7a:	6f ef       	ldi	r22, 0xFF	; 255
-  7c:	7f e0       	ldi	r23, 0x0F	; 15
-  7e:	80 e0       	ldi	r24, 0x00	; 0
-  80:	90 e0       	ldi	r25, 0x00	; 0
+  10:	82 e0       	ldi	r24, 0x02	; 2
+  12:	90 e0       	ldi	r25, 0x00	; 0
+  14:	60 e0       	ldi	r22, 0x00	; 0
+  16:	70 e0       	ldi	r23, 0x00	; 0
+  18:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  1c:	be 01       	movw	r22, r28
+  1e:	20 e1       	ldi	r18, 0x10	; 16
+  20:	c0 30       	cpi	r28, 0x00	; 0
+  22:	d2 07       	cpc	r29, r18
+  24:	04 f0       	brlt	.+0      	; 0x26 <driveLink+0x26>
+  26:	6f ef       	ldi	r22, 0xFF	; 255
+  28:	7f e0       	ldi	r23, 0x0F	; 15
+  2a:	83 e0       	ldi	r24, 0x03	; 3
+  2c:	90 e0       	ldi	r25, 0x00	; 0
+  2e:	00 c0       	rjmp	.+0      	; 0x30 <driveLink+0x30>
+  30:	cb 01       	movw	r24, r22
+  32:	20 ef       	ldi	r18, 0xF0	; 240
+  34:	61 30       	cpi	r22, 0x01	; 1
+  36:	72 07       	cpc	r23, r18
+  38:	04 f4       	brge	.+0      	; 0x3a <driveLink+0x3a>
+  3a:	81 e0       	ldi	r24, 0x01	; 1
+  3c:	90 ef       	ldi	r25, 0xF0	; 240
+  3e:	66 27       	eor	r22, r22
+  40:	77 27       	eor	r23, r23
+  42:	68 1b       	sub	r22, r24
+  44:	79 0b       	sbc	r23, r25
+  46:	82 e0       	ldi	r24, 0x02	; 2
+  48:	90 e0       	ldi	r25, 0x00	; 0
+  4a:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  4e:	83 e0       	ldi	r24, 0x03	; 3
+  50:	90 e0       	ldi	r25, 0x00	; 0
+  52:	00 c0       	rjmp	.+0      	; 0x54 <driveLink+0x54>
+  54:	89 2b       	or	r24, r25
+  56:	01 f4       	brne	.+0      	; 0x58 <driveLink+0x58>
+  58:	77 fd       	sbrc	r23, 7
+  5a:	00 c0       	rjmp	.+0      	; 0x5c <driveLink+0x5c>
+  5c:	80 e1       	ldi	r24, 0x10	; 16
+  5e:	60 30       	cpi	r22, 0x00	; 0
+  60:	78 07       	cpc	r23, r24
+  62:	04 f0       	brlt	.+0      	; 0x64 <driveLink+0x64>
+  64:	6f ef       	ldi	r22, 0xFF	; 255
+  66:	7f e0       	ldi	r23, 0x0F	; 15
+  68:	80 e0       	ldi	r24, 0x00	; 0
+  6a:	90 e0       	ldi	r25, 0x00	; 0
+  6c:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  70:	81 e0       	ldi	r24, 0x01	; 1
+  72:	90 e0       	ldi	r25, 0x00	; 0
+  74:	60 e0       	ldi	r22, 0x00	; 0
+  76:	70 e0       	ldi	r23, 0x00	; 0
+  78:	00 c0       	rjmp	.+0      	; 0x7a <driveLink+0x7a>
+  7a:	80 e0       	ldi	r24, 0x00	; 0
+  7c:	90 e0       	ldi	r25, 0x00	; 0
+  7e:	60 e0       	ldi	r22, 0x00	; 0
+  80:	70 e0       	ldi	r23, 0x00	; 0
   82:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  86:	81 e0       	ldi	r24, 0x01	; 1
-  88:	90 e0       	ldi	r25, 0x00	; 0
-  8a:	60 e0       	ldi	r22, 0x00	; 0
-  8c:	70 e0       	ldi	r23, 0x00	; 0
-  8e:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  92:	78 94       	sei
-  94:	00 c0       	rjmp	.+0      	; 0x96 <driveLink+0x96>
-  96:	80 e0       	ldi	r24, 0x00	; 0
-  98:	90 e0       	ldi	r25, 0x00	; 0
-  9a:	60 e0       	ldi	r22, 0x00	; 0
-  9c:	70 e0       	ldi	r23, 0x00	; 0
-  9e:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  a2:	ce 01       	movw	r24, r28
-  a4:	20 ef       	ldi	r18, 0xF0	; 240
-  a6:	c1 30       	cpi	r28, 0x01	; 1
-  a8:	d2 07       	cpc	r29, r18
-  aa:	04 f4       	brge	.+0      	; 0xac <driveLink+0xac>
-  ac:	81 e0       	ldi	r24, 0x01	; 1
-  ae:	90 ef       	ldi	r25, 0xF0	; 240
-  b0:	66 27       	eor	r22, r22
-  b2:	77 27       	eor	r23, r23
-  b4:	68 1b       	sub	r22, r24
-  b6:	79 0b       	sbc	r23, r25
-  b8:	81 e0       	ldi	r24, 0x01	; 1
-  ba:	90 e0       	ldi	r25, 0x00	; 0
-  bc:	0e 94 00 00 	call	0	; 0x0 <driveLink>
-  c0:	df 91       	pop	r29
-  c2:	cf 91       	pop	r28
-  c4:	08 95       	ret
+  86:	ce 01       	movw	r24, r28
+  88:	20 ef       	ldi	r18, 0xF0	; 240
+  8a:	c1 30       	cpi	r28, 0x01	; 1
+  8c:	d2 07       	cpc	r29, r18
+  8e:	04 f4       	brge	.+0      	; 0x90 <driveLink+0x90>
+  90:	81 e0       	ldi	r24, 0x01	; 1
+  92:	90 ef       	ldi	r25, 0xF0	; 240
+  94:	66 27       	eor	r22, r22
+  96:	77 27       	eor	r23, r23
+  98:	68 1b       	sub	r22, r24
+  9a:	79 0b       	sbc	r23, r25
+  9c:	81 e0       	ldi	r24, 0x01	; 1
+  9e:	90 e0       	ldi	r25, 0x00	; 0
+  a0:	0e 94 00 00 	call	0	; 0x0 <driveLink>
+  a4:	df 91       	pop	r29
+  a6:	cf 91       	pop	r28
+  a8:	08 95       	ret
 
 Disassembly of section .text.stopMotors:
 
@@ -1297,29 +1296,31 @@ Disassembly of section .text.gotoAngles:
   2c:	88 e4       	ldi	r24, 0x48	; 72
   2e:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
   32:	ac 01       	movw	r20, r24
-  34:	88 e4       	ldi	r24, 0x48	; 72
-  36:	b8 01       	movw	r22, r16
-  38:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
-  3c:	8c 01       	movw	r16, r24
-  3e:	8c e4       	ldi	r24, 0x4C	; 76
-  40:	b6 01       	movw	r22, r12
-  42:	a7 01       	movw	r20, r14
-  44:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
-  48:	bc 01       	movw	r22, r24
-  4a:	80 e0       	ldi	r24, 0x00	; 0
-  4c:	90 e0       	ldi	r25, 0x00	; 0
-  4e:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
-  52:	81 e0       	ldi	r24, 0x01	; 1
-  54:	90 e0       	ldi	r25, 0x00	; 0
-  56:	b8 01       	movw	r22, r16
-  58:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
-  5c:	1f 91       	pop	r17
-  5e:	0f 91       	pop	r16
-  60:	ff 90       	pop	r15
-  62:	ef 90       	pop	r14
-  64:	df 90       	pop	r13
-  66:	cf 90       	pop	r12
-  68:	08 95       	ret
+  34:	06 5a       	subi	r16, 0xA6	; 166
+  36:	1f 4f       	sbci	r17, 0xFF	; 255
+  38:	88 e4       	ldi	r24, 0x48	; 72
+  3a:	b8 01       	movw	r22, r16
+  3c:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
+  40:	8c 01       	movw	r16, r24
+  42:	8c e4       	ldi	r24, 0x4C	; 76
+  44:	b6 01       	movw	r22, r12
+  46:	a7 01       	movw	r20, r14
+  48:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
+  4c:	bc 01       	movw	r22, r24
+  4e:	80 e0       	ldi	r24, 0x00	; 0
+  50:	90 e0       	ldi	r25, 0x00	; 0
+  52:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
+  56:	81 e0       	ldi	r24, 0x01	; 1
+  58:	90 e0       	ldi	r25, 0x00	; 0
+  5a:	b8 01       	movw	r22, r16
+  5c:	0e 94 00 00 	call	0	; 0x0 <gotoAngles>
+  60:	1f 91       	pop	r17
+  62:	0f 91       	pop	r16
+  64:	ff 90       	pop	r15
+  66:	ef 90       	pop	r14
+  68:	df 90       	pop	r13
+  6a:	cf 90       	pop	r12
+  6c:	08 95       	ret
 
 ports.o:     file format elf32-avr
 
