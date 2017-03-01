@@ -1,4 +1,4 @@
-src/vals.d src/vals.o: ../src/vals.c .././include/RBELib/RBELib.h \
+src/vals.o src/vals.o: ../src/vals.c .././include/RBELib/RBELib.h \
   .././include/RBELib/ADC.h .././include/RBELib/DAC.h \
   .././include/RBELib/Debug.h .././include/RBELib/motors.h \
   .././include/RBELib/USARTDebug.h .././include/RBELib/timer.h \

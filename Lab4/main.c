@@ -33,24 +33,38 @@ volatile unsigned long timerCount = 0;
 void readit(int* theta) {
 	unsigned char inchar;
 	int stage = 0;
+	int place = 0;
 	unsigned char neg = 0;
 	theta[0] = 0;
 	theta[1] = 0;
 
 	while (stage != 2) {
 		inchar = getCharDebug();
-		if (inchar == ' ' || inchar == '\n') {
+		if (inchar == ',' || inchar == '\n') {
 			if (neg){
 				theta[stage] = theta[stage] * -1;
 				neg = 0;
 			}
 			stage++;
+			place=0;
 		} else if (inchar == '-') {
 			neg = 1;
+			place++;
 		}else {
-			theta[stage] += inchar - 30;
+			if (place == 0){
+				theta[stage] += (inchar-48)*1000;
+			} else if (place == 1) {
+				theta[stage] += (inchar-48)*100;
+			} else if (place == 2){
+				theta[stage] += (inchar-48)*10;
+			} else if (place == 3) {
+				theta[stage] += (inchar-48)*1;
+			}
+			place++;
 		}
 	}
+
+	printf("theta1: %d theta2: %d\n", theta[0], theta[1]);
 }
 
 void lab4() {
@@ -83,6 +97,7 @@ void lab4() {
 	int potValL = getADC(LOW_POT);
 	int curValH = getADC(HIGH_CUR);
 	int curValL = getADC(LOW_CUR);
+	int curCount = 0;
 
 	setPotVal(&motorH, 'H', potValH);
 	setPotVal(&motorL, 'L', potValL);
@@ -117,39 +132,72 @@ void lab4() {
 			if ((abs(calcPotAngle('H',getADC(3)) - (potval[1]+90)) < TOL)
 					&& (abs(calcPotAngle('L',getADC(2)) - potval[0]) < TOL)) {
 				setPinsVal('B', HIGH, 1, 2);
-				_delay_ms(100);
-				setServo(0, 255);
+				_delay_ms(25);
+				setServo(0,255);
+				_delay_ms(350);
+				printf("start\n");
 				state = 3;
 			}
 			break;
 		case 3:
-			potval[0] = 90;
-			potval[1] = -90;
+			potval[0] = 45;
+			potval[1] = -45;
 			setPinsVal('B', LOW, 2, 0, 2);
 
 			if ((abs(calcPotAngle('H',getADC(3)) - (potval[1]+90)) < TOL)
 					&& (abs(calcPotAngle('L',getADC(2)) - potval[0]) < TOL)) {
 				setPinsVal('B', HIGH, 2, 0, 2);
+				printf("stop\n");
 				setServo(0, 255);
+				curValH = 0;
+				curValL = 0;
 				state = 4;
 			}
 			break;
+
 		case 4:
-			curValH = getADC(HIGH_CUR);
-			setCurVal(&motorH, curValH);
-
-			if (motorH.mAmp < 100) {
-				potval[1] = 90;
+			if (curCount >= 8) {
+				curValH /= 8;
+				curValL /= 8;
+				setCurVal(&motorH, curValH);
+				setCurVal(&motorL, curValL);
+				curCount = 0;
+				state = 5;
 			} else {
+				curCount++;
+				curValH += getADC(HIGH_CUR);
+				curValL += getADC(LOW_CUR);
+			}
+			break;
 
+		case 5:
+			setPinsVal('B', LOW, 2, 1, 2);
+
+			if ((abs(calcPotAngle('H',getADC(3)) - (potval[1]+90)) < TOL)
+					&& (abs(calcPotAngle('L',getADC(2)) - potval[0]) < TOL)) {
+				setPinsVal('B', HIGH, 2, 1, 2);
+				printf("mAmp: %d\n", (motorH.mAmp+motorL.mAmp));
+				state = 6;
+			}
+			break;
+
+		case 6:
+			setPinsVal('B', LOW, 3, 0, 1, 2);
+			if ((motorH.mAmp + motorL.mAmp) < 1060) {
+				potval[0] = 30;
+				potval[1] = 0;
+			} else {
+				potval[0] = 100;
+				potval[1] = 90;
 			}
 
 			if ((abs(calcPotAngle('H',getADC(3)) - (potval[1]+90)) < TOL)
 					&& (abs(calcPotAngle('L',getADC(2)) - potval[0]) < TOL)) {
+				setPinsVal('B', HIGH, 3, 0, 1, 2);
 				setServo(0, 0);
 				state = 0;
+				setCurVal(&motorH, 0);
 			}
-			break;
 		}
 	}
 }

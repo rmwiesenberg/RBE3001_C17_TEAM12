@@ -1,4 +1,4 @@
-src/ADC.d src/ADC.o: ../src/ADC.c .././include/RBELib/RBELib.h \
+src/ADC.o src/ADC.o: ../src/ADC.c .././include/RBELib/RBELib.h \
   .././include/RBELib/ADC.h .././include/RBELib/DAC.h \
   .././include/RBELib/Debug.h .././include/RBELib/motors.h \
   .././include/RBELib/USARTDebug.h .././include/RBELib/timer.h \
