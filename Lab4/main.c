@@ -17,8 +17,6 @@
 #define DEBUG_EN 1
 #define TOL 3
 
-#define SIGN_OFF 1
-
 unsigned long FREQ1 = 9024;
 
 unsigned char mode, tog;
@@ -205,47 +203,16 @@ void lab4() {
 void test() {
 	initRBELib();
 	debugUSARTInit(115200);
-	initSPI();
-	//	initTimer(1, CTC, 80);
-
-	setPinsDir('B', OUTPUT, 4, 0, 1, 2, 3);
-	setPinsVal('B', HIGH, 4, 0, 1, 2, 3);
-
-	initADC(LOW_POT);
-	initADC(HIGH_POT);
 
 	initADC(IR_ONE);
-	initADC(IR_TWO);
-
-	setConst('H', 45, 8, 2); //set the PID constants for high link
-	setConst('L', 45, 8, 2); //set the PID constants for low link
-
-	setServo(0, 0);
-	_delay_ms(10);
-	setServo(2, 0);
-
-	stopMotors();
-
-	struct Motor motorL, motorH;
-
-	int potValH = getADC(HIGH_POT);
-	int potValL = getADC(LOW_POT);
-	int curValH = getADC(HIGH_CUR);
-	int curValL = getADC(LOW_CUR);
-
-	setPotVal(&motorH, 'H', potValH);
-	setPotVal(&motorL, 'L', potValL);
-	setCurVal(&motorH, curValH);
-	setCurVal(&motorL, curValL);
-
-	int state = 0;
-	int potval[2] = { 90, 0 };
 
 	while (1) {
-		setPinsVal('B', LOW, 1, 0);
-		int ir1val = IRDist(IR_ONE);
-
-		printf("%d\n", ir1val);
+		int rawIR1Val = getADC(IR_ONE);
+		int rawIR2Val = getADC(IR_TWO);
+		int ir1Val = IRDist(IR_ONE);
+		int ir2Val = IRDist(IR_TWO);
+		printf("IR Sensor 1: raw: %4d scaled: %3d  IR Sensor 2: raw: %4d scaled %3d\n\r", rawIR1Val, ir1Val, rawIR2Val, ir2Val);
+		_delay_ms(100);
 	}
 }
 
@@ -254,7 +221,17 @@ ISR(TIMER1_COMPA_vect) {		// timer ISR, usable in all file functions
 	timerCount++;
 }
 
+
+#define SIGN_OFF 0
+
 int main(void) {
-	lab4();
-//	test();
+	switch(SIGN_OFF) {
+	case 0:
+		test();
+		break;
+
+	case 1:
+		lab4();
+		break;
+	}
 }
