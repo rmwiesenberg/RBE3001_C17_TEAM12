@@ -7,7 +7,6 @@
  */
 
 #include <RBELib/RBELib.h>
-#include <Math.h>
 
 
 void calcTipPos(struct Motor mL, struct Motor mH) {
