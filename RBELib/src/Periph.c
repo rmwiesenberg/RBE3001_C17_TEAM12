@@ -67,7 +67,23 @@ int getAccel(int axis) {
  * @todo Make a function that is able to get the ADC value of the IR sensor.
  */
 int IRDist(int chan) {
-	return 0;
+	int map = 0;
+		float adcVal = getADC(chan);
+
+		if(chan == 4){
+			map = (adcVal - 250) * (160 - 105) / (160 - 250) + 105;
+//			map = (-.3125)*adcVal;
+//			map += 233.125;
+		}
+
+		else if(chan == 5){
+			map = (adcVal - 480) * (160 - 105) / (340 - 480) + 105;
+//			map = -.625*adcVal;
+//			map += 223.87;
+		//map = (-0.2486)*adcVal + 237.64;
+		}
+
+	return map;
 }
 
 /**

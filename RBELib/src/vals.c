@@ -7,7 +7,6 @@
  */
 
 #include <RBELib/RBELib.h>
-#include <Math.h>
 
 
 void calcTipPos(struct Motor mL, struct Motor mH) {
@@ -100,4 +99,9 @@ int calcPotAngle(char link, int adc) {
 	}
 
 	return -1;
+}
+
+float getIRval(int pin){
+
+
 }

@@ -19,7 +19,7 @@ void gotoAngles(int lowerTheta, int upperTheta){
 	int ang_L = calcPotAngle('L',getADC(2));
 	int ang_H = calcPotAngle('H',getADC(3));
 
-	unsigned short pid_H = calcPID('H', upperTheta, ang_H);
+	unsigned short pid_H = calcPID('H', upperTheta+90, ang_H);
 	unsigned short pid_L = calcPID('L', lowerTheta, ang_L);
 
 //	printf("ang_L: %d ang_H: %d pid_L: %d pid_H: %d ", ang_L, ang_H, pid_L, pid_H);
@@ -41,19 +41,15 @@ void driveLink(int link, int dir){
 			if (dir > 4095) {
 				dir = 4095;
 			}
-			cli();
 			setDAC(2, 0);
 			setDAC(3, dir);
-			sei();
 		}
 		if(dir < 0){
 			if (dir < -4095) {
 				dir = -4095;
 			}
-			cli();
 			setDAC(2, dir*-1);
 			setDAC(3, 0);
-			sei();
 		}
 	}
 	// Lower link
@@ -63,10 +59,8 @@ void driveLink(int link, int dir){
 			if (dir > 4095) {
 				dir = 4095;
 			}
-			cli();
 			setDAC(0, dir);
 			setDAC(1, 0);
-			sei();
 		}
 		if(dir < 0){
 			if (dir < -4095) {
